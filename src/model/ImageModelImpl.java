@@ -20,8 +20,8 @@ public class ImageModelImpl implements ImageModel {
       Image image = null;
       if (path.contains("ppm")) {
         image = ImageUtil.readPPM(path);
-      } else if (path.contains("jpg")) {
-        image = ImageUtil.readJPG(path);
+      } else {
+        image = ImageUtil.readOther(path);
       }
       images.put(imageName, image);
     } catch (FileNotFoundException e) {
@@ -39,9 +39,9 @@ public class ImageModelImpl implements ImageModel {
     }
     try {
       if (path.contains("ppm")) {
-      ImageUtil.savePPM(path, image);}
-      else if (path.contains("jpg")) {
-        ImageUtil.saveJPG(path, image);
+        ImageUtil.savePPM(path, image);
+      } else {
+        ImageUtil.saveOther(path, image);
       }
     } catch (IOException e) {
       throw new IllegalStateException("Error saving image to file: " + path);
@@ -120,7 +120,7 @@ public class ImageModelImpl implements ImageModel {
     }
   }
 
-  //  @Override
+  @Override
   public void applyGreyscale(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {

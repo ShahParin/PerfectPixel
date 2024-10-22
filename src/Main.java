@@ -42,7 +42,7 @@ public class Main {
   public static void main(String[] args) {
     ImageModelImpl imageAbs = new ImageModelImpl();
 
-<<<<<<< Updated upstream
+//<<<<<<< Updated upstream
     imageAbs.loadImage("src/khoury.ppm","khoury");
     imageAbs.brightenImage(50,"khoury","khouryBrighten");
     imageAbs.saveImage("src/khouryBrighten.ppm","khouryBrighten");
@@ -62,7 +62,7 @@ public class Main {
 //    imageAbs.loadImage("src/khoury.ppm","khoury");
 //    imageAbs.sharpenImage("khoury","khourySharpen");
 //    imageAbs.saveImage("src/khourySharpen.ppm","khourySharpen");
-=======
+//=======
     /*imageAbs.loadImage("src/khoury.ppm","khoury");
     imageAbs.sharpenImage("khoury","khourySharpen");
     imageAbs.saveImage("src/khourySharpen.ppm","khourySharpen");

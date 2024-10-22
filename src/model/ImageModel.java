@@ -17,6 +17,7 @@ public interface ImageModel {
   void sharpenImage(String imageName, String newImageName);
 
   void applySepia(String imageName, String newImageName);
+  void applyGreyscale(String imageName, String newImageName);
 
   void rgbSplit(String imageName, String redImage, String greenImage, String blueImage);
   void rgbCombine(String newImageName, String redImage, String greenImage, String blueImage);

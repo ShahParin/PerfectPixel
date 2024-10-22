@@ -74,7 +74,7 @@ public class ImageUtil {
     fos.close();
   }
 
-  public static Image readJPG(String filename) throws IOException {
+  public static Image readOther(String filename) throws IOException {
     File inputFile = new File(filename);
     BufferedImage image = ImageIO.read(inputFile);
 
@@ -101,7 +101,7 @@ public class ImageUtil {
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
-  public static void saveJPG(String filename, Image image) throws IOException {
+  public static void saveOther(String filename, Image image) throws IOException {
     int width = image.getRedChannel()[0].length;
     int height = image.getRedChannel().length;
 
@@ -119,10 +119,11 @@ public class ImageUtil {
         outputImage.setRGB(x, y, rgb);
       }
     }
-
+    String[] parts = filename.split("\\.");
+    String ext = parts[parts.length - 1];
     // Save the image as a JPEG file
     File outputFile = new File(filename);
-    ImageIO.write(outputImage, "jpg", outputFile);
+    ImageIO.write(outputImage, ext, outputFile);
 
   }
 
