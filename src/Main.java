@@ -41,31 +41,35 @@ public class Main {
   public static void main(String[] args) {
     ImageModelImpl imageAbs = new ImageModelImpl();
 
-    imageAbs.loadImage("src/khoury.ppm", "khoury");
-    imageAbs.saveImage("src/khouryOutput.ppm", "khoury");
+    imageAbs.loadImage("src/khoury.ppm","khoury");
+    imageAbs.sharpenImage("khoury","khourySharpen");
+    imageAbs.saveImage("src/khourySharpen.ppm","khourySharpen");
 
-    imageAbs.blurImage("khoury", "khouryBlur");
-    imageAbs.saveImage("src/khouryBlur.ppm", "khouryBlur");
-
-    imageAbs.blurImage("khouryBlur", "khouryBlur2");
-    imageAbs.blurImage("khouryBlur2", "khouryBlur3");
-    imageAbs.blurImage("khouryBlur3", "khouryBlur4");
-    imageAbs.saveImage("src/khouryBlur4.ppm", "khouryBlur4");
-
-    imageAbs.applyGreyscale("khoury", "khouryGrey");
-    imageAbs.saveImage("src/khouryGrey.ppm", "khouryGrey");
-
-    imageAbs.applySepia("khoury", "khourySepia");
-    imageAbs.saveImage("src/khourySepia.ppm", "khourySepia");
-
-    imageAbs.applyRedComponent("khoury", "khouryRed");
-    imageAbs.saveImage("src/khouryRed.ppm", "khouryRed");
-
-    imageAbs.applyGreenComponent("khoury", "khouryGreen");
-    imageAbs.saveImage("src/khouryGreen.ppm", "khouryGreen");
-
-    imageAbs.applyBlueComponent("khoury", "khouryBlue");
-    imageAbs.saveImage("src/khouryBlue.ppm", "khouryBlue");
+//    imageAbs.loadImage("src/khoury.ppm", "khoury");
+//    imageAbs.saveImage("src/khouryOutput.ppm", "khoury");
+//
+//    imageAbs.blurImage("khoury", "khouryBlur");
+//    imageAbs.saveImage("src/khouryBlur.ppm", "khouryBlur");
+//
+//    imageAbs.blurImage("khouryBlur", "khouryBlur2");
+//    imageAbs.blurImage("khouryBlur2", "khouryBlur3");
+//    imageAbs.blurImage("khouryBlur3", "khouryBlur4");
+//    imageAbs.saveImage("src/khouryBlur4.ppm", "khouryBlur4");
+//
+//    imageAbs.applyGreyscale("khoury", "khouryGrey");
+//    imageAbs.saveImage("src/khouryGrey.ppm", "khouryGrey");
+//
+//    imageAbs.applySepia("khoury", "khourySepia");
+//    imageAbs.saveImage("src/khourySepia.ppm", "khourySepia");
+//
+//    imageAbs.applyRedComponent("khoury", "khouryRed");
+//    imageAbs.saveImage("src/khouryRed.ppm", "khouryRed");
+//
+//    imageAbs.applyGreenComponent("khoury", "khouryGreen");
+//    imageAbs.saveImage("src/khouryGreen.ppm", "khouryGreen");
+//
+//    imageAbs.applyBlueComponent("khoury", "khouryBlue");
+//    imageAbs.saveImage("src/khouryBlue.ppm", "khouryBlue");
 
 //    imageAbs.flipHorizontally("khoury", "khouryHflip");
 //    imageAbs.flipVertically("khoury", "khouryVflip");

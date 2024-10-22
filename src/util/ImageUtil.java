@@ -186,8 +186,45 @@ public class ImageUtil {
   }
 
   public static Image sharpen(Image image) {
-    // Implement sharpening logic
-    return image;  // Placeholder
+    int width = image.getRedChannel().length;
+    int height = image.getRedChannel()[0].length;
+
+    // Gaussian blur kernel (3x3)
+    float[][] kernel = {
+            {-1 / 8f, -1 / 8f ,-1 / 8f,-1 / 8f,-1 / 8f },
+            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
+            {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f},
+            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
+            {-1 / 8f, -1 / 8f ,-1 / 8f,-1 / 8f,-1 / 8f }
+    };
+
+    int[][] newRedChannel = new int[width][height];
+    int[][] newGreenChannel = new int[width][height];
+    int[][] newBlueChannel = new int[width][height];
+
+    // Apply blur to each channel
+    for (int y = 1; y < height - 1; y++) {
+      for (int x = 1; x < width - 1; x++) {
+        float r = 0, g = 0, b = 0;
+
+        // Convolve kernel with the image
+        for (int ky = -1; ky <= 1; ky++) {
+          for (int kx = -1; kx <= 1; kx++) {
+            r += image.getRedChannel()[x + kx][y + ky] * kernel[ky + 1][kx + 1];
+            g += image.getGreenChannel()[x + kx][y + ky] * kernel[ky + 1][kx + 1];
+            b += image.getBlueChannel()[x + kx][y + ky] * kernel[ky + 1][kx + 1];
+          }
+        }
+
+        // Clamp values to be within the [0, 255] range
+        newRedChannel[x][y] = Math.min(Math.max((int) r, 0), 255);
+        newGreenChannel[x][y] = Math.min(Math.max((int) g, 0), 255);
+        newBlueChannel[x][y] = Math.min(Math.max((int) b, 0), 255);
+      }
+    }
+
+    // Return a new Image object with blurred channels
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);  // Placeholder
   }
 
   public static Image[] splitRGB(Image image) {
