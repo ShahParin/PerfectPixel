@@ -131,18 +131,68 @@ public class ImageUtil {
   }
 
   public static Image flipHorizontally(Image image) {
-    // Implement flipping logic
-    return image;  // Placeholder
+    int height = image.getRedChannel().length;
+    int width = image.getRedChannel()[0].length;
+
+    int[][] newRedChannel = new int[height][width];
+    int[][] newGreenChannel = new int[height][width];
+    int[][] newBlueChannel = new int[height][width];
+
+    // Go through each row
+    for (int i = 0; i < height; i++) {
+      // Go through each column
+      for (int j = 0; j < width; j++) {
+        // Flip the pixel from the right side
+        newRedChannel[i][width - j - 1] = image.getRedChannel()[i][j];
+        newGreenChannel[i][width - j - 1] = image.getGreenChannel()[i][j];
+        newBlueChannel[i][width - j - 1] = image.getBlueChannel()[i][j];
+      }
+    }
+
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
+
 
   public static Image flipVertically(Image image) {
-    // Implement flipping logic
-    return image;  // Placeholder
+    int height = image.getRedChannel().length;
+    int width = image.getRedChannel()[0].length;
+
+    int[][] newRedChannel = new int[height][width];
+    int[][] newGreenChannel = new int[height][width];
+    int[][] newBlueChannel = new int[height][width];
+
+    // Go through each row
+    for (int i = 0; i < height; i++) {
+      // Go through each column
+      for (int j = 0; j < width; j++) {
+        // Flip the pixel from the right side
+        newRedChannel[height-i-1][j] = image.getRedChannel()[i][j];
+        newGreenChannel[height-i-1][j] = image.getGreenChannel()[i][j];
+        newBlueChannel[height-i-1][j] = image.getBlueChannel()[i][j];
+      }
+    }
+
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
-  public static Image brighten(Image image, int increment) {
-    // Implement brightening logic
-    return image;  // Placeholder
+  public static Image brighten(Image image, int value) {
+    int height = image.getRedChannel().length;
+    int width = image.getRedChannel()[0].length;
+
+    int[][] newRedChannel = new int[height][width];
+    int[][] newGreenChannel = new int[height][width];
+    int[][] newBlueChannel = new int[height][width];
+
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        newRedChannel[i][j] = Math.min(image.getRedChannel()[i][j] + value, 255);
+        newGreenChannel[i][j] = Math.min(image.getGreenChannel()[i][j] + value, 255);
+        newBlueChannel[i][j] = Math.min(image.getBlueChannel()[i][j] + value, 255);
+      }
+    }
+
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
   public static Image blur(Image image) {

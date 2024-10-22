@@ -42,8 +42,24 @@ public class Main {
     ImageModelImpl imageAbs = new ImageModelImpl();
 
     imageAbs.loadImage("src/khoury.ppm","khoury");
-    imageAbs.sharpenImage("khoury","khourySharpen");
-    imageAbs.saveImage("src/khourySharpen.ppm","khourySharpen");
+    imageAbs.brightenImage(50,"khoury","khouryBrighten");
+    imageAbs.saveImage("src/khouryBrighten.ppm","khouryBrighten");
+
+    imageAbs.loadImage("src/khoury.ppm","khoury");
+    imageAbs.brightenImage(-50,"khoury","khouryDarken");
+    imageAbs.saveImage("src/khouryDarken.ppm","khouryDarken");
+
+//    imageAbs.loadImage("src/khoury.ppm","khoury");
+//    imageAbs.flipVertically("khoury","khouryVertical");
+//    imageAbs.saveImage("src/khouryVertical.ppm","khouryVertical");
+//
+//    imageAbs.loadImage("src/khoury.ppm","khoury");
+//    imageAbs.flipHorizontally("khoury","khouryHorizontal");
+//    imageAbs.saveImage("src/khouryHorizontal.ppm","khouryHorizontal");
+
+//    imageAbs.loadImage("src/khoury.ppm","khoury");
+//    imageAbs.sharpenImage("khoury","khourySharpen");
+//    imageAbs.saveImage("src/khourySharpen.ppm","khourySharpen");
 
 //    imageAbs.loadImage("src/khoury.ppm", "khoury");
 //    imageAbs.saveImage("src/khouryOutput.ppm", "khoury");
