@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import model.Image;
 import model.ImageModelImpl;
 
 
@@ -41,6 +42,7 @@ public class Main {
   public static void main(String[] args) {
     ImageModelImpl imageAbs = new ImageModelImpl();
 
+<<<<<<< Updated upstream
     imageAbs.loadImage("src/khoury.ppm","khoury");
     imageAbs.brightenImage(50,"khoury","khouryBrighten");
     imageAbs.saveImage("src/khouryBrighten.ppm","khouryBrighten");
@@ -60,53 +62,45 @@ public class Main {
 //    imageAbs.loadImage("src/khoury.ppm","khoury");
 //    imageAbs.sharpenImage("khoury","khourySharpen");
 //    imageAbs.saveImage("src/khourySharpen.ppm","khourySharpen");
+=======
+    /*imageAbs.loadImage("src/khoury.ppm","khoury");
+    imageAbs.sharpenImage("khoury","khourySharpen");
+    imageAbs.saveImage("src/khourySharpen.ppm","khourySharpen");
+>>>>>>> Stashed changes
 
-//    imageAbs.loadImage("src/khoury.ppm", "khoury");
-//    imageAbs.saveImage("src/khouryOutput.ppm", "khoury");
-//
-//    imageAbs.blurImage("khoury", "khouryBlur");
-//    imageAbs.saveImage("src/khouryBlur.ppm", "khouryBlur");
-//
-//    imageAbs.blurImage("khouryBlur", "khouryBlur2");
-//    imageAbs.blurImage("khouryBlur2", "khouryBlur3");
-//    imageAbs.blurImage("khouryBlur3", "khouryBlur4");
-//    imageAbs.saveImage("src/khouryBlur4.ppm", "khouryBlur4");
-//
-//    imageAbs.applyGreyscale("khoury", "khouryGrey");
-//    imageAbs.saveImage("src/khouryGrey.ppm", "khouryGrey");
-//
-//    imageAbs.applySepia("khoury", "khourySepia");
-//    imageAbs.saveImage("src/khourySepia.ppm", "khourySepia");
-//
-//    imageAbs.applyRedComponent("khoury", "khouryRed");
-//    imageAbs.saveImage("src/khouryRed.ppm", "khouryRed");
-//
-//    imageAbs.applyGreenComponent("khoury", "khouryGreen");
-//    imageAbs.saveImage("src/khouryGreen.ppm", "khouryGreen");
-//
-//    imageAbs.applyBlueComponent("khoury", "khouryBlue");
-//    imageAbs.saveImage("src/khouryBlue.ppm", "khouryBlue");
+    imageAbs.loadImage("src/khoury.ppm", "khoury");
+    imageAbs.saveImage("src/khouryOutput.ppm", "khoury");
 
-//    imageAbs.flipHorizontally("khoury", "khouryHflip");
-//    imageAbs.flipVertically("khoury", "khouryVflip");
-//
-//    imageAbs.saveImage("src/khouryHflip.ppm", "khouryHflip");
-//    imageAbs.saveImage("src/khouryVflip.ppm", "khouryVflip");
+    imageAbs.blurImage("khoury", "khouryBlur");
+    imageAbs.saveImage("src/khouryBlur.ppm", "khouryBlur");
 
-    // jpeg to ppm
-    /*try {
-      // Load the JPEG image
-      File inputFile = new File("src/khoury.jpg");
-      BufferedImage image = ImageIO.read(inputFile);
+    imageAbs.blurImage("khouryBlur", "khouryBlur2");
+    imageAbs.blurImage("khouryBlur2", "khouryBlur3");
+    imageAbs.blurImage("khouryBlur3", "khouryBlur4");
+    imageAbs.saveImage("src/khouryBlur4.ppm", "khouryBlur4");
 
-      // Save the image as PPM
-      File khouryFile = new File("src/khoury.ppm");
-      writePPM(khouryFile, image);
+    imageAbs.applyGreyscale("khoury", "khouryGrey");
+    imageAbs.saveImage("src/khouryGrey.ppm", "khouryGrey");
 
-      System.out.println("Conversion successful!");
+    imageAbs.applySepia("khoury", "khourySepia");
+    imageAbs.saveImage("src/khourySepia.ppm", "khourySepia");
 
-    } catch (IOException e) {
-      System.err.println("Error: " + e.getMessage());
-    }*/
+    imageAbs.applyRedComponent("khoury", "khouryRed");
+    imageAbs.saveImage("src/khouryRed.ppm", "khouryRed");
+
+    imageAbs.applyGreenComponent("khoury", "khouryGreen");
+    imageAbs.saveImage("src/khouryGreen.ppm", "khouryGreen");
+
+    imageAbs.applyBlueComponent("khoury", "khouryBlue");
+    imageAbs.saveImage("src/khouryBlue.ppm", "khouryBlue");
+
+    imageAbs.flipHorizontally("khoury", "khouryHflip");
+    imageAbs.flipVertically("khoury", "khouryVflip");
+
+    imageAbs.saveImage("src/khouryHflip.ppm", "khouryHflip");
+    imageAbs.saveImage("src/khouryVflip.ppm", "khouryVflip");*/
+
+    imageAbs.loadImage("src/khoury.jpg","khouryJPG");
+    imageAbs.saveImage("src/khouryJPG.jpg","khouryJPG");
   }
 }

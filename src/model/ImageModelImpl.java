@@ -1,9 +1,9 @@
 package model;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import util.ImageUtil;
 
@@ -17,10 +17,17 @@ public class ImageModelImpl implements ImageModel {
   @Override
   public void loadImage(String path, String imageName) {
     try {
-      Image image = ImageUtil.readPPM(path);
+      Image image = null;
+      if (path.contains("ppm")) {
+        image = ImageUtil.readPPM(path);
+      } else if (path.contains("jpg")) {
+        image = ImageUtil.readJPG(path);
+      }
       images.put(imageName, image);
     } catch (FileNotFoundException e) {
       throw new IllegalArgumentException("File not found: " + path);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -31,7 +38,11 @@ public class ImageModelImpl implements ImageModel {
       throw new IllegalArgumentException("No image found with name: " + imageName);
     }
     try {
-      ImageUtil.savePPM(path, image);
+      if (path.contains("ppm")) {
+      ImageUtil.savePPM(path, image);}
+      else if (path.contains("jpg")) {
+        ImageUtil.saveJPG(path, image);
+      }
     } catch (IOException e) {
       throw new IllegalStateException("Error saving image to file: " + path);
     }

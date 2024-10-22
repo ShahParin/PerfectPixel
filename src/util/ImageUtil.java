@@ -1,10 +1,14 @@
 package util;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 import model.Image;
 
@@ -70,6 +74,58 @@ public class ImageUtil {
     fos.close();
   }
 
+  public static Image readJPG(String filename) throws IOException {
+    File inputFile = new File(filename);
+    BufferedImage image = ImageIO.read(inputFile);
+
+    int height = image.getHeight();
+    int width = image.getWidth();
+
+    int[][] newRedChannel = new int[height][width];
+    int[][] newGreenChannel = new int[height][width];
+    int[][] newBlueChannel = new int[height][width];
+
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        int rgb = image.getRGB(x, y);
+
+        // Extract RGB components
+        newRedChannel[y][x] = (rgb >> 16) & 0xFF;
+        newGreenChannel[y][x] = (rgb >> 8) & 0xFF;
+        newBlueChannel[y][x] = rgb & 0xFF;
+
+      }
+
+    }
+
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
+  }
+
+  public static void saveJPG(String filename, Image image) throws IOException {
+    int width = image.getRedChannel()[0].length;
+    int height = image.getRedChannel().length;
+
+    BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+    // Rebuild the RGB values from the channels
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int red = image.getRedChannel()[y][x];
+        int green = image.getGreenChannel()[y][x];
+        int blue = image.getBlueChannel()[y][x];
+
+        // Combine RGB values into a single int
+        int rgb = (red << 16) | (green << 8) | blue;
+        outputImage.setRGB(x, y, rgb);
+      }
+    }
+
+    // Save the image as a JPEG file
+    File outputFile = new File(filename);
+    ImageIO.write(outputImage, "jpg", outputFile);
+
+  }
+
   // Various image manipulation methods
   public static Image extractRedComponent(Image image) {
     return new Image(image.getRedChannel(), image.getRedChannel(), image.getRedChannel());
@@ -88,7 +144,6 @@ public class ImageUtil {
     int[][] newGreenChannel = new int[image.getGreenChannel().length][image.getGreenChannel()[0].length];
     int[][] newBlueChannel = new int[image.getBlueChannel().length][image.getBlueChannel()[0].length];
 
-    Image greyImage = new Image(image.getRedChannel(), image.getGreenChannel(), image.getBlueChannel());
     double[][] greyscaleKernel = new double[][]{{0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}};
 
     for (int i = 0; i < image.getRedChannel().length; i++) {
@@ -241,11 +296,11 @@ public class ImageUtil {
 
     // Gaussian blur kernel (3x3)
     float[][] kernel = {
-            {-1 / 8f, -1 / 8f ,-1 / 8f,-1 / 8f,-1 / 8f },
+            {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f},
             {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
             {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f},
             {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
-            {-1 / 8f, -1 / 8f ,-1 / 8f,-1 / 8f,-1 / 8f }
+            {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}
     };
 
     int[][] newRedChannel = new int[width][height];
