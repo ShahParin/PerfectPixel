@@ -1,9 +1,10 @@
 package view;
 
-import controller.ImageController;
 
-public class ConsoleBasedView {
+public class ConsoleBasedView implements ImageView {
 
-  private ImageController imageController;
+  @Override
+  public void printStatements(String arg) {
 
+  }
 }

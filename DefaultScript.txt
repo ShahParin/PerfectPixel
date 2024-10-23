@@ -1,33 +1,76 @@
-#load khoury.ppm and call it 'khoury'
-load images/khoury.ppm khoury
+# Running all the commands in a script file
+run RunScript.txt
 
-#brighten khoury by adding 10
-brighten 10 khoury khoury-brighter
+# Load an image and name it
+load input/khoury.ppm khoury
+save input/khoury.ppm khoury
 
-#flip khoury vertically
-vertical-flip khoury khoury-vertical
+# Create a new image with just the red component
+red-component khoury khoury-red
+save input/khoury-red.ppm khoury-red
 
-#flip the vertically flipped khoury horizontally
-horizontal-flip khoury-vertical khoury-vertical-horizontal
+# Create a new image with just the green component
+green-component khoury khoury-green
+save input/khoury-green.ppm khoury-green
 
-#create a greyscale using only the value component, as an image khoury-greyscale
-value-component khoury khoury-greyscale
+# Create a new image with just the blue component
+blue-component khoury khoury-blue
+save input/khoury-blue.ppm khoury-blue
 
-#save khoury-brighter
-save images/khoury-brighter.ppm khoury-brighter
+# Create a new image using the value component
+value-component khoury khoury-value
+save input/khoury-value.ppm khoury-value
 
-#save khoury-greyscale
-save images/khoury-gs.ppm khoury-greyscale
+# Create a new image using the intensity component
+intensity-component khoury khoury-intensity
+save input/khoury-intensity.ppm khoury-intensity
 
-#overwrite khoury with another file
-load images/sample.ppm khoury
+# Create a new image using the luma component
+luma-component khoury khoury-luma
+save input/khoury-luma.ppm khoury-luma
 
-#give the khoury a red tint
+# Split the image into RGB components
 rgb-split khoury khoury-red khoury-green khoury-blue
+save input/khoury-red.ppm khoury-red
+save input/khoury-green.ppm khoury-green
+save input/khoury-blue.ppm khoury-blue
 
-#brighten just the red image
-brighten 50 khoury-red khoury-red
+# Combine them back, using the brightened red channel to create a red tint
+rgb-combine khoury-red-tint khoury-red-brighter khoury-green khoury-blue
+save input/khoury-red-tint.ppm khoury-red-tint
 
-#combine them back, but by using the brightened red we get a red tint
-rgb-combine khoury-red-tint khoury-red khoury-green khoury-blue
-save images/khoury-red-tint.ppm khoury-red-tint
+# Brighten the image by adding 25
+brighten 25 khoury khoury-brighter
+save input/khoury-brighter.ppm khoury-brighter
+
+# Darken the image by subtracting 25
+brighten -25 khoury khoury-brighter
+save input/khoury-brighter.ppm khoury-brighter
+
+# Flip the image horizontally
+horizontal-flip khoury khoury-horizontal
+save input/khoury-horizontal.ppm khoury-horizontal
+
+# Flip the image vertically
+vertical-flip khoury khoury-vertical
+save input/khoury-vertical.ppm khoury-vertical
+
+# Add sepia filter to the image
+sepia khoury khoury-sepia
+save input/khoury-sepia.ppm khoury-sepia
+
+# Add greyscale filter to the image
+greyscale khoury khoury-greyscale
+save input/khoury-greyscale.ppm khoury-greyscale
+
+# Add blur filter to the image
+blur khoury khoury-blur
+save input/khoury-blur.ppm khoury-blur
+
+# Add sharpen filter to the image
+sharpen khoury khoury-greyscale
+save input/khoury-sharpen.ppm khoury-sharpen
+
+# Overwrite the image with another file
+load input/sample.ppm khoury
+save input/sample.ppm khoury

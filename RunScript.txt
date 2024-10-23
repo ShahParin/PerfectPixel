@@ -1,33 +1,36 @@
-#load khoury.ppm and call it 'khoury'
-load ./images/khoury.ppm khoury
+# Load the image and name it
+load input/khoury.ppm khoury
+save input/khoury.ppm khoury
 
-#brighten khoury by adding 10
-brighten 10 khoury khoury-brighter
+# Create a new image using the intensity component
+intensity-component khoury khoury-intensity
+save input/khoury-intensity.ppm khoury-intensity
 
-#flip khoury vertically
-vertical-flip khoury khoury-vertical
+# Flip the intensity image horizontally
+horizontal-flip khoury-intensity khoury-intensity-horizontal
+save input/khoury-intensity-horizontal.ppm khoury-intensity-horizontal
 
-#flip the vertically flipped khoury horizontally
-horizontal-flip khoury-vertical khoury-vertical-horizontal
+# Create a new image using the blue component
+blue-component khoury khoury-blue
+save input/khoury-blue.ppm khoury-blue
 
-#create a greyscale using only the value component, as an image khoury-greyscale
-value-component khoury khoury-greyscale
+# Blur the blue component image
+blur khoury-blue khoury-blue-blur
+save input/khoury-blue-blur.ppm khoury-blue-blur
 
-#save khoury-brighter
-save images/khoury-brighter.ppm khoury-brighter
+# Brighten the original image by 25
+brighten 25 khoury khoury-brighter
+save input/khoury-brighter.ppm khoury-brighter
 
-#save khoury-greyscale
-save images/khoury-gs.ppm khoury-greyscale
+# Add sepia filter to the brightened image
+sepia khoury-brighter khoury-brighter-sepia
+save input/khoury-brighter-sepia.ppm khoury-brighter-sepia
 
-#overwrite khoury with another file
-load images/sample.ppm khoury
+# Flip the sepia image vertically
+vertical-flip khoury-brighter-sepia khoury-sepia-vertical
+save input/khoury-sepia-vertical.ppm khoury-sepia-vertical
 
-#give the khoury a red tint
-rgb-split khoury khoury-red khoury-green khoury-blue
-
-#brighten just the red image
-brighten 50 khoury-red khoury-red
-
-#combine them back, but by using the brightened red we get a red tint
-rgb-combine khoury-red-tint khoury-red khoury-green khoury-blue
-save images/khoury-red-tint.ppm khoury-red-tint
+# Combine the RGB components back, using the brightened red channel
+brighten 25 khoury-red khoury-red-brighter
+rgb-combine khoury-red-tint khoury-red-brighter khoury-green khoury-blue
+save input/khoury-red-tint.ppm khoury-red-tint

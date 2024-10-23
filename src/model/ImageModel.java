@@ -1,8 +1,10 @@
 package model;
 
+import java.io.IOException;
+
 public interface ImageModel {
-  void loadImage(String path, String imageName);
-  void saveImage(String path, String imageName);
+  void loadImage(String path, String imageName) throws IOException;
+  void saveImage(String path, String imageName) throws IOException;
 
   void applyRedComponent(String imageName, String newImageName);
   void applyGreenComponent(String imageName, String newImageName);

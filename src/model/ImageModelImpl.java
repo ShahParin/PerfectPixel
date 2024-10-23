@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,37 +22,38 @@ public class ImageModelImpl implements ImageModel {
   }
 
   @Override
-  public void loadImage(String path, String imageName) {
+  public void loadImage(String path, String imageName) throws IOException {
     try {
-      System.out.println("path "+path);
+      // by design
+      String pathRelative = new File(System.getProperty("user.dir")).getParent() + File.separator + "images"+ File.separator + path;
       Image image = null;
       if (path.contains("ppm")) {
-        image = ImageUtil.readPPM(path);
+        image = ImageUtil.readPPM(pathRelative);
       } else {
-        image = ImageUtil.readOther(path);
+        image = ImageUtil.readOther(pathRelative);
       }
       images.put(imageName, image);
-    } catch (FileNotFoundException e) {
-      throw new IllegalArgumentException("File not found: " + path);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new IOException(e);
     }
   }
 
   @Override
-  public void saveImage(String path, String imageName) {
+  public void saveImage(String path, String imageName) throws IOException {
+    String pathRelative = new File(System.getProperty("user.dir")).getParent() + File.separator + "images"+ File.separator + path;
+
     Image image = images.get(imageName);
     if (image == null) {
       throw new IllegalArgumentException("No image found with name: " + imageName);
     }
     try {
       if (path.contains("ppm")) {
-        ImageUtil.savePPM(path, image);
+        ImageUtil.savePPM(pathRelative, image);
       } else {
-        ImageUtil.saveOther(path, image);
+        ImageUtil.saveOther(pathRelative, image);
       }
     } catch (IOException e) {
-      throw new IllegalStateException("Error saving image to file: " + path);
+      throw new IOException(e);
     }
   }
 
