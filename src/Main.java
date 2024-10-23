@@ -14,7 +14,7 @@ public class Main {
     ImageController controller = new TextBasedController(model,view);
     if (args.length > 0) {
       String scriptPath = new File(System.getProperty("user.dir")).getParent() + File.separator + args[0];
-
+      System.out.println("hello");
       controller.runScript(scriptPath);
     }
     else {
