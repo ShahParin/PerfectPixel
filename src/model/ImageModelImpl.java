@@ -7,8 +7,14 @@ import java.util.Map;
 
 import util.ImageUtil;
 
+import static model.ImageOperations.blur;
+import static model.ImageOperations.brighten;
+import static model.ImageOperations.greyscale;
+import static model.ImageOperations.sepia;
+import static model.ImageOperations.sharpen;
+
 public class ImageModelImpl implements ImageModel {
-  private Map<String, Image> images;
+  private final Map<String, Image> images;
 
   public ImageModelImpl() {
     this.images = new HashMap<>();
@@ -17,6 +23,7 @@ public class ImageModelImpl implements ImageModel {
   @Override
   public void loadImage(String path, String imageName) {
     try {
+      System.out.println("path "+path);
       Image image = null;
       if (path.contains("ppm")) {
         image = ImageUtil.readPPM(path);
@@ -76,10 +83,37 @@ public class ImageModelImpl implements ImageModel {
   }
 
   @Override
+  public void applyValue(String imageName, String newImageName) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image valueImage = ImageUtil.pixelValue(original);
+      images.put(newImageName, valueImage);
+    }
+  }
+
+  @Override
+  public void applyIntensity(String imageName, String newImageName) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image intensityImage = ImageUtil.pixelIntensity(original);
+      images.put(newImageName, intensityImage);
+    }
+  }
+
+  @Override
+  public void applyLuma(String imageName, String newImageName) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image lumaImage = ImageUtil.pixelLuma(original);
+      images.put(newImageName, lumaImage);
+    }
+  }
+
+  @Override
   public void flipHorizontally(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image flippedImage = ImageUtil.flipHorizontally(original);
+      Image flippedImage = ImageOperations.flipHorizontally(original);
       images.put(newImageName, flippedImage);
     }
   }
@@ -88,7 +122,7 @@ public class ImageModelImpl implements ImageModel {
   public void flipVertically(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image flippedImage = ImageUtil.flipVertically(original);
+      Image flippedImage = ImageOperations.flipVertically(original);
       images.put(newImageName, flippedImage);
     }
   }
@@ -97,7 +131,7 @@ public class ImageModelImpl implements ImageModel {
   public void brightenImage(int increment, String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image brightenedImage = ImageUtil.brighten(original, increment);
+      Image brightenedImage = brighten(original, increment);
       images.put(newImageName, brightenedImage);
     }
   }
@@ -106,7 +140,7 @@ public class ImageModelImpl implements ImageModel {
   public void blurImage(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image blurredImage = ImageUtil.blur(original);
+      Image blurredImage = blur(original);
       images.put(newImageName, blurredImage);
     }
   }
@@ -115,7 +149,7 @@ public class ImageModelImpl implements ImageModel {
   public void sharpenImage(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image sharpenedImage = ImageUtil.sharpen(original);
+      Image sharpenedImage = sharpen(original);
       images.put(newImageName, sharpenedImage);
     }
   }
@@ -124,7 +158,7 @@ public class ImageModelImpl implements ImageModel {
   public void applyGreyscale(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image greyImage = ImageUtil.greyscale(original);
+      Image greyImage = greyscale(original);
       greyImage.clamp();
       images.put(newImageName, greyImage);
     }
@@ -134,7 +168,7 @@ public class ImageModelImpl implements ImageModel {
   public void applySepia(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image sepiaImage = ImageUtil.sepia(original);
+      Image sepiaImage = sepia(original);
       sepiaImage.clamp();
       images.put(newImageName, sepiaImage);
     }

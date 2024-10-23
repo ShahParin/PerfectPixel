@@ -8,6 +8,12 @@ public interface ImageModel {
   void applyGreenComponent(String imageName, String newImageName);
   void applyBlueComponent(String imageName, String newImageName);
 
+  void applyValue(String imageName, String newImageName);
+
+  void applyIntensity(String imageName, String newImageName);
+
+  void applyLuma(String imageName, String newImageName);
+
   void flipHorizontally(String imageName, String newImageName);
   void flipVertically(String imageName, String newImageName);
 

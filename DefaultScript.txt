@@ -1,0 +1,33 @@
+#load khoury.ppm and call it 'khoury'
+load images/khoury.ppm khoury
+
+#brighten khoury by adding 10
+brighten 10 khoury khoury-brighter
+
+#flip khoury vertically
+vertical-flip khoury khoury-vertical
+
+#flip the vertically flipped khoury horizontally
+horizontal-flip khoury-vertical khoury-vertical-horizontal
+
+#create a greyscale using only the value component, as an image khoury-greyscale
+value-component khoury khoury-greyscale
+
+#save khoury-brighter
+save images/khoury-brighter.ppm khoury-brighter
+
+#save khoury-greyscale
+save images/khoury-gs.ppm khoury-greyscale
+
+#overwrite khoury with another file
+load images/sample.ppm khoury
+
+#give the khoury a red tint
+rgb-split khoury khoury-red khoury-green khoury-blue
+
+#brighten just the red image
+brighten 50 khoury-red khoury-red
+
+#combine them back, but by using the brightened red we get a red tint
+rgb-combine khoury-red-tint khoury-red khoury-green khoury-blue
+save images/khoury-red-tint.ppm khoury-red-tint

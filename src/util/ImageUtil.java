@@ -34,7 +34,6 @@ public class ImageUtil {
 
     int width = sc.nextInt();
     int height = sc.nextInt();
-    int maxValue = sc.nextInt();
 
     int[][] redChannel = new int[height][width];
     int[][] greenChannel = new int[height][width];
@@ -56,8 +55,8 @@ public class ImageUtil {
     FileOutputStream fos = new FileOutputStream(filename);
     StringBuilder sb = new StringBuilder();
 
-    int width = image.getRedChannel()[0].length;
-    int height = image.getRedChannel().length;
+    int height = getDimensions(image)[0];
+    int width = getDimensions(image)[1];
 
     sb.append("P3\n").append(width).append(" ").append(height).append("\n").append(255).append("\n");
 
@@ -102,8 +101,8 @@ public class ImageUtil {
   }
 
   public static void saveOther(String filename, Image image) throws IOException {
-    int width = image.getRedChannel()[0].length;
-    int height = image.getRedChannel().length;
+    int height = getDimensions(image)[0];
+    int width = getDimensions(image)[1];
 
     BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
@@ -140,198 +139,6 @@ public class ImageUtil {
     return new Image(image.getBlueChannel(), image.getBlueChannel(), image.getBlueChannel());
   }
 
-  public static Image greyscale(Image image) {
-    int[][] newRedChannel = new int[image.getRedChannel().length][image.getRedChannel()[0].length];
-    int[][] newGreenChannel = new int[image.getGreenChannel().length][image.getGreenChannel()[0].length];
-    int[][] newBlueChannel = new int[image.getBlueChannel().length][image.getBlueChannel()[0].length];
-
-    double[][] greyscaleKernel = new double[][]{{0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}};
-
-    for (int i = 0; i < image.getRedChannel().length; i++) {
-      for (int j = 0; j < image.getRedChannel()[i].length; j++) {
-        newRedChannel[i][j] = (int) (greyscaleKernel[0][0] * image.getRedChannel()[i][j]
-                + greyscaleKernel[0][1] * image.getGreenChannel()[i][j]
-                + greyscaleKernel[0][2] * image.getBlueChannel()[i][j]);
-        newGreenChannel[i][j] = (int) (greyscaleKernel[1][0] * image.getRedChannel()[i][j]
-                + greyscaleKernel[1][1] * image.getGreenChannel()[i][j]
-                + greyscaleKernel[1][2] * image.getBlueChannel()[i][j]);
-        newBlueChannel[i][j] = (int) (greyscaleKernel[2][0] * image.getRedChannel()[i][j]
-                + greyscaleKernel[2][1] * image.getGreenChannel()[i][j]
-                + greyscaleKernel[2][2] * image.getBlueChannel()[i][j]);
-      }
-    }
-    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
-  }
-
-  public static Image sepia(Image image) {
-    int[][] newRedChannel = new int[image.getRedChannel().length][image.getRedChannel()[0].length];
-    int[][] newGreenChannel = new int[image.getGreenChannel().length][image.getGreenChannel()[0].length];
-    int[][] newBlueChannel = new int[image.getBlueChannel().length][image.getBlueChannel()[0].length];
-
-    double[][] sepiaKernel = new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168}, {0.272, 0.534, 0.131}};
-
-    for (int i = 0; i < image.getRedChannel().length; i++) {
-      for (int j = 0; j < image.getRedChannel()[i].length; j++) {
-        newRedChannel[i][j] = (int) (sepiaKernel[0][0] * image.getRedChannel()[i][j]
-                + sepiaKernel[0][1] * image.getGreenChannel()[i][j]
-                + sepiaKernel[0][2] * image.getBlueChannel()[i][j]);
-        newGreenChannel[i][j] = (int) (sepiaKernel[1][0] * image.getRedChannel()[i][j]
-                + sepiaKernel[1][1] * image.getGreenChannel()[i][j]
-                + sepiaKernel[1][2] * image.getBlueChannel()[i][j]);
-        newBlueChannel[i][j] = (int) (sepiaKernel[2][0] * image.getRedChannel()[i][j]
-                + sepiaKernel[2][1] * image.getGreenChannel()[i][j]
-                + sepiaKernel[2][2] * image.getBlueChannel()[i][j]);
-      }
-    }
-    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
-  }
-
-  public static Image flipHorizontally(Image image) {
-    int height = image.getRedChannel().length;
-    int width = image.getRedChannel()[0].length;
-
-    int[][] newRedChannel = new int[height][width];
-    int[][] newGreenChannel = new int[height][width];
-    int[][] newBlueChannel = new int[height][width];
-
-    // Go through each row
-    for (int i = 0; i < height; i++) {
-      // Go through each column
-      for (int j = 0; j < width; j++) {
-        // Flip the pixel from the right side
-        newRedChannel[i][width - j - 1] = image.getRedChannel()[i][j];
-        newGreenChannel[i][width - j - 1] = image.getGreenChannel()[i][j];
-        newBlueChannel[i][width - j - 1] = image.getBlueChannel()[i][j];
-      }
-    }
-
-    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
-  }
-
-
-  public static Image flipVertically(Image image) {
-    int height = image.getRedChannel().length;
-    int width = image.getRedChannel()[0].length;
-
-    int[][] newRedChannel = new int[height][width];
-    int[][] newGreenChannel = new int[height][width];
-    int[][] newBlueChannel = new int[height][width];
-
-    // Go through each row
-    for (int i = 0; i < height; i++) {
-      // Go through each column
-      for (int j = 0; j < width; j++) {
-        // Flip the pixel from the right side
-        newRedChannel[height-i-1][j] = image.getRedChannel()[i][j];
-        newGreenChannel[height-i-1][j] = image.getGreenChannel()[i][j];
-        newBlueChannel[height-i-1][j] = image.getBlueChannel()[i][j];
-      }
-    }
-
-    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
-  }
-
-  public static Image brighten(Image image, int value) {
-    int height = image.getRedChannel().length;
-    int width = image.getRedChannel()[0].length;
-
-    int[][] newRedChannel = new int[height][width];
-    int[][] newGreenChannel = new int[height][width];
-    int[][] newBlueChannel = new int[height][width];
-
-
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        newRedChannel[i][j] = Math.min(image.getRedChannel()[i][j] + value, 255);
-        newGreenChannel[i][j] = Math.min(image.getGreenChannel()[i][j] + value, 255);
-        newBlueChannel[i][j] = Math.min(image.getBlueChannel()[i][j] + value, 255);
-      }
-    }
-
-    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
-  }
-
-  public static Image blur(Image image) {
-    int width = image.getRedChannel().length;
-    int height = image.getRedChannel()[0].length;
-
-    // Gaussian blur kernel (3x3)
-    float[][] kernel = {
-            {1 / 16f, 1 / 8f, 1 / 16f},
-            {1 / 8f, 1 / 4f, 1 / 8f},
-            {1 / 16f, 1 / 8f, 1 / 16f}
-    };
-
-    int[][] newRedChannel = new int[width][height];
-    int[][] newGreenChannel = new int[width][height];
-    int[][] newBlueChannel = new int[width][height];
-
-    // Apply blur to each channel
-    for (int y = 1; y < height - 1; y++) {
-      for (int x = 1; x < width - 1; x++) {
-        float r = 0, g = 0, b = 0;
-
-        // Convolve kernel with the image
-        for (int ky = -1; ky <= 1; ky++) {
-          for (int kx = -1; kx <= 1; kx++) {
-            r += image.getRedChannel()[x + kx][y + ky] * kernel[ky + 1][kx + 1];
-            g += image.getGreenChannel()[x + kx][y + ky] * kernel[ky + 1][kx + 1];
-            b += image.getBlueChannel()[x + kx][y + ky] * kernel[ky + 1][kx + 1];
-          }
-        }
-
-        // Clamp values to be within the [0, 255] range
-        newRedChannel[x][y] = Math.min(Math.max((int) r, 0), 255);
-        newGreenChannel[x][y] = Math.min(Math.max((int) g, 0), 255);
-        newBlueChannel[x][y] = Math.min(Math.max((int) b, 0), 255);
-      }
-    }
-
-    // Return a new Image object with blurred channels
-    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
-  }
-
-  public static Image sharpen(Image image) {
-    int width = image.getRedChannel().length;
-    int height = image.getRedChannel()[0].length;
-
-    // Gaussian blur kernel (3x3)
-    float[][] kernel = {
-            {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f},
-            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
-            {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f},
-            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
-            {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}
-    };
-
-    int[][] newRedChannel = new int[width][height];
-    int[][] newGreenChannel = new int[width][height];
-    int[][] newBlueChannel = new int[width][height];
-
-    // Apply blur to each channel
-    for (int y = 1; y < height - 1; y++) {
-      for (int x = 1; x < width - 1; x++) {
-        float r = 0, g = 0, b = 0;
-
-        // Convolve kernel with the image
-        for (int ky = -1; ky <= 1; ky++) {
-          for (int kx = -1; kx <= 1; kx++) {
-            r += image.getRedChannel()[x + kx][y + ky] * kernel[ky + 1][kx + 1];
-            g += image.getGreenChannel()[x + kx][y + ky] * kernel[ky + 1][kx + 1];
-            b += image.getBlueChannel()[x + kx][y + ky] * kernel[ky + 1][kx + 1];
-          }
-        }
-
-        // Clamp values to be within the [0, 255] range
-        newRedChannel[x][y] = Math.min(Math.max((int) r, 0), 255);
-        newGreenChannel[x][y] = Math.min(Math.max((int) g, 0), 255);
-        newBlueChannel[x][y] = Math.min(Math.max((int) b, 0), 255);
-      }
-    }
-
-    // Return a new Image object with blurred channels
-    return new Image(newRedChannel, newGreenChannel, newBlueChannel);  // Placeholder
-  }
 
   public static Image[] splitRGB(Image image) {
     return new Image[]{
@@ -343,5 +150,163 @@ public class ImageUtil {
 
   public static Image combineRGB(Image redImage, Image greenImage, Image blueImage) {
     return new Image(redImage.getRedChannel(), greenImage.getGreenChannel(), blueImage.getBlueChannel());
+  }
+
+  public static int[] getDimensions(Image image) {
+    int height = image.getRedChannel().length;
+    int width = image.getRedChannel()[0].length;
+    return new int[]{height, width};
+  }
+
+  public static int[][] getNewComponent(int height, int width) {
+    return new int[height][width];
+  }
+
+
+  //greyscale and sepia
+  public static Image transfromationHelper(Image image, double[][] kernel) {
+    int height = getDimensions(image)[0];
+    int width = getDimensions(image)[1];
+
+    int[][] newRedChannel = getNewComponent(height, width);
+    int[][] newGreenChannel = getNewComponent(height, width);
+    int[][] newBlueChannel = getNewComponent(height, width);
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        newRedChannel[i][j] = (int) (kernel[0][0] * image.getRedChannel()[i][j]
+                + kernel[0][1] * image.getGreenChannel()[i][j]
+                + kernel[0][2] * image.getBlueChannel()[i][j]);
+        newGreenChannel[i][j] = (int) (kernel[1][0] * image.getRedChannel()[i][j]
+                + kernel[1][1] * image.getGreenChannel()[i][j]
+                + kernel[1][2] * image.getBlueChannel()[i][j]);
+        newBlueChannel[i][j] = (int) (kernel[2][0] * image.getRedChannel()[i][j]
+                + kernel[2][1] * image.getGreenChannel()[i][j]
+                + kernel[2][2] * image.getBlueChannel()[i][j]);
+      }
+    }
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
+  }
+
+  public static Image filterHelper(Image image, float[][] kernel) {
+    int height = getDimensions(image)[0];
+    int width = getDimensions(image)[1];
+
+    int[][] newRedChannel = getNewComponent(height, width);
+    int[][] newGreenChannel = getNewComponent(height, width);
+    int[][] newBlueChannel = getNewComponent(height, width);
+
+    int[][] thisRedChannel = image.getRedChannel();
+    int[][] thisGreenChannel = image.getGreenChannel();
+    int[][] thisBlueChannel = image.getBlueChannel();
+
+    for (int y = 1; y < height - 1; y++) {
+      for (int x = 1; x < width - 1; x++) {
+        float r = 0, g = 0, b = 0;
+
+        // Convolve kernel with the image
+        for (int ky = -1; ky <= 1; ky++) {
+          for (int kx = -1; kx <= 1; kx++) {
+            r += thisRedChannel[x + kx][y + ky] * kernel[ky + 1][kx + 1];
+            g += thisGreenChannel[x + kx][y + ky] * kernel[ky + 1][kx + 1];
+            b += thisBlueChannel[x + kx][y + ky] * kernel[ky + 1][kx + 1];
+          }
+        }
+
+        // Clamp values to be within the [0, 255] range
+        newRedChannel[x][y] = Math.max((int) r, 0);
+        newGreenChannel[x][y] = Math.max((int) g, 0);
+        newBlueChannel[x][y] = Math.max((int) b, 0);
+      }
+    }
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
+  }
+
+  /**
+   * A function to return the brightness "value" of pixel.
+   *
+   * @return returns an Image with the "value" of each pixel.
+   */
+  public static Image pixelValue(Image image) {
+    int height = getDimensions(image)[0];
+    int width = getDimensions(image)[1];
+
+    int[][] newRedChannel = getNewComponent(height, width);
+    int[][] newGreenChannel = getNewComponent(height, width);
+    int[][] newBlueChannel = getNewComponent(height, width);
+
+    int[][] thisRedChannel = image.getRedChannel();
+    int[][] thisGreenChannel = image.getGreenChannel();
+    int[][] thisBlueChannel = image.getBlueChannel();
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        int newPixelValue = Math.max(thisRedChannel[i][j], Math.max(thisGreenChannel[i][j], thisBlueChannel[i][j]));
+
+        newRedChannel[i][j] = newPixelValue;
+        newGreenChannel[i][j] = newPixelValue;
+        newBlueChannel[i][j] = newPixelValue;
+      }
+    }
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
+  }
+
+  /**
+   * A function to return the intensity of the pixel.
+   *
+   * @return returns an Image with the intensity of each pixel.
+   */
+  public static Image pixelIntensity(Image image) {
+    int height = getDimensions(image)[0];
+    int width = getDimensions(image)[1];
+
+    int[][] newRedChannel = getNewComponent(height, width);
+    int[][] newGreenChannel = getNewComponent(height, width);
+    int[][] newBlueChannel = getNewComponent(height, width);
+
+    int[][] thisRedChannel = image.getRedChannel();
+    int[][] thisGreenChannel = image.getGreenChannel();
+    int[][] thisBlueChannel = image.getBlueChannel();
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        int newPixelIntensity = (thisRedChannel[i][j] + thisGreenChannel[i][j] +thisBlueChannel[i][j])/3;
+
+        newRedChannel[i][j] = newPixelIntensity;
+        newGreenChannel[i][j] = newPixelIntensity;
+        newBlueChannel[i][j] = newPixelIntensity;
+      }
+    }
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
+  }
+
+  /**
+   * A function to return the Luma of the pixel.
+   *
+   * @return returns an Image with the Luma of each pixel.
+   */
+  public static Image pixelLuma(Image image) {
+    int height = getDimensions(image)[0];
+    int width = getDimensions(image)[1];
+
+    int[][] newRedChannel = getNewComponent(height, width);
+    int[][] newGreenChannel = getNewComponent(height, width);
+    int[][] newBlueChannel = getNewComponent(height, width);
+
+    int[][] thisRedChannel = image.getRedChannel();
+    int[][] thisGreenChannel = image.getGreenChannel();
+    int[][] thisBlueChannel = image.getBlueChannel();
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        int newPixelIntensity = (int) (0.2126 * thisRedChannel[i][j]
+                + 0.7152 * thisGreenChannel[i][j] + 0.0722 * thisBlueChannel[i][j]);
+
+        newRedChannel[i][j] = newPixelIntensity;
+        newGreenChannel[i][j] = newPixelIntensity;
+        newBlueChannel[i][j] = newPixelIntensity;
+      }
+    }
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 }
