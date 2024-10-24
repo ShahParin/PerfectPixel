@@ -1,0 +1,3 @@
+load input/sample.jpg sample
+horizontal-flip sample sample-flipped
+save output/output.jpg sample-flipped";

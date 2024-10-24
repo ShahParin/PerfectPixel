@@ -160,8 +160,8 @@ public class TextBasedController implements ImageController {
    */
   @Override
   public void runScript(String scriptFilePath) {
-    String scriptPath = new File(System.getProperty("user.dir")) + File.separator + scriptFilePath;
     try (BufferedReader reader = new BufferedReader(new FileReader(scriptFilePath))) {
+
       String command;
       while ((command = reader.readLine()) != null) {
         command = command.trim();

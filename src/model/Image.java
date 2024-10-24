@@ -57,6 +57,7 @@ public class Image {
 
   /**
    * Contains logic for clamping Pixel values between 0 and 255.
+   * CLAMPING DYNAMIC VALUES
    */
   protected void clamp() {
     for (int i = 0; i < redChannel.length; i++) {

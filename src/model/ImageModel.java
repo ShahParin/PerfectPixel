@@ -151,4 +151,6 @@ public interface ImageModel {
    * @return returns the fetched image object.
    */
   Image getImage(String imgName);
+
+
 }
