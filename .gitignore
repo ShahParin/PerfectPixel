@@ -5,7 +5,7 @@ out/
 .idea/
 *.iml
 
-*.gitignore
+.gitignore
 
 ### Mac OS ###
 .DS_Store
