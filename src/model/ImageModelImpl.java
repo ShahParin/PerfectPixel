@@ -38,8 +38,11 @@ public class ImageModelImpl implements ImageModel {
       Image image;
       if (path.contains("ppm")) {
         image = readPPM(pathRelative);
-      } else {
+      } else if (path.contains("png") || path.contains(("jpeg")) || path.contains("jpg")) {
         image = readOther(pathRelative);
+      }
+      else {
+        throw new IllegalArgumentException("Unsupported image type: " + path);
       }
       images.put(imageName, image);
     } catch (IOException e) {
@@ -99,6 +102,7 @@ public class ImageModelImpl implements ImageModel {
     Image original = images.get(imageName);
     if (original != null) {
       Image valueImage = pixelValue(original);
+      valueImage.clamp();
       images.put(newImageName, valueImage);
     }
   }
@@ -108,6 +112,7 @@ public class ImageModelImpl implements ImageModel {
     Image original = images.get(imageName);
     if (original != null) {
       Image intensityImage = pixelIntensity(original);
+      intensityImage.clamp();
       images.put(newImageName, intensityImage);
     }
   }
@@ -117,6 +122,7 @@ public class ImageModelImpl implements ImageModel {
     Image original = images.get(imageName);
     if (original != null) {
       Image lumaImage = pixelLuma(original);
+      lumaImage.clamp();
       images.put(newImageName, lumaImage);
     }
   }
@@ -144,6 +150,7 @@ public class ImageModelImpl implements ImageModel {
     Image original = images.get(imageName);
     if (original != null) {
       Image brightenedImage = brighten(original, increment);
+      brightenedImage.clamp();
       images.put(newImageName, brightenedImage);
     }
   }
@@ -163,6 +170,7 @@ public class ImageModelImpl implements ImageModel {
     Image original = images.get(imageName);
     if (original != null) {
       Image sharpenedImage = sharpen(original);
+      sharpenedImage.clamp();
       images.put(newImageName, sharpenedImage);
     }
   }

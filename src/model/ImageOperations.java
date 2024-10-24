@@ -11,7 +11,7 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import util.ImageUtil;
-
+import util.NothingThereException;
 
 import static util.ImageUtil.getDimensions;
 import static util.ImageUtil.getNewComponent;
@@ -19,12 +19,12 @@ import static util.ImageUtil.getNewComponent;
 public class ImageOperations {
 
 
-  public static Image sepia(Image image) {
+  protected static Image sepia(Image image) {
     double[][] sepiaKernel = new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168}, {0.272, 0.534, 0.131}};
     return ImageUtil.transformationHelper(image, sepiaKernel);
   }
 
-  public static Image flipHorizontally(Image image) {
+  protected static Image flipHorizontally(Image image) {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
@@ -48,7 +48,7 @@ public class ImageOperations {
   }
 
 
-  public static Image flipVertically(Image image) {
+  protected static Image flipVertically(Image image) {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
@@ -74,7 +74,7 @@ public class ImageOperations {
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
-  public static Image brighten(Image image, int value) {
+  protected static Image brighten(Image image, int value) {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
@@ -97,20 +97,20 @@ public class ImageOperations {
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
-  public static Image blur(Image image) {
+  protected static Image blur(Image image) {
     float[][] kernel = {{1 / 16f, 1 / 8f, 1 / 16f}, {1 / 8f, 1 / 4f, 1 / 8f}, {1 / 16f, 1 / 8f, 1 / 16f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
 
-  public static Image sharpen(Image image) {
+  protected static Image sharpen(Image image) {
     float[][] kernel = {{-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}, {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f}, {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f}, {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f}, {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
 
   // Load PPM image from file
-  public static Image readPPM(String filename) throws FileNotFoundException {
+  protected static Image readPPM(String filename) throws FileNotFoundException {
     Scanner sc = new Scanner(new FileInputStream(filename));
 
     StringBuilder builder = new StringBuilder();
@@ -131,6 +131,10 @@ public class ImageOperations {
     int height = sc.nextInt();
     int maxPixel = sc.nextInt();
 
+    if (height==0 && width==0) {
+      throw new NothingThereException("Empty File");
+    }
+
     int[][] redChannel = new int[height][width];
     int[][] greenChannel = new int[height][width];
     int[][] blueChannel = new int[height][width];
@@ -147,7 +151,7 @@ public class ImageOperations {
   }
 
   // Save PPM image to file
-  public static void savePPM(String filename, Image image) throws IOException {
+  protected static void savePPM(String filename, Image image) throws IOException {
     FileOutputStream fos = new FileOutputStream(filename);
     StringBuilder sb = new StringBuilder();
 
@@ -169,7 +173,7 @@ public class ImageOperations {
     fos.close();
   }
 
-  public static Image readOther(String filename) throws IOException {
+  protected static Image readOther(String filename) throws IOException {
     File inputFile = new File(filename);
     BufferedImage image = ImageIO.read(inputFile);
 
@@ -196,7 +200,7 @@ public class ImageOperations {
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
-  public static void saveOther(String filename, Image image) throws IOException {
+  protected static void saveOther(String filename, Image image) throws IOException {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
@@ -227,7 +231,7 @@ public class ImageOperations {
    *
    * @return returns an Image with the "value" of each pixel.
    */
-  public static Image pixelValue(Image image) {
+  protected static Image pixelValue(Image image) {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
@@ -256,7 +260,7 @@ public class ImageOperations {
    *
    * @return returns an Image with the intensity of each pixel.
    */
-  public static Image pixelIntensity(Image image) {
+  protected static Image pixelIntensity(Image image) {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
@@ -285,7 +289,7 @@ public class ImageOperations {
    *
    * @return returns an Image with the Luma of each pixel.
    */
-  public static Image pixelLuma(Image image) {
+  protected static Image pixelLuma(Image image) {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
@@ -311,20 +315,20 @@ public class ImageOperations {
   }
 
   // Various image manipulation methods
-  public static Image extractRedComponent(Image image) {
+  protected static Image extractRedComponent(Image image) {
     return new Image(image.getRedChannel(), image.getRedChannel(), image.getRedChannel());
   }
 
-  public static Image extractGreenComponent(Image image) {
+  protected static Image extractGreenComponent(Image image) {
     return new Image(image.getGreenChannel(), image.getGreenChannel(), image.getGreenChannel());
   }
 
-  public static Image extractBlueComponent(Image image) {
+  protected static Image extractBlueComponent(Image image) {
     return new Image(image.getBlueChannel(), image.getBlueChannel(), image.getBlueChannel());
   }
 
 
-  public static Image[] splitRGB(Image image) {
+  protected static Image[] splitRGB(Image image) {
     return new Image[]{
             extractRedComponent(image),
             extractGreenComponent(image),
@@ -332,7 +336,7 @@ public class ImageOperations {
     };
   }
 
-  public static Image combineRGB(Image redImage, Image greenImage, Image blueImage) {
+  protected static Image combineRGB(Image redImage, Image greenImage, Image blueImage) {
     return new Image(redImage.getRedChannel(), greenImage.getGreenChannel(), blueImage.getBlueChannel());
   }
 }
