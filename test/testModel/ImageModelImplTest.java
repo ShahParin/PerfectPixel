@@ -15,13 +15,19 @@ import javax.imageio.ImageIO;
 import model.Image;
 import model.ImageModel;
 import model.ImageModelImpl;
-import util.NothingThereException;
+import model.NothingThereException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+/**
+ * THis is a JUnit test class for the ImageModel class.
+ */
 public class ImageModelImplTest {
+  /*
+  Initilizing the ImageModel object.
+   */
   private final ImageModel imageModel = new ImageModelImpl();
 
   private Scanner getImageScanner(String filePath, String imageName) throws IOException {

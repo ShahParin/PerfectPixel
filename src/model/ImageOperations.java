@@ -10,20 +10,32 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
-import util.ImageUtil;
-import util.NothingThereException;
+import static model.ImageUtil.getDimensions;
+import static model.ImageUtil.getNewComponent;
 
-import static util.ImageUtil.getDimensions;
-import static util.ImageUtil.getNewComponent;
-
+/**
+ * This class contains the logic for all the operations that should be performed on the images.
+ * Some of the supported operations are filters, transforms, splitting and combining RGB images.
+ */
 public class ImageOperations {
-
-
+  /**
+   * This function will apply the Sepia transformation to the image.
+   *
+   * @param image the image to be transformed.
+   * @return returns the transformed image.
+   */
   protected static Image sepia(Image image) {
-    double[][] sepiaKernel = new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168}, {0.272, 0.534, 0.131}};
+    double[][] sepiaKernel = new double[][]{{0.393, 0.769, 0.189},
+            {0.349, 0.686, 0.168}, {0.272, 0.534, 0.131}};
     return ImageUtil.transformationHelper(image, sepiaKernel);
   }
 
+  /**
+   * This functions flips the image horizontally.
+   *
+   * @param image the image to be flipped.
+   * @return returns the flipped image.
+   */
   protected static Image flipHorizontally(Image image) {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
@@ -48,6 +60,12 @@ public class ImageOperations {
   }
 
 
+  /**
+   * This functions flips the image vertically.
+   *
+   * @param image the image to be flipped.
+   * @return returns the flipped image.
+   */
   protected static Image flipVertically(Image image) {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
@@ -60,11 +78,8 @@ public class ImageOperations {
     int[][] thisGreenChannel = image.getGreenChannel();
     int[][] thisBlueChannel = image.getBlueChannel();
 
-    // Go through each row
     for (int i = 0; i < height; i++) {
-      // Go through each column
       for (int j = 0; j < width; j++) {
-        // Flip the pixel from the right side
         newRedChannel[height - i - 1][j] = thisRedChannel[i][j];
         newGreenChannel[height - i - 1][j] = thisGreenChannel[i][j];
         newBlueChannel[height - i - 1][j] = thisBlueChannel[i][j];
@@ -74,6 +89,13 @@ public class ImageOperations {
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
+  /**
+   * This function brightens/darkens the image.
+   *
+   * @param image the image to brighten/darken.
+   * @param value the increment/decrement to be applied at pixel level.
+   * @return returns the transformed image.
+   */
   protected static Image brighten(Image image, int value) {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
@@ -97,19 +119,42 @@ public class ImageOperations {
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
+  /**
+   * This function blurs the image.
+   *
+   * @param image the image to be blurred.
+   * @return returns the blurred image.
+   */
   protected static Image blur(Image image) {
-    float[][] kernel = {{1 / 16f, 1 / 8f, 1 / 16f}, {1 / 8f, 1 / 4f, 1 / 8f}, {1 / 16f, 1 / 8f, 1 / 16f}};
+    float[][] kernel = {{1 / 16f, 1 / 8f, 1 / 16f}, {1 / 8f, 1 / 4f, 1 / 8f},
+            {1 / 16f, 1 / 8f, 1 / 16f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
 
+  /**
+   * This function sharpens the image.
+   *
+   * @param image the image to be sharpened.
+   * @return returns the sharpened image.
+   */
   protected static Image sharpen(Image image) {
-    float[][] kernel = {{-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}, {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f}, {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f}, {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f}, {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}};
+    float[][] kernel = {{-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f},
+            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
+            {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f},
+            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
+            {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
 
-  // Load PPM image from file
+  /**
+   * This functions reads the ppm image file.
+   *
+   * @param filename the filename of the image.
+   * @return returns the loaded image.
+   * @throws FileNotFoundException throws exception if file not found.
+   */
   protected static Image readPPM(String filename) throws FileNotFoundException {
     Scanner sc = new Scanner(new FileInputStream(filename));
 
@@ -131,7 +176,7 @@ public class ImageOperations {
     int height = sc.nextInt();
     int maxPixel = sc.nextInt();
 
-    if (height==0 && width==0) {
+    if (height == 0 && width == 0) {
       throw new NothingThereException("Empty File");
     }
 
@@ -150,7 +195,13 @@ public class ImageOperations {
     return new Image(redChannel, greenChannel, blueChannel);
   }
 
-  // Save PPM image to file
+  /**
+   * THis function saves a loaded image as a ppm file.
+   *
+   * @param filename the output filename.
+   * @param image    the image to be saved.
+   * @throws IOException throws error if file is not found.
+   */
   protected static void savePPM(String filename, Image image) throws IOException {
     FileOutputStream fos = new FileOutputStream(filename);
     StringBuilder sb = new StringBuilder();
@@ -158,7 +209,8 @@ public class ImageOperations {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
-    sb.append("P3\n").append(width).append(" ").append(height).append("\n").append(255).append("\n");
+    sb.append("P3\n").append(width).append(" ").append(height)
+            .append("\n").append(255).append("\n");
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
@@ -173,6 +225,13 @@ public class ImageOperations {
     fos.close();
   }
 
+  /**
+   * This functions reads the jpg, jpeg or png image file.
+   *
+   * @param filename the filename of the image.
+   * @return returns the loaded image.
+   * @throws FileNotFoundException throws exception if file not found.
+   */
   protected static Image readOther(String filename) throws IOException {
     File inputFile = new File(filename);
     BufferedImage image = ImageIO.read(inputFile);
@@ -188,42 +247,44 @@ public class ImageOperations {
       for (int y = 0; y < height; y++) {
         int rgb = image.getRGB(x, y);
 
-        // Extract RGB components
         newRedChannel[y][x] = (rgb >> 16) & 0xFF;
         newGreenChannel[y][x] = (rgb >> 8) & 0xFF;
         newBlueChannel[y][x] = rgb & 0xFF;
-
       }
-
     }
 
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
+  /**
+   * This function saves a loaded image as a jpg, jpeg or png file.
+   *
+   * @param filename the output filename.
+   * @param image    the image to be saved.
+   * @throws IOException throws error if file is not found.
+   */
   protected static void saveOther(String filename, Image image) throws IOException {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
     BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-    // Rebuild the RGB values from the channels
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         int red = image.getRedChannel()[y][x];
         int green = image.getGreenChannel()[y][x];
         int blue = image.getBlueChannel()[y][x];
 
-        // Combine RGB values into a single int
         int rgb = (red << 16) | (green << 8) | blue;
         outputImage.setRGB(x, y, rgb);
       }
     }
+
+    // Fetch the file extension
     String[] parts = filename.split("\\.");
     String ext = parts[parts.length - 1];
-    // Save the image as a JPEG file
     File outputFile = new File(filename);
     ImageIO.write(outputImage, ext, outputFile);
-
   }
 
   /**
@@ -252,6 +313,7 @@ public class ImageOperations {
         newBlueChannel[i][j] = newPixelValue;
       }
     }
+
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
@@ -281,6 +343,7 @@ public class ImageOperations {
         newBlueChannel[i][j] = newPixelIntensity;
       }
     }
+
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
@@ -311,23 +374,46 @@ public class ImageOperations {
         newBlueChannel[i][j] = newPixelIntensity;
       }
     }
+
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
-  // Various image manipulation methods
+  /**
+   * THis function extracts the red component of the image.
+   *
+   * @param image the image whose red component is to be extracted.
+   * @return returns the red component of the image.
+   */
   protected static Image extractRedComponent(Image image) {
     return new Image(image.getRedChannel(), image.getRedChannel(), image.getRedChannel());
   }
 
+  /**
+   * THis function extracts the green component of the image.
+   *
+   * @param image the image whose green component is to be extracted.
+   * @return returns the green component of the image.
+   */
   protected static Image extractGreenComponent(Image image) {
     return new Image(image.getGreenChannel(), image.getGreenChannel(), image.getGreenChannel());
   }
 
+  /**
+   * THis function extracts the blue component of the image.
+   *
+   * @param image the image whose blue component is to be extracted.
+   * @return returns the blue component of the image.
+   */
   protected static Image extractBlueComponent(Image image) {
     return new Image(image.getBlueChannel(), image.getBlueChannel(), image.getBlueChannel());
   }
 
-
+  /**
+   * THis function extracts the red, green, and blue components of the image.
+   *
+   * @param image the image whose individual components are to be extracted.
+   * @return returns the red, green, and blue components of the image.
+   */
   protected static Image[] splitRGB(Image image) {
     return new Image[]{
             extractRedComponent(image),
@@ -336,7 +422,17 @@ public class ImageOperations {
     };
   }
 
+  /**
+   * This functions the individual red, green, and blue components into a single image.
+   *
+   * @param redImage   image with the red component.
+   * @param greenImage image with the green component.
+   * @param blueImage  image with the blue component.
+   * @return returns the combined image.
+   */
   protected static Image combineRGB(Image redImage, Image greenImage, Image blueImage) {
-    return new Image(redImage.getRedChannel(), greenImage.getGreenChannel(), blueImage.getBlueChannel());
+    return new Image(redImage.getRedChannel(),
+            greenImage.getGreenChannel(),
+            blueImage.getBlueChannel());
   }
 }

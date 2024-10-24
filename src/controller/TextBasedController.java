@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -8,7 +9,7 @@ import model.ImageModel;
 import view.ImageView;
 
 /**
- * This class represents the controller, acting as the mediator between the inputs from the View and
+ * This class represents the Controller, acting as the mediator between the inputs from the View and
  * the different operations to be preformed from the Model.
  */
 public class TextBasedController implements ImageController {
@@ -32,7 +33,7 @@ public class TextBasedController implements ImageController {
    * @param command the command/operation to execute.
    * @throws IOException throws exception if file not found.
    */
-  protected void execute(String command) throws IOException {
+  public void execute(String command) throws IOException {
     String[] args = command.split(" ");
 
     switch (args[0]) {
@@ -42,8 +43,7 @@ public class TextBasedController implements ImageController {
           imageModel.loadImage(args[1], args[2]);
           view.printStatements("Loaded image from " + args[1]);
           break;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
           throw new IOException(e);
         }
 
@@ -52,7 +52,6 @@ public class TextBasedController implements ImageController {
           view.printStatements("Saving image to " + args[1]);
           imageModel.saveImage(args[1], args[2]);
           view.printStatements("Saved image to " + args[1]);
-
           break;
         } catch (IOException e) {
           throw new IOException(e);
@@ -161,6 +160,7 @@ public class TextBasedController implements ImageController {
    */
   @Override
   public void runScript(String scriptFilePath) {
+    String scriptPath = new File(System.getProperty("user.dir")) + File.separator + scriptFilePath;
     try (BufferedReader reader = new BufferedReader(new FileReader(scriptFilePath))) {
       String command;
       while ((command = reader.readLine()) != null) {
@@ -173,8 +173,7 @@ public class TextBasedController implements ImageController {
           }
         }
       }
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       System.err.println("Error reading script file: " + e.getMessage());
     }
   }

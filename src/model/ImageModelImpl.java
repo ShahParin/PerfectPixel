@@ -22,9 +22,23 @@ import static model.ImageOperations.sepia;
 import static model.ImageOperations.sharpen;
 import static model.ImageOperations.splitRGB;
 
+/**
+ * This class provides functionality to manage and manipulate images. It supports operations like
+ * loading, saving, applying color filters, transforming, and combining images.
+ * The images can be loaded and saved in different formats, and the class offers various methods to
+ * extract and manipulate specific color components (red, green, blue) or grayscale versions of
+ * images (based on value, intensity, and luma).
+ */
 public class ImageModelImpl implements ImageModel {
+  /*
+  This class uses a Map to store images by their names and applies different operations
+  such as flipping, brightening, and applying filters on these images.
+  */
   private final Map<String, Image> images;
 
+  /**
+   * This constructor initializes the HashMap.
+   */
   public ImageModelImpl() {
     this.images = new HashMap<>();
   }
@@ -32,16 +46,13 @@ public class ImageModelImpl implements ImageModel {
   @Override
   public void loadImage(String path, String imageName) throws IOException {
     try {
-      // by design
-//      String pathRelative = new File(System.getProperty("user.dir")).getParent() + File.separator + "images" + File.separator + path;
       String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + path;
       Image image;
       if (path.contains("ppm")) {
         image = readPPM(pathRelative);
       } else if (path.contains("png") || path.contains(("jpeg")) || path.contains("jpg")) {
         image = readOther(pathRelative);
-      }
-      else {
+      } else {
         throw new IllegalArgumentException("Unsupported image type: " + path);
       }
       images.put(imageName, image);
@@ -52,7 +63,6 @@ public class ImageModelImpl implements ImageModel {
 
   @Override
   public void saveImage(String path, String imageName) throws IOException {
-//    String pathRelative = new File(System.getProperty("user.dir")).getParent() + File.separator + "images" + File.separator + path;
     String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + path;
 
     Image image = images.get(imageName);
@@ -174,8 +184,6 @@ public class ImageModelImpl implements ImageModel {
       images.put(newImageName, sharpenedImage);
     }
   }
-
-
 
   @Override
   public void applySepia(String imageName, String newImageName) {

@@ -1,7 +1,7 @@
 package controller;
 
 /**
- * This is an Interface for the Controller. This class executes the commands provided for image
+ * This is an Interface for the Controller. It executes the commands provided for image
  * loading, manipulation or storing.
  */
 public interface ImageController {
