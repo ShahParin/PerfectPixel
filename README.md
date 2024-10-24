@@ -73,9 +73,6 @@ The following files will be generated based on the operations:
 - Add sepia transform to the image\
 `sepia khoury khoury-sepia`<br/><br/>
 
-- Add greyscale transform to the image\
-`greyscale khoury khoury-greyscale`<br/><br/>
-
 - Add blur filter to the image\
 `blur khoury khoury-blur`<br/><br/>
 

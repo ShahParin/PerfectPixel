@@ -1,18 +1,26 @@
 package model;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import util.ImageUtil;
-
 import static model.ImageOperations.blur;
 import static model.ImageOperations.brighten;
-import static model.ImageOperations.greyscale;
+import static model.ImageOperations.combineRGB;
+import static model.ImageOperations.extractBlueComponent;
+import static model.ImageOperations.extractGreenComponent;
+import static model.ImageOperations.extractRedComponent;
+import static model.ImageOperations.pixelIntensity;
+import static model.ImageOperations.pixelLuma;
+import static model.ImageOperations.pixelValue;
+import static model.ImageOperations.readOther;
+import static model.ImageOperations.readPPM;
+import static model.ImageOperations.saveOther;
+import static model.ImageOperations.savePPM;
 import static model.ImageOperations.sepia;
 import static model.ImageOperations.sharpen;
+import static model.ImageOperations.splitRGB;
 
 public class ImageModelImpl implements ImageModel {
   private final Map<String, Image> images;
@@ -25,12 +33,13 @@ public class ImageModelImpl implements ImageModel {
   public void loadImage(String path, String imageName) throws IOException {
     try {
       // by design
-      String pathRelative = new File(System.getProperty("user.dir")).getParent() + File.separator + "images"+ File.separator + path;
-      Image image = null;
+//      String pathRelative = new File(System.getProperty("user.dir")).getParent() + File.separator + "images" + File.separator + path;
+      String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + path;
+      Image image;
       if (path.contains("ppm")) {
-        image = ImageUtil.readPPM(pathRelative);
+        image = readPPM(pathRelative);
       } else {
-        image = ImageUtil.readOther(pathRelative);
+        image = readOther(pathRelative);
       }
       images.put(imageName, image);
     } catch (IOException e) {
@@ -40,7 +49,8 @@ public class ImageModelImpl implements ImageModel {
 
   @Override
   public void saveImage(String path, String imageName) throws IOException {
-    String pathRelative = new File(System.getProperty("user.dir")).getParent() + File.separator + "images"+ File.separator + path;
+//    String pathRelative = new File(System.getProperty("user.dir")).getParent() + File.separator + "images" + File.separator + path;
+    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + path;
 
     Image image = images.get(imageName);
     if (image == null) {
@@ -48,9 +58,9 @@ public class ImageModelImpl implements ImageModel {
     }
     try {
       if (path.contains("ppm")) {
-        ImageUtil.savePPM(pathRelative, image);
+        savePPM(pathRelative, image);
       } else {
-        ImageUtil.saveOther(pathRelative, image);
+        saveOther(pathRelative, image);
       }
     } catch (IOException e) {
       throw new IOException(e);
@@ -61,7 +71,7 @@ public class ImageModelImpl implements ImageModel {
   public void applyRedComponent(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image redImage = ImageUtil.extractRedComponent(original);
+      Image redImage = extractRedComponent(original);
       images.put(newImageName, redImage);
     }
   }
@@ -70,7 +80,7 @@ public class ImageModelImpl implements ImageModel {
   public void applyGreenComponent(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image greenImage = ImageUtil.extractGreenComponent(original);
+      Image greenImage = extractGreenComponent(original);
       images.put(newImageName, greenImage);
     }
   }
@@ -79,7 +89,7 @@ public class ImageModelImpl implements ImageModel {
   public void applyBlueComponent(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image blueImage = ImageUtil.extractBlueComponent(original);
+      Image blueImage = extractBlueComponent(original);
       images.put(newImageName, blueImage);
     }
   }
@@ -88,7 +98,7 @@ public class ImageModelImpl implements ImageModel {
   public void applyValue(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image valueImage = ImageUtil.pixelValue(original);
+      Image valueImage = pixelValue(original);
       images.put(newImageName, valueImage);
     }
   }
@@ -97,7 +107,7 @@ public class ImageModelImpl implements ImageModel {
   public void applyIntensity(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image intensityImage = ImageUtil.pixelIntensity(original);
+      Image intensityImage = pixelIntensity(original);
       images.put(newImageName, intensityImage);
     }
   }
@@ -106,7 +116,7 @@ public class ImageModelImpl implements ImageModel {
   public void applyLuma(String imageName, String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image lumaImage = ImageUtil.pixelLuma(original);
+      Image lumaImage = pixelLuma(original);
       images.put(newImageName, lumaImage);
     }
   }
@@ -143,6 +153,7 @@ public class ImageModelImpl implements ImageModel {
     Image original = images.get(imageName);
     if (original != null) {
       Image blurredImage = blur(original);
+      blurredImage.clamp();
       images.put(newImageName, blurredImage);
     }
   }
@@ -156,15 +167,7 @@ public class ImageModelImpl implements ImageModel {
     }
   }
 
-  @Override
-  public void applyGreyscale(String imageName, String newImageName) {
-    Image original = images.get(imageName);
-    if (original != null) {
-      Image greyImage = greyscale(original);
-      greyImage.clamp();
-      images.put(newImageName, greyImage);
-    }
-  }
+
 
   @Override
   public void applySepia(String imageName, String newImageName) {
@@ -180,7 +183,7 @@ public class ImageModelImpl implements ImageModel {
   public void rgbSplit(String imageName, String redImage, String greenImage, String blueImage) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image[] channels = ImageUtil.splitRGB(original);
+      Image[] channels = splitRGB(original);
       images.put(redImage, channels[0]);
       images.put(greenImage, channels[1]);
       images.put(blueImage, channels[2]);
@@ -193,8 +196,16 @@ public class ImageModelImpl implements ImageModel {
     Image green = images.get(greenImage);
     Image blue = images.get(blueImage);
     if (red != null && green != null && blue != null) {
-      Image combinedImage = ImageUtil.combineRGB(red, green, blue);
+      Image combinedImage = combineRGB(red, green, blue);
       images.put(newImageName, combinedImage);
     }
+  }
+
+  @Override
+  public Image getImage(String imgName) throws IllegalArgumentException {
+    if (this.images.get(imgName) == null) {
+      throw new IllegalArgumentException("Image Not Found: " + imgName);
+    }
+    return this.images.get(imgName);
   }
 }

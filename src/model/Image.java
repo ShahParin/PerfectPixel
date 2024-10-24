@@ -1,8 +1,8 @@
 package model;
 
 /**
- * This is the representation class of any Image that is going to be processed in the entire application.
- * It contains 3 channels, Red, Green and Blue as 2D Arrays.
+ * This is the representation class of any Image that is going to be processed in the entire
+ * application. It contains 3 channels, Red, Green and Blue as 2D Arrays.
  * It also contains logic for intensity, luma and value for a particular pixel.
  */
 public class Image {
@@ -17,9 +17,10 @@ public class Image {
 
   /**
    * Initiates a new image object given R G B values.
-   * @param redChannel Red Component.
+   *
+   * @param redChannel   Red Component.
    * @param greenChannel Green Component.
-   * @param blueChannel Blue Component.
+   * @param blueChannel  Blue Component.
    */
   public Image(int[][] redChannel, int[][] greenChannel, int[][] blueChannel) {
     this.redChannel = redChannel;
@@ -29,6 +30,7 @@ public class Image {
 
   /**
    * Getter for Red Channel.
+   *
    * @return Red Channel as 2D Array.
    */
   public int[][] getRedChannel() {
@@ -37,6 +39,7 @@ public class Image {
 
   /**
    * Getter for Green Channel.
+   *
    * @return Green Channel as 2D Array.
    */
   public int[][] getGreenChannel() {
@@ -45,6 +48,7 @@ public class Image {
 
   /**
    * Getter for Blue Channel.
+   *
    * @return Blue Channel as 2D Array.
    */
   public int[][] getBlueChannel() {
@@ -78,5 +82,6 @@ public class Image {
       }
     }
   }
+
 
 }

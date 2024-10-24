@@ -11,9 +11,7 @@ public interface ImageModel {
   void applyBlueComponent(String imageName, String newImageName);
 
   void applyValue(String imageName, String newImageName);
-
   void applyIntensity(String imageName, String newImageName);
-
   void applyLuma(String imageName, String newImageName);
 
   void flipHorizontally(String imageName, String newImageName);
@@ -25,8 +23,9 @@ public interface ImageModel {
   void sharpenImage(String imageName, String newImageName);
 
   void applySepia(String imageName, String newImageName);
-  void applyGreyscale(String imageName, String newImageName);
 
   void rgbSplit(String imageName, String redImage, String greenImage, String blueImage);
   void rgbCombine(String newImageName, String redImage, String greenImage, String blueImage);
+
+  Image getImage(String imgName);
 }

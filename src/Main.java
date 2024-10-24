@@ -12,13 +12,14 @@ public class Main {
     ImageModel model = new ImageModelImpl();
     ImageView view = new ConsoleBasedView();
     ImageController controller = new TextBasedController(model,view);
-    if (args.length > 0) {
-      String scriptPath = new File(System.getProperty("user.dir")).getParent() + File.separator + args[0];
+//    if (args.length > 0) {
+    if (false) {
+      String scriptPath = new File(System.getProperty("user.dir")) + File.separator + args[0];
       System.out.println("hello");
       controller.runScript(scriptPath);
     }
     else {
-      String scriptPath= new File(System.getProperty("user.dir")).getParent() + File.separator + "DefaultScript.txt";
+      String scriptPath= new File(System.getProperty("user.dir")) + File.separator + "DefaultScript.txt";
       controller.runScript(scriptPath);
     }
   }

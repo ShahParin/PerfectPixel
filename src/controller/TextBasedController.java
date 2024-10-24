@@ -17,7 +17,7 @@ public class TextBasedController implements ImageController {
     this.view = view;
   }
 
-  public void execute(String command) throws IOException {
+  protected void execute(String command) throws IOException {
     String[] args = command.split(" ");
 
     switch (args[0]) {
@@ -35,6 +35,7 @@ public class TextBasedController implements ImageController {
           view.printStatements("Saving image to " + args[1]);
           imageModel.saveImage(args[1], args[2]);
           view.printStatements("Saved image to " + args[1]);
+
           break;
         } catch (IOException e) {
           throw new IOException(e);
@@ -100,11 +101,6 @@ public class TextBasedController implements ImageController {
         imageModel.applySepia(args[1], args[2]);
         view.printStatements("Applied Sepia to " + args[1]);
         break;
-      case "greyscale":
-        view.printStatements("Applying Greyscale to " + args[1]);
-        imageModel.applyGreyscale(args[1], args[2]);
-        view.printStatements("Applied Greyscale to " + args[1]);
-        break;
       case "blur":
         view.printStatements("Applying Blur to " + args[1]);
         imageModel.blurImage(args[1], args[2]);
@@ -124,6 +120,7 @@ public class TextBasedController implements ImageController {
     }
   }
 
+  @Override
   public void runScript(String scriptFilePath) {
     try (BufferedReader reader = new BufferedReader(new FileReader(scriptFilePath))) {
       String command;
@@ -132,6 +129,7 @@ public class TextBasedController implements ImageController {
         if (!command.startsWith("#") && !command.isEmpty()) {  // Ignore comments
           try {
             execute(command.trim());
+//            Thread.sleep(500);
           } catch (Exception e) {
             System.err.println("Error executing command \"" + command + "\": " + e.getMessage());
           }
