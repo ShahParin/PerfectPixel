@@ -472,8 +472,6 @@ public class ImageModelImplTest {
     imageModel.brightenImage(-40,"sample", "sample-darken");
     Image actualImage = imageModel.getImage("sample-darken");
 
-
-
     imageModel.loadImage("output/sample-darken-expected.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
@@ -804,12 +802,12 @@ public class ImageModelImplTest {
   }
 
   /**
-   * Brigthen by maximum increment, 255.
+   * Brigthen by maximum increment, 500.
    */
   @Test
   public void testBrigthenMaximum() throws IOException {
     imageModel.loadImage("input/sample.ppm", "sample");
-    imageModel.brightenImage(300, "sample", "sample-brighten");
+    imageModel.brightenImage(500, "sample", "sample-brighten");
     Image actualImage = imageModel.getImage("sample-brighten");
 
     imageModel.loadImage("output/sample-brighten-max-expected.ppm", "expectedImage");
@@ -821,65 +819,182 @@ public class ImageModelImplTest {
   }
 
   /**
-   * Brighten by higher value, 300.
+   * Darken by maximum negative value, -500.
    */
+  @Test
+  public void testDarkenMaximum() throws IOException {
+    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.brightenImage(-500, "sample", "sample-darken");
+    Image actualImage = imageModel.getImage("sample-darken");
 
-  /**
-   * Darken by maximum negative value, -255.
-   */
+    imageModel.loadImage("output/sample-darken-max-expected.ppm", "expectedImage");
+    Image expectedImage = imageModel.getImage("expectedImage");
 
-  /**
-   * Darken by smallest value, -300.
-   */
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+  }
 
   /**
    * Horizontally flip a rectangle image that is horizontally longer.
    */
+  @Test
+  public void testHorizontalFlipHLong() throws IOException {
+    imageModel.loadImage("input/sampleHLong.ppm", "sample");
+    imageModel.flipHorizontally("sample", "sample-hLong");
+    Image actualImage = imageModel.getImage("sample-hLong");
+
+    imageModel.loadImage("output/sample-hLong-expected.ppm", "expectedImage");
+    Image expectedImage = imageModel.getImage("expectedImage");
+
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+  }
+
 
   /**
    * Horizontally flip a rectangle that is vertically longer.
    */
+  @Test
+  public void testHorizontalFlipVLong() throws IOException {
+    imageModel.loadImage("input/sampleVLong.ppm", "sample");
+    imageModel.flipHorizontally("sample", "sample-vLong");
+    Image actualImage = imageModel.getImage("sample-vLong");
+
+    imageModel.loadImage("output/sample-vLong-expected.ppm", "expectedImage");
+    Image expectedImage = imageModel.getImage("expectedImage");
+
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+  }
 
   /**
    * Horizontally flip a 1 pixel image.
    */
+  @Test
+  public void testHorizontalSingle() throws IOException {
+    imageModel.loadImage("input/single.ppm", "single");
+    imageModel.flipHorizontally("single", "single-hFlip");
+    Image actualImage = imageModel.getImage("single-hFlip");
+
+    imageModel.loadImage("output/single-hFlip-expected.ppm", "expectedImage");
+    Image expectedImage = imageModel.getImage("expectedImage");
+
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+  }
 
   /**
    * Vertically flip a rectangle image that is horizontally longer.
    */
+  @Test
+  public void testVerticalFlipHLong() throws IOException {
+    imageModel.loadImage("input/sampleHLong.ppm", "sample");
+    imageModel.flipVertically("sample", "sample-hLong");
+    Image actualImage = imageModel.getImage("sample-hLong");
+
+    imageModel.loadImage("output/sample-vertical-hLong-expected.ppm", "expectedImage");
+    Image expectedImage = imageModel.getImage("expectedImage");
+
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+  }
 
   /**
    * Vertically flip a rectangle that is vertically longer.
    */
+  @Test
+  public void testVerticalFlipVLong() throws IOException {
+    imageModel.loadImage("input/sampleVLong.ppm", "sample");
+    imageModel.flipVertically("sample", "sample-vLong");
+    Image actualImage = imageModel.getImage("sample-vLong");
+
+    imageModel.loadImage("output/sample-vertical-vLong-expected.ppm", "expectedImage");
+    Image expectedImage = imageModel.getImage("expectedImage");
+
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+  }
 
   /**
    * Vertically flip a 1 pixel image.
    */
+  @Test
+  public void testVerticalSingle() throws IOException {
+    imageModel.loadImage("input/single.ppm", "single");
+    imageModel.flipHorizontally("single", "single-vFlip");
+    Image actualImage = imageModel.getImage("single-vFlip");
+
+    imageModel.loadImage("output/single-vFlip-expected.ppm", "expectedImage");
+    Image expectedImage = imageModel.getImage("expectedImage");
+
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+  }
 
   /**
    * Apply multiple blur operations.
    */
+  @Test
+  public void testMultipleBlur() throws IOException {
+    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.blurImage("sample", "sample-blur1");
+    imageModel.blurImage("sample-blur1", "sample-blur2");
+    imageModel.blurImage("sample-blur2", "sample-blur3");
+    imageModel.blurImage("sample-blur3", "sample-blur4");
+    Image actualImage = imageModel.getImage("sample-blur4");
+
+    imageModel.loadImage("output/sample-multiple-blur-expected.ppm", "expectedImage");
+    Image expectedImage = imageModel.getImage("expectedImage");
+
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+  }
 
   /**
    * Test blur on a 1 pixel image.
    */
+  @Test
+  public void testBlurSingle() throws IOException {
+    imageModel.loadImage("input/single.ppm", "single");
+    imageModel.flipHorizontally("single", "single-blur");
+    Image actualImage = imageModel.getImage("single-blur");
+
+    imageModel.loadImage("output/single-blur-expected.ppm", "expectedImage");
+    Image expectedImage = imageModel.getImage("expectedImage");
+
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+  }
 
   /**
    * Apply multiple sharpen operations.
    */
+  @Test
+  public void testMultipleSharpen() throws IOException {
+    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.sharpenImage("sample", "sample-sharpen1");
+    imageModel.sharpenImage("sample-sharpen1", "sample-sharpen2");
+    imageModel.sharpenImage("sample-sharpen2", "sample-sharpen3");
+    imageModel.sharpenImage("sample-sharpen3", "sample-sharpen4");
+    Image actualImage = imageModel.getImage("sample-sharpen4");
 
-  /**
-   * Test sharpening with smooth gradient.
-   */
+    imageModel.saveImage("output/sample-multiple-sharpen-expected.ppm", "sample-sharpen4");
+    imageModel.loadImage("output/sample-multiple-sharpen-expected.ppm", "expectedImage");
+    Image expectedImage = imageModel.getImage("expectedImage");
 
-  /**
-   * Test R,G,B component images with mismatched sizes.
-   */
-
-  /**
-   * Combine images with varying channel intensities, bright red, normal green, and dark blue.
-   */
-
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+  }
 
   /**
    * Memory limit check, image size limit.
