@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -306,250 +307,260 @@ public class ImageModelImplTest {
    */
   @Test
   public void testPPMBlur() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.blurImage("sample", "sample-blur");
     Image actualImage = imageModel.getImage("sample-blur");
 
-    imageModel.loadImage("output/sample-blur-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
+    int[][] expectedRedChannel = {{0, 0},{0, 0}};
+    int[][] expectedGreenChannel = {{0, 0},{0, 0}};
+    int[][] expectedBlueChannel = {{0, 0},{0, 0}};
 
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
   }
 
   @Test
   public void testPPMRedComponent() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.applyRedComponent("sample", "sample-red-component");
     Image actualImage = imageModel.getImage("sample-red-component");
 
+    int[][] expectedRedChannel = {{123, 12}, {255, 128}};
+    int[][] expectedGreenChannel = {{123, 12}, {255, 128}};
+    int[][] expectedBlueChannel = {{123, 12}, {255, 128}};
 
-    imageModel.loadImage("output/sample-red-component-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
-
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
 
   }
 
   @Test
   public void testPPMGreenComponent() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.applyGreenComponent("sample", "sample-green-component");
     Image actualImage = imageModel.getImage("sample-green-component");
 
+    int[][] expectedRedChannel = {{45, 200}, {255, 128}};
+    int[][] expectedGreenChannel = {{45, 200}, {255, 128}};
+    int[][] expectedBlueChannel = {{45, 200}, {255, 128}};
 
-    imageModel.loadImage("output/sample-green-component-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
-
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
 
   }
 
   @Test
   public void testPPMBlueComponent() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.applyBlueComponent("sample", "sample-blue-component");
     Image actualImage = imageModel.getImage("sample-blue-component");
 
+    int[][] expectedRedChannel = {{67, 150}, {0, 125}};
+    int[][] expectedGreenChannel = {{67, 150}, {0, 125}};
+    int[][] expectedBlueChannel = {{67, 150}, {0, 125}};
 
-    imageModel.loadImage("output/sample-blue-component-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
-
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
-
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
   }
 
   @Test
   public void testPPMValue() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.applyValue("sample", "sample-value");
     Image actualImage = imageModel.getImage("sample-value");
 
+    int[][] expectedRedChannel = {{123, 200}, {255, 128}};
+    int[][] expectedGreenChannel = {{123, 200}, {255, 128}};
+    int[][] expectedBlueChannel = {{123, 200}, {255, 128}};
 
-    imageModel.loadImage("output/sample-value-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
 
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
 
   }
 
   @Test
   public void testPPMIntensity() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.applyIntensity("sample", "sample-intensity");
     Image actualImage = imageModel.getImage("sample-intensity");
 
 
-    imageModel.loadImage("output/sample-intensity-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
+    int[][] expectedRedChannel = {{78, 120}, {170, 127}};
+    int[][] expectedGreenChannel = {{78, 120}, {170, 127}};
+    int[][] expectedBlueChannel = {{78, 120}, {170, 127}};
 
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
-
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
   }
 
   @Test
   public void testPPMLuma() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.applyLuma("sample", "sample-luma");
     Image actualImage = imageModel.getImage("sample-luma");
 
+    int[][] expectedRedChannel = {{63, 156}, {236, 127}};
+    int[][] expectedGreenChannel = {{63, 156}, {236, 127}};
+    int[][] expectedBlueChannel = {{63, 156}, {236, 127}};
 
-    imageModel.loadImage("output/sample-luma-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
-
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
 
   }
 
   @Test
   public void testPPMRGBSplit() throws IOException {
 
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.rgbSplit("sample", "sample-red", "sample-green", "sample-blue");
 
     Image actualImageRed = imageModel.getImage("sample-red");
     Image actualImageGreen = imageModel.getImage("sample-green");
     Image actualImageBlue = imageModel.getImage("sample-blue");
 
-    imageModel.loadImage("output/sample-red-expected.ppm", "expectedImageRed");
-    imageModel.loadImage("output/sample-green-expected.ppm", "expectedImageGreen");
-    imageModel.loadImage("output/sample-blue-expected.ppm", "expectedImageBlue");
+    int[][] expectedRedChannel = {{123, 12}, {255, 128}};
+    int[][] expectedGreenChannel = {{45, 200}, {255, 128}};
+    int[][] expectedBlueChannel = {{67, 150}, {0, 125}};
 
-    Image expectedImageRed = imageModel.getImage("expectedImageRed");
-    Image expectedImageGreen = imageModel.getImage("expectedImageGreen");
-    Image expectedImageBlue = imageModel.getImage("expectedImageBlue");
-
-    assertEquals(expectedImageRed.getRedChannel(), actualImageRed.getRedChannel());
-    assertEquals(expectedImageGreen.getRedChannel(), actualImageGreen.getRedChannel());
-    assertEquals(expectedImageBlue.getRedChannel(), actualImageBlue.getRedChannel());
+    assertEquals(expectedRedChannel, actualImageRed.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImageGreen.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImageBlue.getBlueChannel());
 
 
   }
 
   @Test
   public void testPPMRGBCombine() throws IOException {
-    imageModel.loadImage("input/sample-red.ppm", "sample-red");
-    imageModel.loadImage("input/sample-green.ppm", "sample-green");
-    imageModel.loadImage("input/sample-blue.ppm", "sample-blue");
+    imageModel.loadImage("input/test-red.ppm", "sample-red");
+    imageModel.loadImage("input/test-green.ppm", "sample-green");
+    imageModel.loadImage("input/test-blue.ppm", "sample-blue");
 
     imageModel.rgbCombine("sample-rgb-combine","sample-red", "sample-green", "sample-blue");
 
     Image actualImage = imageModel.getImage("sample-rgb-combine");
 
-    imageModel.loadImage("output/sample.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
+    int[][] expectedRedChannel = {{123, 12}, {255, 128}};
+    int[][] expectedGreenChannel = {{67, 150}, {0, 125}};
+    int[][] expectedBlueChannel = {{45, 200}, {255, 128}};
 
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
   }
 
   @Test
   public void testPPMBrighten() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.brightenImage(20,"sample", "sample-brighten");
     Image actualImage = imageModel.getImage("sample-brighten");
 
-    imageModel.loadImage("output/sample-brighten-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
 
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    int[][] expectedRedChannel = {{143, 32}, {255, 148}};
+    int[][] expectedGreenChannel = {{65, 220}, {255, 148}};
+    int[][] expectedBlueChannel = {{87, 170}, {20, 145}};
+
+
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
 
   }
 
   @Test
   public void testPPMDarken() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.brightenImage(-40,"sample", "sample-darken");
     Image actualImage = imageModel.getImage("sample-darken");
 
-    imageModel.loadImage("output/sample-darken-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
+    imageModel.saveImage("output/sample-darken.ppm", "sample-darken");
 
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    int[][] expectedRedChannel = {{83, 0}, {215, 88}};
+    int[][] expectedGreenChannel = {{5, 160}, {215, 88}};
+    int[][] expectedBlueChannel = {{27, 110}, {0, 85}};
+
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
 
   }
 
   @Test
   public void testPPMHorizontal() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.flipHorizontally("sample", "sample-horizontal");
     Image actualImage = imageModel.getImage("sample-horizontal");
 
 
-    imageModel.loadImage("output/sample-horizontal-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
+    imageModel.saveImage("output/sample-horizontal.ppm", "sample-horizontal");
 
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    int[][] expectedRedChannel = {{12, 123}, {128, 255}};
+    int[][] expectedGreenChannel = {{200, 45}, {128, 255}};
+    int[][] expectedBlueChannel = {{150, 67}, {125, 0}};
+
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
 
   }
 
   @Test
   public void testPPMVertical() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.flipVertically("sample", "sample-vertical");
     Image actualImage = imageModel.getImage("sample-vertical");
 
+    int[][] expectedRedChannel = {{255, 128}, {123, 12}};
+    int[][] expectedGreenChannel = {{255, 128}, {45, 200}};
+    int[][] expectedBlueChannel = {{0, 125}, {67, 150}};
 
-
-    imageModel.loadImage("output/sample-vertical-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
-
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
 
   }
 
   @Test
   public void testPPMSepia() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.applySepia("sample", "sample-sepia");
     Image actualImage = imageModel.getImage("sample-sepia");
 
 
-    imageModel.loadImage("output/sample-sepia-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
 
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    int[][] expectedRedChannel = {{95, 186}, {255, 172}};
+    int[][] expectedGreenChannel = {{85, 166}, {255, 153}};
+    int[][] expectedBlueChannel = {{66, 129}, {205, 119}};
+
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
 
   }
 
   @Test
   public void testPPMSharpen() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageModel.loadImage("input/test.ppm", "sample");
     imageModel.sharpenImage("sample", "sample-sharpen");
     Image actualImage = imageModel.getImage("sample-sharpen");
 
 
-    imageModel.loadImage("output/sample-sharpen-expected.ppm", "expectedImage");
-    Image expectedImage = imageModel.getImage("expectedImage");
+    imageModel.saveImage("output/sample-sharpen.ppm", "sample-sharpen");
 
-    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
-    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
-    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+    int[][] expectedRedChannel = {{0, 0},{0, 0}};
+    int[][] expectedGreenChannel = {{0, 0},{0, 0}};
+    int[][] expectedBlueChannel = {{0, 0},{0, 0}};
 
+    assertEquals(expectedRedChannel, actualImage.getRedChannel());
+    assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
+    assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
   }
 
 
