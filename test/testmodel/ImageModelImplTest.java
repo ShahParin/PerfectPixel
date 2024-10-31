@@ -1,4 +1,4 @@
-package testModel;
+package testmodel;
 
 import org.junit.Test;
 
@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -33,7 +32,8 @@ public class ImageModelImplTest {
 
   private Scanner getImageScanner(String filePath, String imageName) throws IOException {
     Scanner sc = null;
-    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + filePath;
+    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
+            + File.separator + filePath;
     imageModel.loadImage(filePath, imageName);
 
     try {
@@ -128,7 +128,8 @@ public class ImageModelImplTest {
     int[][] greenChannel = expectedImage.getGreenChannel();
     int[][] blueChannel = expectedImage.getBlueChannel();
 
-    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + "input/sample.jpg";
+    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
+            + File.separator + "input/sample.jpg";
     File inputFile = new File(pathRelative);
     BufferedImage actualImage = ImageIO.read(inputFile);
 
@@ -162,7 +163,8 @@ public class ImageModelImplTest {
     int[][] greenChannel = expectedImage.getGreenChannel();
     int[][] blueChannel = expectedImage.getBlueChannel();
 
-    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + "input/sample.jpeg";
+    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
+            + File.separator + "input/sample.jpeg";
     File inputFile = new File(pathRelative);
     BufferedImage actualImage = ImageIO.read(inputFile);
 
@@ -193,7 +195,8 @@ public class ImageModelImplTest {
     int[][] greenChannel = expectedImage.getGreenChannel();
     int[][] blueChannel = expectedImage.getBlueChannel();
 
-    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + "input/sample.png";
+    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
+            + File.separator + "input/sample.png";
     File inputFile = new File(pathRelative);
     BufferedImage actualImage = ImageIO.read(inputFile);
 
@@ -246,7 +249,7 @@ public class ImageModelImplTest {
 
 
   /**
-   * Saving ppm
+   * Saving ppm.
    */
   @Test
   public void testSavingPPM() throws IOException {
@@ -263,7 +266,7 @@ public class ImageModelImplTest {
 
 
   /**
-   * Saving png
+   * Saving png.
    */
   @Test
   public void testSavingPNG() throws IOException {
@@ -279,25 +282,27 @@ public class ImageModelImplTest {
   }
 
   /**
-   * Saving jpeg
+   * Saving jpeg.
    */
   @Test
   public void testSavingJPEG() throws IOException {
     imageModel.loadImage("input/sample.jpeg", "sample");
     imageModel.saveImage("output/sample.jpeg", "sample");
-    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + "output/sample.jpeg";
+    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
+            + File.separator + "output/sample.jpeg";
     File file = new File(pathRelative);
     assertTrue(file.exists());
   }
 
   /**
-   * Saving jpg
+   * Saving jpg.
    */
   @Test
   public void testSavingJPG() throws IOException {
     imageModel.loadImage("input/sample.jpg", "sample");
     imageModel.saveImage("output/sample.jpg", "sample");
-    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + "output/sample.jpg";
+    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
+            + File.separator + "output/sample.jpg";
     File file = new File(pathRelative);
     assertTrue(file.exists());
   }
@@ -420,7 +425,8 @@ public class ImageModelImplTest {
   public void testPPMRGBSplit() throws IOException {
 
     imageModel.loadImage("input/test.ppm", "sample");
-    imageModel.rgbSplit("sample", "sample-red", "sample-green", "sample-blue");
+    imageModel.rgbSplit("sample", "sample-red", "sample-green",
+            "sample-blue");
 
     Image actualImageRed = imageModel.getImage("sample-red");
     Image actualImageGreen = imageModel.getImage("sample-green");
@@ -443,7 +449,8 @@ public class ImageModelImplTest {
     imageModel.loadImage("input/test-green.ppm", "sample-green");
     imageModel.loadImage("input/test-blue.ppm", "sample-blue");
 
-    imageModel.rgbCombine("sample-rgb-combine","sample-red", "sample-green", "sample-blue");
+    imageModel.rgbCombine("sample-rgb-combine","sample-red",
+            "sample-green", "sample-blue");
 
     Image actualImage = imageModel.getImage("sample-rgb-combine");
 
@@ -589,7 +596,8 @@ public class ImageModelImplTest {
     Image actualImage = imageModel.getImage("sample-red-component");
 
 
-    imageModel.loadImage("output/sample-red-component-expected.png", "expectedImage");
+    imageModel.loadImage("output/sample-red-component-expected.png",
+            "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -605,7 +613,8 @@ public class ImageModelImplTest {
     Image actualImage = imageModel.getImage("sample-green-component");
 
 
-    imageModel.loadImage("output/sample-green-component-expected.png", "expectedImage");
+    imageModel.loadImage("output/sample-green-component-expected.png",
+            "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -622,7 +631,8 @@ public class ImageModelImplTest {
 
 
 
-    imageModel.loadImage("output/sample-blue-component-expected.png", "expectedImage");
+    imageModel.loadImage("output/sample-blue-component-expected.png",
+            "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -638,7 +648,8 @@ public class ImageModelImplTest {
     Image actualImage = imageModel.getImage("sample-value");
 
 
-    imageModel.loadImage("output/sample-value-expected.png", "expectedImage");
+    imageModel.loadImage("output/sample-value-expected.png",
+            "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -654,7 +665,8 @@ public class ImageModelImplTest {
     Image actualImage = imageModel.getImage("sample-intensity");
 
 
-    imageModel.loadImage("output/sample-intensity-expected.png", "expectedImage");
+    imageModel.loadImage("output/sample-intensity-expected.png",
+            "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -684,7 +696,8 @@ public class ImageModelImplTest {
   public void testPNGRGBSplit() throws IOException {
 
     imageModel.loadImage("input/sample.png", "sample");
-    imageModel.rgbSplit("sample", "sample-red", "sample-green", "sample-blue");
+    imageModel.rgbSplit("sample", "sample-red",
+            "sample-green", "sample-blue");
 
     Image actualImageRed = imageModel.getImage("sample-red");
     Image actualImageGreen = imageModel.getImage("sample-green");
@@ -692,9 +705,12 @@ public class ImageModelImplTest {
 
 
 
-    imageModel.loadImage("output/sample-red-expected.png", "expectedImageRed");
-    imageModel.loadImage("output/sample-green-expected.png", "expectedImageGreen");
-    imageModel.loadImage("output/sample-blue-expected.png", "expectedImageBlue");
+    imageModel.loadImage("output/sample-red-expected.png",
+            "expectedImageRed");
+    imageModel.loadImage("output/sample-green-expected.png",
+            "expectedImageGreen");
+    imageModel.loadImage("output/sample-blue-expected.png",
+            "expectedImageBlue");
 
     Image expectedImageRed = imageModel.getImage("expectedImageRed");
     Image expectedImageGreen = imageModel.getImage("expectedImageGreen");
@@ -714,7 +730,8 @@ public class ImageModelImplTest {
     imageModel.loadImage("input/sample-green.png", "sample-green");
     imageModel.loadImage("input/sample-blue.png", "sample-blue");
 
-    imageModel.rgbCombine("sample-rgb-combine","sample-red", "sample-green", "sample-blue");
+    imageModel.rgbCombine("sample-rgb-combine","sample-red",
+            "sample-green", "sample-blue");
 
     Image actualImage = imageModel.getImage("sample-rgb-combine");
 
@@ -827,7 +844,8 @@ public class ImageModelImplTest {
     imageModel.brightenImage(500, "sample", "sample-brighten");
     Image actualImage = imageModel.getImage("sample-brighten");
 
-    imageModel.loadImage("output/sample-brighten-max-expected.ppm", "expectedImage");
+    imageModel.loadImage("output/sample-brighten-max-expected.ppm",
+            "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -1004,8 +1022,10 @@ public class ImageModelImplTest {
     imageModel.sharpenImage("sample-sharpen3", "sample-sharpen4");
     Image actualImage = imageModel.getImage("sample-sharpen4");
 
-    imageModel.saveImage("output/sample-multiple-sharpen-expected.ppm", "sample-sharpen4");
-    imageModel.loadImage("output/sample-multiple-sharpen-expected.ppm", "expectedImage");
+    imageModel.saveImage("output/sample-multiple-sharpen-expected.ppm",
+            "sample-sharpen4");
+    imageModel.loadImage("output/sample-multiple-sharpen-expected.ppm",
+            "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -1013,7 +1033,4 @@ public class ImageModelImplTest {
     assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
   }
 
-  /**
-   * Memory limit check, image size limit.
-   */
 }

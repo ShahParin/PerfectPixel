@@ -46,7 +46,8 @@ public class ImageModelImpl implements ImageModel {
   @Override
   public void loadImage(String path, String imageName) throws IOException {
     try {
-      String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + path;
+      String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
+              + File.separator + path;
       Image image;
       if (path.contains("ppm")) {
         image = readPPM(pathRelative);
@@ -63,7 +64,8 @@ public class ImageModelImpl implements ImageModel {
 
   @Override
   public void saveImage(String path, String imageName) throws IOException {
-    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images" + File.separator + path;
+    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
+            + File.separator + path;
 
     Image image = images.get(imageName);
     if (image == null) {
@@ -207,7 +209,8 @@ public class ImageModelImpl implements ImageModel {
   }
 
   @Override
-  public void rgbCombine(String newImageName, String redImage, String greenImage, String blueImage) {
+  public void rgbCombine(String newImageName, String redImage, String greenImage,
+                         String blueImage) {
     Image red = images.get(redImage);
     Image green = images.get(greenImage);
     Image blue = images.get(blueImage);

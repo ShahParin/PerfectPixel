@@ -84,7 +84,6 @@ public class ImageUtil {
 
     for (int x = 1; x < height - 1; x++) {
       for (int y = 1; y < width - 1; y++) {
-        float r = 0, g = 0, b = 0;
 
         for (int ky = -1; ky <= 1; ky++) {
           for (int kx = -1; kx <= 1; kx++) {

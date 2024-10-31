@@ -1,11 +1,14 @@
-package testView;
+package testview;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class MockImageViewTest {
+/**
+ * This class is created for testing the View.
+ */
+public class ImageViewTest {
   private MockImageView mockView;
 
   @Before

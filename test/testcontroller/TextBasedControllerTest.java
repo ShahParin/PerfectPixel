@@ -1,11 +1,16 @@
-package testController;
+package testcontroller;
+
 import controller.TextBasedController;
 import org.junit.Before;
 import org.junit.Test;
-import testModel.MockImageModel;
-import testView.MockImageView;
+import testmodel.MockImageModel;
+import testview.MockImageView;
 import java.io.IOException;
 import static org.junit.Assert.assertEquals;
+
+/**
+ * This class is created for testing the Controller.
+ */
 public class TextBasedControllerTest {
 
   private MockImageView mockView;
@@ -25,8 +30,8 @@ public class TextBasedControllerTest {
     controller.execute(command);
 
     // Verify the messages printed to the view
-    String expectedLog = "Loading image from sample.jpg\n" +
-            "Loaded image from sample.jpg\n";
+    String expectedLog = "Loading image from sample.jpg\n"
+            + "Loaded image from sample.jpg\n";
     assertEquals(expectedLog, mockView.getLog());
 
     // Verify the model method calls
@@ -41,8 +46,8 @@ public class TextBasedControllerTest {
     controller.execute(command);
 
     // Verify the messages printed to the view
-    String expectedLog = "Saving image to output.jpg\n" +
-            "Saved image to output.jpg\n";
+    String expectedLog = "Saving image to output.jpg\n"
+            + "Saved image to output.jpg\n";
     assertEquals(expectedLog, mockView.getLog());
 
     // Verify the model method calls
@@ -58,7 +63,8 @@ public class TextBasedControllerTest {
     String expectedViewLog = "Applying Red Component to sample\nApplied Red Component to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "applyRedComponent called with imageName: sample and newImageName: redImage\n";
+    String expectedModelLog =
+            "applyRedComponent called with imageName: sample and newImageName: redImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -67,10 +73,12 @@ public class TextBasedControllerTest {
     String command = "green-component sample greenImage";
     controller.execute(command);
 
-    String expectedViewLog = "Applying Green Component to sample\nApplied Green Component to sample\n";
+    String expectedViewLog =
+            "Applying Green Component to sample\nApplied Green Component to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "applyGreenComponent called with imageName: sample and newImageName: greenImage\n";
+    String expectedModelLog =
+            "applyGreenComponent called with imageName: sample and newImageName: greenImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -79,10 +87,12 @@ public class TextBasedControllerTest {
     String command = "blue-component sample blueImage";
     controller.execute(command);
 
-    String expectedViewLog = "Applying Blue Component to sample\nApplied Blue Component to sample\n";
+    String expectedViewLog =
+            "Applying Blue Component to sample\nApplied Blue Component to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "applyBlueComponent called with imageName: sample and newImageName: blueImage\n";
+    String expectedModelLog =
+            "applyBlueComponent called with imageName: sample and newImageName: blueImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -91,10 +101,12 @@ public class TextBasedControllerTest {
     String command = "value-component sample valueImage";
     controller.execute(command);
 
-    String expectedViewLog = "Applying Value Component to sample\nApplied Value Component to sample\n";
+    String expectedViewLog =
+            "Applying Value Component to sample\nApplied Value Component to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "applyValue called with imageName: sample and newImageName: valueImage\n";
+    String expectedModelLog =
+            "applyValue called with imageName: sample and newImageName: valueImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -103,10 +115,12 @@ public class TextBasedControllerTest {
     String command = "intensity-component sample intensityImage";
     controller.execute(command);
 
-    String expectedViewLog = "Applying Intensity Component to sample\nApplied Intensity Component to sample\n";
+    String expectedViewLog =
+            "Applying Intensity Component to sample\nApplied Intensity Component to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "applyIntensity called with imageName: sample and newImageName: intensityImage\n";
+    String expectedModelLog =
+            "applyIntensity called with imageName: sample and newImageName: intensityImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -115,10 +129,12 @@ public class TextBasedControllerTest {
     String command = "luma-component sample lumaImage";
     controller.execute(command);
 
-    String expectedViewLog = "Applying Luma Component to sample\nApplied Luma Component to sample\n";
+    String expectedViewLog =
+            "Applying Luma Component to sample\nApplied Luma Component to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "applyLuma called with imageName: sample and newImageName: lumaImage\n";
+    String expectedModelLog =
+            "applyLuma called with imageName: sample and newImageName: lumaImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -127,10 +143,12 @@ public class TextBasedControllerTest {
     String command = "horizontal-flip sample flippedImage";
     controller.execute(command);
 
-    String expectedViewLog = "Applying Horizontal Flip to sample\nApplied Horizontal Flip to sample\n";
+    String expectedViewLog = "Applying Horizontal Flip to sample\nApplied Horizontal Flip "
+            + "to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "flipHorizontally called with imageName: sample and newImageName: flippedImage\n";
+    String expectedModelLog = "flipHorizontally called with imageName: sample and newImageName: "
+            +  "flippedImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -142,7 +160,8 @@ public class TextBasedControllerTest {
     String expectedViewLog = "Applying Vertical Flip to sample\nApplied Vertical Flip to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "flipVertically called with imageName: sample and newImageName: flippedImage\n";
+    String expectedModelLog = "flipVertically called with imageName: sample and newImageName: "
+            + "flippedImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -151,10 +170,12 @@ public class TextBasedControllerTest {
     String command = "brighten 10 sample brightImage";
     controller.execute(command);
 
-    String expectedViewLog = "Applying Brighten of 10 to sample\nApplied Brighten of 10 to sample\n";
+    String expectedViewLog = "Applying Brighten of 10 to sample\nApplied Brighten of 10 to"
+            + " sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "brightenImage called with imageName: sample and newImageName: brightImage\n";
+    String expectedModelLog = "brightenImage called with imageName: sample and newImageName: "
+            + "brightImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -166,7 +187,8 @@ public class TextBasedControllerTest {
     String expectedViewLog = "Applying Blur to sample\nApplied Blur to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "blurImage called with imageName: sample and newImageName: blurredImage\n";
+    String expectedModelLog = "blurImage called with imageName: sample and newImageName: "
+            + "blurredImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -178,7 +200,8 @@ public class TextBasedControllerTest {
     String expectedViewLog = "Applying Sharpen to sample\nApplied Sharpen to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "sharpenImage called with imageName: sample and newImageName: sharpenedImage\n";
+    String expectedModelLog = "sharpenImage called with imageName: sample and newImageName: "
+            + "sharpenedImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -190,7 +213,8 @@ public class TextBasedControllerTest {
     String expectedViewLog = "Applying Sepia to sample\nApplied Sepia to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "applySepia called with imageName: sample and newImageName: sepiaImage\n";
+    String expectedModelLog = "applySepia called with imageName: sample and newImageName:"
+            + " sepiaImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -202,7 +226,8 @@ public class TextBasedControllerTest {
     String expectedViewLog = "Applying RGB Split to sample\nApplied RGB Split to sample\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "rgbSplit called with imageName: sample and redImageName: redImage and greenImage: greenImage and blueImage: blueImage\n";
+    String expectedModelLog = "rgbSplit called with imageName: sample and redImageName: "
+            + "redImage and greenImage: greenImage and blueImage: blueImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -211,10 +236,12 @@ public class TextBasedControllerTest {
     String command = "rgb-combine combinedImage redImage greenImage blueImage";
     controller.execute(command);
 
-    String expectedViewLog = "Applying RGB Combine to combinedImage\nApplied RGB Combine to combinedImage\n";
+    String expectedViewLog = "Applying RGB Combine to combinedImage\nApplied RGB Combine"
+            + " to combinedImage\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "rgbCombine called with newImageName: combinedImage and redImage: redImage and greenImage: greenImage and blueImage: blueImage\n";
+    String expectedModelLog = "rgbCombine called with newImageName: combinedImage and "
+            + "redImage: redImage and greenImage: greenImage and blueImage: blueImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -241,12 +268,12 @@ public class TextBasedControllerTest {
   @Test
   public void testScriptExecution() throws IOException {
     controller.runScript("ControllerTestScript.txt");
-    String expectedLog = "Loading image from input/sample.jpg\n" +
-            "Loaded image from input/sample.jpg\n" +
-            "Applying Horizontal Flip to sample\n" +
-            "Applied Horizontal Flip to sample\n" +
-            "Saving image to output/output.jpg\n" +
-            "Saved image to output/output.jpg\n";
+    String expectedLog = "Loading image from input/sample.jpg\n"
+            + "Loaded image from input/sample.jpg\n"
+            + "Applying Horizontal Flip to sample\n"
+            + "Applied Horizontal Flip to sample\n"
+            + "Saving image to output/output.jpg\n"
+            + "Saved image to output/output.jpg\n";
     assertEquals(expectedLog, mockView.getLog());
   }
 }

@@ -26,7 +26,7 @@ public class ImageOperations {
    */
   protected static Image sepia(Image image) {
     double[][] sepiaKernel = new double[][]{{0.393, 0.769, 0.189},
-            {0.349, 0.686, 0.168}, {0.272, 0.534, 0.131}};
+      {0.349, 0.686, 0.168}, {0.272, 0.534, 0.131}};
     return ImageUtil.transformationHelper(image, sepiaKernel);
   }
 
@@ -127,7 +127,7 @@ public class ImageOperations {
    */
   protected static Image blur(Image image) {
     float[][] kernel = {{1 / 16f, 1 / 8f, 1 / 16f}, {1 / 8f, 1 / 4f, 1 / 8f},
-            {1 / 16f, 1 / 8f, 1 / 16f}};
+      {1 / 16f, 1 / 8f, 1 / 16f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
@@ -140,10 +140,9 @@ public class ImageOperations {
    */
   protected static Image sharpen(Image image) {
     float[][] kernel = {{-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f},
-            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
-            {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f},
-            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
-            {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}};
+      {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
+      {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f},
+      {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f}, {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
@@ -209,14 +208,13 @@ public class ImageOperations {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
-    sb.append("P3\n").append(width).append(" ").append(height)
-            .append("\n").append(255).append("\n");
+    sb.append("P3\n").append(width).append(" ").append(height).append("\n")
+            .append(255).append("\n");
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        sb.append(image.getRedChannel()[i][j]).append(" ")
-                .append(image.getGreenChannel()[i][j]).append(" ")
-                .append(image.getBlueChannel()[i][j]).append(" ");
+        sb.append(image.getRedChannel()[i][j]).append(" ").append(image.getGreenChannel()[i][j])
+                .append(" ").append(image.getBlueChannel()[i][j]).append(" ");
       }
       sb.append("\n");
     }
@@ -306,7 +304,8 @@ public class ImageOperations {
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        int newPixelValue = Math.max(thisRedChannel[i][j], Math.max(thisGreenChannel[i][j], thisBlueChannel[i][j]));
+        int newPixelValue = Math.max(thisRedChannel[i][j],
+                Math.max(thisGreenChannel[i][j], thisBlueChannel[i][j]));
 
         newRedChannel[i][j] = newPixelValue;
         newGreenChannel[i][j] = newPixelValue;
@@ -336,7 +335,8 @@ public class ImageOperations {
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        int newPixelIntensity = (thisRedChannel[i][j] + thisGreenChannel[i][j] + thisBlueChannel[i][j]) / 3;
+        int newPixelIntensity = (thisRedChannel[i][j]
+                + thisGreenChannel[i][j] + thisBlueChannel[i][j]) / 3;
 
         newRedChannel[i][j] = newPixelIntensity;
         newGreenChannel[i][j] = newPixelIntensity;
@@ -366,8 +366,8 @@ public class ImageOperations {
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        int newPixelIntensity = (int) (0.2126 * thisRedChannel[i][j]
-                + 0.7152 * thisGreenChannel[i][j] + 0.0722 * thisBlueChannel[i][j]);
+        int newPixelIntensity = (int) (0.2126 * thisRedChannel[i][j] + 0.7152
+                * thisGreenChannel[i][j] + 0.0722 * thisBlueChannel[i][j]);
 
         newRedChannel[i][j] = newPixelIntensity;
         newGreenChannel[i][j] = newPixelIntensity;
@@ -415,11 +415,8 @@ public class ImageOperations {
    * @return returns the red, green, and blue components of the image.
    */
   protected static Image[] splitRGB(Image image) {
-    return new Image[]{
-            extractRedComponent(image),
-            extractGreenComponent(image),
-            extractBlueComponent(image)
-    };
+    return new Image[]{extractRedComponent(image), extractGreenComponent(image),
+            extractBlueComponent(image)};
   }
 
   /**
@@ -430,9 +427,9 @@ public class ImageOperations {
    * @param blueImage  image with the blue component.
    * @return returns the combined image.
    */
-  protected static Image combineRGB(Image redImage, Image greenImage, Image blueImage) {
-    return new Image(redImage.getRedChannel(),
-            greenImage.getGreenChannel(),
+  protected static Image combineRGB(Image redImage, Image greenImage,
+                                    Image blueImage) {
+    return new Image(redImage.getRedChannel(), greenImage.getGreenChannel(),
             blueImage.getBlueChannel());
   }
 }

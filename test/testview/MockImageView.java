@@ -1,7 +1,10 @@
-package testView;
+package testview;
 
 import view.ImageView;
 
+/**
+ * This class is created for implementing mock view for testing the controller.
+ */
 public class MockImageView implements ImageView {
   private final StringBuilder log = new StringBuilder();
 

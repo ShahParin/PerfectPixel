@@ -1,10 +1,13 @@
-package testModel;
+package testmodel;
 
 import java.io.IOException;
 
 import model.Image;
 import model.ImageModel;
 
+/**
+ * This class is created for implementing mock model for testing the controller.
+ */
 public class MockImageModel implements ImageModel {
 
   private final StringBuilder log = new StringBuilder();
@@ -109,14 +112,17 @@ public class MockImageModel implements ImageModel {
   @Override
   public void rgbSplit(String imageName, String redImage, String greenImage, String blueImage) {
     log.append("rgbSplit called with imageName: ").append(imageName)
-            .append(" and redImageName: ").append(redImage).append(" and greenImage: ").append(greenImage).append(" and blueImage: ").append(blueImage).append("\n");
+            .append(" and redImageName: ").append(redImage).append(" and greenImage: ")
+            .append(greenImage).append(" and blueImage: ").append(blueImage).append("\n");
 
   }
 
   @Override
-  public void rgbCombine(String newImageName, String redImage, String greenImage, String blueImage) {
+  public void rgbCombine(String newImageName, String redImage, String greenImage,
+                         String blueImage) {
     log.append("rgbCombine called with newImageName: ").append(newImageName)
-            .append(" and redImage: ").append(redImage).append(" and greenImage: ").append(greenImage).append(" and blueImage: ").append(blueImage).append("\n");
+            .append(" and redImage: ").append(redImage).append(" and greenImage: ")
+            .append(greenImage).append(" and blueImage: ").append(blueImage).append("\n");
 
 
   }
