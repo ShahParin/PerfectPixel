@@ -28,13 +28,22 @@ public class Image {
     this.blueChannel = blueChannel;
   }
 
+  private static int[][] copyArray2D(int[][] originalArray) {
+    int[][] copyArray = new int[originalArray.length][originalArray[0].length];
+    for (int i = 0; i < originalArray.length; i++) {
+      copyArray[i] = originalArray[i].clone();
+    }
+
+    return copyArray;
+  }
+
   /**
    * Getter for Red Channel.
    *
    * @return Red Channel as 2D Array.
    */
   public int[][] getRedChannel() {
-    return redChannel;
+    return copyArray2D(redChannel);
   }
 
   /**
@@ -43,7 +52,7 @@ public class Image {
    * @return Green Channel as 2D Array.
    */
   public int[][] getGreenChannel() {
-    return greenChannel;
+    return copyArray2D(greenChannel);
   }
 
   /**
@@ -52,7 +61,7 @@ public class Image {
    * @return Blue Channel as 2D Array.
    */
   public int[][] getBlueChannel() {
-    return blueChannel;
+    return copyArray2D(blueChannel);
   }
 
   /**

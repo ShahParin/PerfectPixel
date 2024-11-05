@@ -2,8 +2,14 @@ package model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import jdk.jshell.execution.JdiExecutionControl;
 
 import static model.ImageOperations.blur;
 import static model.ImageOperations.brighten;
@@ -226,5 +232,282 @@ public class ImageModelImpl implements ImageModel {
       throw new IllegalArgumentException("Image Not Found: " + imgName);
     }
     return this.images.get(imgName);
+  }
+
+  private List<Double> transform(List<Double> sequence) {
+    List<Double> avg = new ArrayList<>();
+    List<Double> diff = new ArrayList<>();
+
+    for (int i = 0; i < sequence.size(); i += 2) {
+      double thisAvg = (sequence.get(i) + sequence.get(i + 1)) / Math.sqrt(2);
+      double thisDiff = (sequence.get(i) - sequence.get(i + 1)) / Math.sqrt(2);
+
+      avg.add(thisAvg);
+      diff.add(thisDiff);
+    }
+
+    List<Double> result = new ArrayList<>(avg);
+    result.addAll(diff);
+    return result;
+  }
+
+  private List<Double> invert(List<Double> sequence) {
+    List<Double> result = new ArrayList<>();
+    int middle = sequence.size() / 2;
+
+    List<Double> avgSequence = sequence.subList(0, middle);
+    List<Double> diffSequence = sequence.subList(middle, sequence.size());
+
+    for (int i = 0; i < avgSequence.size(); i++) {
+      double thisAvg = (avgSequence.get(i) + diffSequence.get(i)) / Math.sqrt(2);
+      double thisDiff = (avgSequence.get(i) - diffSequence.get(i)) / Math.sqrt(2);
+
+      result.add(thisAvg);
+      result.add(thisDiff);
+    }
+
+    return result;
+  }
+
+//  private List<Double> transformSequence(List<Double> sequence) {
+//    int length = sequence.size();
+//    if (length % 2 != 0) {
+//      sequence.add(0.0);
+//    }
+//
+//    int m = length;
+//    while (m > 1) {
+//      List<Double> transformedSequence = transform(sequence.subList(0, m));
+//
+//      for (int i = 0; i < m; i++) {
+//        sequence.set(i, transformedSequence.get(i));
+//      }
+//
+//      m = m / 2;
+//    }
+//
+//    return sequence;
+//  }
+//
+//  private List<Double> invertSequence(List<Double> sequence) {
+//    int length = sequence.size();
+//    if (length % 2 != 0) {
+//      sequence.add(0.0);
+//    }
+//
+//    int m = 2;
+//    while (m <= length) {
+//      List<Double> invertedSequence = invert(sequence.subList(0, m));
+//
+//      for (int i = 0; i < m; i++) {
+//        sequence.set(i, invertedSequence.get(i));
+//      }
+//
+//      m = m * 2;
+//    }
+//
+//    return sequence;
+//  }
+
+  private static double[][] convertIntToDouble(int[][] intArray) {
+    int rows = intArray.length;
+    int cols = intArray[0].length;
+    double[][] doubleArray = new double[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        doubleArray[i][j] = (double) intArray[i][j];
+      }
+    }
+
+    return doubleArray;
+  }
+
+  private static int[][] convertDoubleToInt(double[][] doubleArray) {
+    int rows = doubleArray.length;
+    int cols = doubleArray[0].length;
+    int[][] intArray = new int[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        intArray[i][j] = (int) doubleArray[i][j]; // Cast double to int (truncation)
+      }
+    }
+
+    return intArray;
+  }
+
+  private double[][] haar(int[][] channel) {
+    int rows = channel.length;
+    int cols = channel[0].length;
+    int size = Math.max(rows, cols);
+
+    int padSize = 1;
+    while (padSize < size) {
+      padSize *= 2;
+    }
+
+    double[][] doubleChannel = convertIntToDouble(channel);
+    double[][] squareArray = new double[padSize][padSize];
+    for (int i = 0; i < rows; i++) {
+      System.arraycopy(doubleChannel[i], 0, squareArray[i], 0, cols);
+    }
+
+    while (padSize > 1) {
+      for (int i = 0; i < padSize; i++) {
+        List<Double> eachRow = new ArrayList<>();
+        for (int j = 0; j < padSize; j++) {
+          eachRow.add(squareArray[i][j]);
+        }
+
+        List<Double> transformedRow = transform(eachRow);
+        for (int j = 0; j < padSize; j++) {
+          squareArray[i][j] = transformedRow.get(j);
+        }
+      }
+
+      for (int j = 0; j < padSize; j++) {
+        List<Double> eachCol = new ArrayList<>();
+        for (int i = 0; i < padSize; i++) {
+          eachCol.add(squareArray[i][j]);
+        }
+
+        List<Double> transformedCol = transform(eachCol);
+        for (int i = 0; i < padSize; i++) {
+          squareArray[i][j] = transformedCol.get(i);
+        }
+      }
+
+      padSize = padSize / 2;
+    }
+
+    double[][] originalChannel = new double[rows][cols];
+    for (int i = 0; i < rows; i++) {
+      System.arraycopy(squareArray[i], 0, originalChannel[i], 0, cols);
+    }
+
+    return originalChannel;
+  }
+
+  private double[][] thresholdChannel(double[][] channel, double percent) {
+    Set<Double> uniqueIntensities = new HashSet<>();
+    for (int i = 0; i < channel.length; i++) {
+      for (int j = 0; j < channel[i].length; j++) {
+        if (channel[i][j] != 0.0) {
+          uniqueIntensities.add(channel[i][j]);
+        }
+      }
+    }
+    double[] sortedIntensities = uniqueIntensities.stream().mapToDouble(Double::doubleValue).toArray();
+
+    double thresholdIntensity;
+    int resetCount = (int) (uniqueIntensities.size() * (percent/100));
+    if (resetCount < 0) {
+      thresholdIntensity = 0;
+    }
+    else {
+      thresholdIntensity = sortedIntensities[resetCount-1];
+    }
+
+    for (int i = 0; i < channel.length; i++) {
+      for (int j = 0; j < channel[i].length; j++) {
+        if (Math.abs(channel[i][j]) < thresholdIntensity) {
+          channel[i][j] = 0.0;
+        }
+      }
+    }
+
+    return channel;
+  }
+
+  public void compressImage(String imageName, String newImageName, double percent) {
+    Image original = images.get(imageName);
+
+    double[][] newRed = haar(original.getRedChannel());
+    double[][] newGreen = haar(original.getGreenChannel());
+    double[][] newBlue = haar(original.getBlueChannel());
+
+    double[][] thresholdRed = thresholdChannel(newRed, percent);
+    double[][] thresholdGreen = thresholdChannel(newGreen, percent);
+    double[][] thresholdBlue = thresholdChannel(newBlue, percent);
+
+    Image result = new Image(convertDoubleToInt(thresholdRed), convertDoubleToInt(thresholdGreen),
+            convertDoubleToInt(thresholdBlue));
+    images.put(newImageName, result);
+  }
+
+  private int[][] invertHaar(int[][] channel) {
+    int rows = channel.length;
+    int cols = channel[0].length;
+    int size = Math.max(rows, cols);
+
+    int padSize = 1;
+    while (padSize < size) {
+      padSize *= 2;
+    }
+
+    double[][] doubleChannel = convertIntToDouble(channel);
+    double[][] squareArray = new double[padSize][padSize];
+    for (int i = 0; i < rows; i++) {
+      System.arraycopy(doubleChannel[i], 0, squareArray[i], 0, cols);
+    }
+
+    int counter = 2;
+    while (counter <= padSize) {
+      for (int j = 0; j < padSize; j++) {
+        List<Double> eachCol = new ArrayList<>();
+        for (int i = 0; i < counter; i++) {
+          eachCol.add(squareArray[i][j]);
+        }
+        List<Double> invertedCol = invert(eachCol);
+        for (int i = 0; i < counter; i++) {
+          squareArray[i][j] = invertedCol.get(i);
+        }
+      }
+
+      for (int i = 0; i < padSize; i++) {
+        List<Double> eachRow = new ArrayList<>();
+        for (int j = 0; j < counter; j++) {
+          eachRow.add(squareArray[i][j]);
+        }
+
+        List<Double> invertedRow = invert(eachRow);
+        for (int j = 0; j < counter; j++) {
+          squareArray[i][j] = invertedRow.get(j);
+        }
+      }
+
+      counter = counter * 2;
+    }
+
+    double[][] originalChannel = new double[rows][cols];
+    for (int i = 0; i < rows; i++) {
+      System.arraycopy(squareArray[i], 0, originalChannel[i], 0, cols);
+    }
+
+    return convertDoubleToInt(originalChannel);
+  }
+
+  public void decompressImage(String imageName, String newImageName) {
+    Image original = images.get(imageName);
+
+    int[][] invertRed = invertHaar(original.getRedChannel());
+    int[][] invertGreen = invertHaar(original.getGreenChannel());
+    int[][] invertBlue = invertHaar(original.getBlueChannel());
+
+    Image inverted = new Image(invertRed, invertGreen, invertBlue);
+    images.put(newImageName, inverted);
+  }
+
+  public static void main(String[] args) throws IOException {
+    ImageModelImpl imageModel = new ImageModelImpl();
+
+    imageModel.loadImage("output\\samp.jpg", "original");
+
+    imageModel.compressImage("original", "Haar",10);
+    imageModel.saveImage("output\\sampleHaar.ppm", "Haar");
+
+    imageModel.decompressImage("Haar", "Invert");
+    imageModel.saveImage("output\\sampleHaarInvert.ppm", "Invert");
   }
 }
