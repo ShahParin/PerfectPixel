@@ -141,11 +141,39 @@ public class TextBasedController implements ImageController {
         view.printStatements("Applied Sharpen to " + args[1]);
         break;
 
+      case "histogram-vis":
+        view.printStatements("Applying Histogram Visualization to " + args[1]);
+        imageModel.applyHistogramVisualization(args[1], args[2]);
+        view.printStatements("Applied Histogram Visualization to " + args[1]);
+        break;
+
+      case "color-correct":
+        view.printStatements("Applying Color Correction to " + args[1]);
+        imageModel.applyColorCorrection(args[1], args[2]);
+        view.printStatements("Applied Color Correction to " + args[1]);
+        break;
+
+      case "levels-adjust":
+        view.printStatements("Applying Level Adjustment to " + args[1]);
+        int black = Integer.parseInt(args[1]);
+        int mid = Integer.parseInt(args[2]);
+        int white = Integer.parseInt(args[3]);
+        imageModel.applyLevelsAdjustment(black, mid, white,args[4], args[5]);
+        view.printStatements("Applied Level Adjustment to " + args[1]);
+        break;
+
+      case "blur-per":
+        view.printStatements("Applying Blur Percent to " + args[1]);
+        imageModel.blurImageSplit(args[1],args[2], Double.parseDouble(args[3]));
+        view.printStatements("Applied Blur Percent to " + args[1]);
+        break;
+
       case "run":
         view.printStatements("Executing commands in " + args[1]);
         runScript(args[1]);
         view.printStatements("Executed commands in " + args[1]);
         break;
+
 
       default:
         view.printStatements("Invalid command: " + command);

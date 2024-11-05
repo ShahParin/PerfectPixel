@@ -1,11 +1,13 @@
 package model;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -432,4 +434,251 @@ public class ImageOperations {
     return new Image(redImage.getRedChannel(), greenImage.getGreenChannel(),
             blueImage.getBlueChannel());
   }
+
+
+  protected static Image histogramVisualization(Image image) {
+    int[][] redChannel = image.getRedChannel();
+    int[][] greenChannel = image.getGreenChannel();
+    int[][] blueChannel = image.getBlueChannel();
+
+    int width = getDimensions(image)[1];
+    int height = getDimensions(image)[0];
+
+    int[] redHist = new int[256];
+    int[] greenHist = new int[256];
+    int[] blueHist = new int[256];
+
+    // Populate histogram arrays
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        redHist[redChannel[i][j]]++;
+        greenHist[greenChannel[i][j]]++;
+        blueHist[blueChannel[i][j]]++;
+      }
+    }
+
+    // Find the maximum frequency across all histograms for consistent scaling
+    int max = Math.max(Arrays.stream(redHist).max().orElse(1),
+            Math.max(Arrays.stream(greenHist).max().orElse(1),
+                    Arrays.stream(blueHist).max().orElse(1)));
+
+    // Create BufferedImage for histogram visualization
+    BufferedImage histImage = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
+    Graphics2D g = histImage.createGraphics();
+    g.setColor(Color.WHITE);
+    g.fillRect(0, 0, 256, 256);
+
+    // Draw histograms for each channel
+    drawHistogramLine(g, redHist, Color.RED,max);
+    drawHistogramLine(g, greenHist, Color.GREEN,max);
+    drawHistogramLine(g, blueHist, Color.BLUE,max);
+
+    g.dispose();
+
+    // Convert the BufferedImage to Image and return it
+    return bufferedImageToImage(histImage);
+  }
+
+  // Helper function to convert BufferedImage to Image
+  private static Image bufferedImageToImage(BufferedImage bufferedImage) {
+    int width = bufferedImage.getWidth();
+    int height = bufferedImage.getHeight();
+    int[][] redChannel = new int[height][width];
+    int[][] greenChannel = new int[height][width];
+    int[][] blueChannel = new int[height][width];
+
+    // Extract RGB values and populate channels
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int rgb = bufferedImage.getRGB(x, y);
+        redChannel[y][x] = (rgb >> 16) & 0xFF;   // Extract red component
+        greenChannel[y][x] = (rgb >> 8) & 0xFF;  // Extract green component
+        blueChannel[y][x] = rgb & 0xFF;           // Extract blue component
+      }
+    }
+    return new Image(redChannel, greenChannel, blueChannel); // Create Image from channels
+  }
+
+  // Helper function for drawing histogram lines
+  private static void drawHistogramLine(Graphics2D g, int[] hist, Color color, int max) {
+    g.setColor(color);
+//    int max = Arrays.stream(hist).max().orElse(1);  // Max frequency for scaling
+
+    for (int i = 0; i < hist.length - 1; i++) {
+      int y1 = 256 - (hist[i] * 256 / max);       // Scale frequency to image height
+      int y2 = 256 - (hist[i + 1] * 256 / max);
+//      g.drawLine(i, y1, i + 1, y2);
+      g.drawLine(i, Math.max(0, y1), i + 1, Math.max(0, y2));
+
+    }
+  }
+
+  protected static Image colorCorrect(Image image) {
+    int[][] redChannel = image.getRedChannel();
+    int[][] greenChannel = image.getGreenChannel();
+    int[][] blueChannel = image.getBlueChannel();
+
+    // Find the weighted average peak of each channel in the range 10–245
+    int redPeak = findWeightedPeak(redChannel, 10, 245);
+    int greenPeak = findWeightedPeak(greenChannel, 10, 245);
+    int bluePeak = findWeightedPeak(blueChannel, 10, 245);
+
+    // Calculate the average peak value for alignment
+    int avgPeak = (redPeak + greenPeak + bluePeak) / 3;
+
+    // Calculate offsets to align each peak with the average, scaling down to prevent over-adjustment
+    // Calculate scaled offsets to avoid over-adjustment
+    int redOffset = (avgPeak - redPeak) / 2;    // Scale down by dividing by 2
+    int greenOffset = (avgPeak - greenPeak) / 2;
+    int blueOffset = (avgPeak - bluePeak) / 2;
+
+
+    // Adjust the image colors using the scaled offsets
+    Image correctedImage = adjustImageColors(image, redOffset, greenOffset, blueOffset);
+
+    // Create and return the histogram image for the corrected image
+    return histogramVisualization(correctedImage);
+  }
+
+  // Helper function to find a weighted peak intensity in a specific range (10–245)
+  private static int findWeightedPeak(int[][] channel, int min, int max) {
+    int[] histogram = new int[256];
+    int total = 0;
+    int weightedSum = 0;
+
+    // Populate histogram for the color channel within the specified range
+    for (int[] row : channel) {
+      for (int value : row) {
+        if (value >= min && value <= max) {
+          histogram[value]++;
+          weightedSum += value * histogram[value];
+          total += histogram[value];
+        }
+      }
+    }
+
+    // Calculate the weighted average of the histogram within the range as the "peak"
+    return total == 0 ? min : weightedSum / total;
+  }
+
+  // Adjust color channels based on scaled offsets
+  private static Image adjustImageColors(Image image, int redOffset, int greenOffset, int blueOffset) {
+    int width = getDimensions(image)[1];
+    int height = getDimensions(image)[0];
+
+    int[][] newRedChannel = new int[height][width];
+    int[][] newGreenChannel = new int[height][width];
+    int[][] newBlueChannel = new int[height][width];
+
+    // Adjust each pixel's color component, applying offsets and clamping
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        newRedChannel[i][j] = clamp(image.getRedChannel()[i][j] + redOffset);
+        newGreenChannel[i][j] = clamp(image.getGreenChannel()[i][j] + greenOffset);
+        newBlueChannel[i][j] = clamp(image.getBlueChannel()[i][j] + blueOffset);
+      }
+    }
+
+    // Return the new image with adjusted color channels
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
+  }
+
+
+  protected static Image levelsAdjust(Image image, int black, int mid, int white) {
+    // Check if black, mid, white values are within 0–255 and ordered correctly
+    if (black >= mid || mid >= white || black < 0 || white > 255) {
+      throw new IllegalArgumentException("Invalid levels adjustment values.");
+    }
+
+    double[] curve = createLevelsCurve(black, mid, white);
+
+    int[][] redChannel = adjustChannelWithCurve(image.getRedChannel(), curve);
+    int[][] greenChannel = adjustChannelWithCurve(image.getGreenChannel(), curve);
+    int[][] blueChannel = adjustChannelWithCurve(image.getBlueChannel(), curve);
+
+    return histogramVisualization(new Image(redChannel, greenChannel, blueChannel));
+  }
+
+  // Helper function to create a quadratic curve for levels adjustment
+  private static double[] createLevelsCurve(int black, int mid, int white) {
+    double[] curve = new double[256];
+
+    double slope1 = 128.0 / (mid - black);
+    double slope2 = 127.0 / (white - mid);
+
+    for (int i = 0; i < 256; i++) {
+      if (i < black) {
+        curve[i] = 0;
+      } else if (i <= mid) {
+        curve[i] = slope1 * (i - black);
+      } else if (i <= white) {
+        curve[i] = 128 + slope2 * (i - mid);
+      } else {
+        curve[i] = 255;
+      }
+    }
+
+    return curve;
+  }
+
+  // Helper function to apply levels curve to a channel
+  private static int[][] adjustChannelWithCurve(int[][] channel, double[] curve) {
+    int height = channel.length;
+    int width = channel[0].length;
+    int[][] adjustedChannel = new int[height][width];
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        adjustedChannel[i][j] = clamp(curve[channel[i][j]]);
+      }
+    }
+    return adjustedChannel;
+  }
+
+  // Clamping function to ensure values stay within the valid range (0–255)
+  private static int clamp(double value) {
+    return (int) Math.max(0, Math.min(255, value));
+  }
+
+  // Applies blur effect up to a specified percentage of the image width.
+  protected static Image applyBlurSplit(Image original, double percentage) {
+    int width = getDimensions(original)[1];
+    int height = getDimensions(original)[0];
+
+    // Calculate the split line based on the given percentage
+    int splitLine = (int) (width * (percentage / 100));
+
+    // Create the blurred version of the original image
+    Image blurredImage = blur(original);
+
+    // Initialize new channels for the output image
+    int[][] newRedChannel = new int[height][width];
+    int[][] newGreenChannel = new int[height][width];
+    int[][] newBlueChannel = new int[height][width];
+
+    // Apply the blur effect up to the split line, and keep the original pixels beyond it
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        if (j < splitLine) {
+          // Apply blurred values on the left side of the split line
+          newRedChannel[i][j] = blurredImage.getRedChannel()[i][j];
+          newGreenChannel[i][j] = blurredImage.getGreenChannel()[i][j];
+          newBlueChannel[i][j] = blurredImage.getBlueChannel()[i][j];
+        } else {
+          // Keep original values on the right side of the split line
+          newRedChannel[i][j] = original.getRedChannel()[i][j];
+          newGreenChannel[i][j] = original.getGreenChannel()[i][j];
+          newBlueChannel[i][j] = original.getBlueChannel()[i][j];
+        }
+      }
+    }
+
+    // Create and return the new image with the split blur effect applied
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
+  }
+
+
+
+
+
 }

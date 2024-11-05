@@ -132,6 +132,26 @@ public class MockImageModel implements ImageModel {
     return null;
   }
 
+  @Override
+  public void applyHistogramVisualization(String imageName, String newImageName) {
+
+  }
+
+  @Override
+  public void applyColorCorrection(String imageName, String newImageName) {
+
+  }
+
+  @Override
+  public void applyLevelsAdjustment(int black, int mid, int white, String imageName, String newImageName) {
+
+  }
+
+  @Override
+  public void blurImageSplit(String imageName, String newImageName, double percentage) {
+
+  }
+
   public String getLog() {
     return log.toString();
   }

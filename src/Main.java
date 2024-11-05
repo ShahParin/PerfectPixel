@@ -24,8 +24,10 @@ public class Main {
       String scriptPath = new File(System.getProperty("user.dir")) + File.separator + args[0];
       controller.runScript(scriptPath);
     } else {
+//      String scriptPath = new File(System.getProperty("user.dir")) + File.separator
+//              + "DefaultScript.txt";
       String scriptPath = new File(System.getProperty("user.dir")) + File.separator
-              + "DefaultScript.txt";
+              + "RunScript2.txt";
       controller.runScript(scriptPath);
     }
   }

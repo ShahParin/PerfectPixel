@@ -10,12 +10,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static model.ImageOperations.applyBlurSplit;
 import static model.ImageOperations.blur;
 import static model.ImageOperations.brighten;
+import static model.ImageOperations.colorCorrect;
 import static model.ImageOperations.combineRGB;
 import static model.ImageOperations.extractBlueComponent;
 import static model.ImageOperations.extractGreenComponent;
 import static model.ImageOperations.extractRedComponent;
+import static model.ImageOperations.histogramVisualization;
+import static model.ImageOperations.levelsAdjust;
 import static model.ImageOperations.pixelIntensity;
 import static model.ImageOperations.pixelLuma;
 import static model.ImageOperations.pixelValue;
@@ -492,5 +496,48 @@ public class ImageModelImpl implements ImageModel {
 
     Image inverted = new Image(invertRed, invertGreen, invertBlue);
     images.put(newImageName, inverted);
+  }
+
+
+  @Override
+  public void applyHistogramVisualization(String imageName, String newImageName) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image histogramVisualization = histogramVisualization(original);
+//      histogramVisualization.clamp();
+
+      images.put(newImageName, histogramVisualization);
+    }
+  }
+
+  @Override
+  public void applyColorCorrection(String imageName, String newImageName) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image colorCorrection = colorCorrect(original);
+
+      images.put(newImageName, colorCorrection);
+
+    }
+  }
+
+  @Override
+  public void applyLevelsAdjustment(int black, int mid, int white, String imageName, String newImageName) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image levelsAdjust = levelsAdjust(original, black, mid, white);
+
+      images.put(newImageName, levelsAdjust);
+    }
+  }
+
+  @Override
+  public void blurImageSplit(String imageName, String newImageName, double percentage) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image blurredImagePercentage = applyBlurSplit(original, percentage);
+      blurredImagePercentage.clamp();
+      images.put(newImageName, blurredImagePercentage);
+    }
   }
 }
