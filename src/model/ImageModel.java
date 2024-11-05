@@ -153,11 +153,5 @@ public interface ImageModel {
   Image getImage(String imgName);
 
 
-  void applyHistogramVisualization(String imageName, String newImageName);
 
-  void applyColorCorrection(String imageName, String newImageName);
-
-  void applyLevelsAdjustment(int black, int mid, int white, String imageName, String newImageName);
-
-  void blurImageSplit(String imageName, String newImageName, double percentage);
 }

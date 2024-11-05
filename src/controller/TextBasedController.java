@@ -3,198 +3,93 @@ package controller;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import model.ImageModel;
+import controller.commands.BlueComponentCommand;
+import controller.commands.BlurCommand;
+import controller.commands.BlurPercentageCommand;
+import controller.commands.BrightenCommand;
+import controller.commands.ColorCorrectCommand;
+import controller.commands.Command;
+import controller.commands.CommandFactory;
+import controller.commands.CompressCommand;
+import controller.commands.GreenComponentCommand;
+import controller.commands.HistogramVisualizationCommand;
+import controller.commands.HorizontalFlipCommand;
+import controller.commands.IntensityComponentCommand;
+import controller.commands.LevelsAdjustCommand;
+import controller.commands.LoadCommand;
+import controller.commands.LumaComponentCommand;
+import controller.commands.RGBCombineCommand;
+import controller.commands.RGBSplitCommand;
+import controller.commands.RedComponentCommand;
+import controller.commands.SaveCommand;
+import controller.commands.SepiaCommand;
+import controller.commands.SharpenCommand;
+import controller.commands.ValueComponentCommand;
+import controller.commands.VerticalFlipCommand;
+import model.ImageModelV2;
 import view.ImageView;
 
-/**
- * This class represents the Controller, acting as the mediator between the inputs from the View and
- * the different operations to be preformed from the Model.
- */
 public class TextBasedController implements ImageController {
-  private final ImageModel imageModel;
+  //  private final ImageModel imageModel;
+  private final ImageModelV2 imageModel;
   private final ImageView view;
+  private final Map<String, CommandFactory> commandMap;
 
-  /**
-   * A constructor to initialize the Model and View objects.
-   *
-   * @param imageModel the ImageModel object.
-   * @param view       the View object.
-   */
-  public TextBasedController(ImageModel imageModel, ImageView view) {
+  public TextBasedController(ImageModelV2 imageModel, ImageView view) {
     this.imageModel = imageModel;
     this.view = view;
+    this.commandMap = new HashMap<>();
+    initializeCommands();
   }
 
-  /**
-   * THis function calls the appropriate operation from the Model as per the inputs provided.
-   *
-   * @param command the command/operation to execute.
-   * @throws IOException throws exception if file not found.
-   */
+  private void initializeCommands() {
+    commandMap.put("load", args -> new LoadCommand(imageModel, view, args[1], args[2]));
+    commandMap.put("save", args -> new SaveCommand(imageModel, args[1], args[2]));
+    commandMap.put("red-component", args -> new RedComponentCommand(imageModel, args[1], args[2]));
+    commandMap.put("blue-component", args -> new BlueComponentCommand(imageModel, args[1], args[2]));
+    commandMap.put("green-component", args -> new GreenComponentCommand(imageModel, args[1], args[2]));
+    commandMap.put("value-component", args -> new ValueComponentCommand(imageModel, view, args[1], args[2]));
+    commandMap.put("intensity-component", args -> new IntensityComponentCommand(imageModel, args[1], args[2]));
+    commandMap.put("luma-component", args -> new LumaComponentCommand(imageModel, args[1], args[2]));
+    commandMap.put("rgb-split", args -> new RGBSplitCommand(imageModel, args[1], args[2], args[3], args[4]));
+    commandMap.put("rgb-combine", args -> new RGBCombineCommand(imageModel, args[1], args[2], args[3], args[4]));
+    commandMap.put("brighten", args -> new BrightenCommand(imageModel, Integer.parseInt(args[1]), args[2], args[3]));
+    commandMap.put("horizontal-flip", args -> new HorizontalFlipCommand(imageModel, args[1], args[2]));
+    commandMap.put("vertical-flip", args -> new VerticalFlipCommand(imageModel, args[1], args[2]));
+    commandMap.put("sepia", args -> new SepiaCommand(imageModel, args[1], args[2]));
+    commandMap.put("blur", args -> new BlurCommand(imageModel, args[1], args[2]));
+    commandMap.put("sharpen", args -> new SharpenCommand(imageModel, args[1], args[2]));
+    commandMap.put("histogram-vis", args -> new HistogramVisualizationCommand(imageModel, args[1], args[2]));
+    commandMap.put("color-correct", args -> new ColorCorrectCommand(imageModel, args[1], args[2]));
+    commandMap.put("levels-adjust", args -> new LevelsAdjustCommand(imageModel, Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), args[4], args[5]));
+    commandMap.put("blur-per", args -> new BlurPercentageCommand(imageModel, args[1], args[2], Double.parseDouble(args[3])));
+    commandMap.put("compress", args -> new CompressCommand(imageModel, Double.parseDouble(args[1]), args[2], args[3]));
+  }
+
   public void execute(String command) throws IOException {
-    String[] args = command.split(" ");
+    String[] args = command.trim().split("\\s+");
+    CommandFactory factory = commandMap.get(args[0]);
 
-    switch (args[0]) {
-      case "load":
-        try {
-          view.printStatements("Loading image from " + args[1]);
-          imageModel.loadImage(args[1], args[2]);
-          view.printStatements("Loaded image from " + args[1]);
-          break;
-        } catch (IOException e) {
-          throw new IOException(e);
-        }
-
-      case "save":
-        try {
-          view.printStatements("Saving image to " + args[1]);
-          imageModel.saveImage(args[1], args[2]);
-          view.printStatements("Saved image to " + args[1]);
-          break;
-        } catch (IOException e) {
-          throw new IOException(e);
-        }
-
-      case "red-component":
-        view.printStatements("Applying Red Component to " + args[1]);
-        imageModel.applyRedComponent(args[1], args[2]);
-        view.printStatements("Applied Red Component to " + args[1]);
-        break;
-
-      case "blue-component":
-        view.printStatements("Applying Blue Component to " + args[1]);
-        imageModel.applyBlueComponent(args[1], args[2]);
-        view.printStatements("Applied Blue Component to " + args[1]);
-        break;
-
-      case "green-component":
-        view.printStatements("Applying Green Component to " + args[1]);
-        imageModel.applyGreenComponent(args[1], args[2]);
-        view.printStatements("Applied Green Component to " + args[1]);
-        break;
-
-      case "value-component":
-        view.printStatements("Applying Value Component to " + args[1]);
-        imageModel.applyValue(args[1], args[2]);
-        view.printStatements("Applied Value Component to " + args[1]);
-        break;
-
-      case "intensity-component":
-        view.printStatements("Applying Intensity Component to " + args[1]);
-        imageModel.applyIntensity(args[1], args[2]);
-        view.printStatements("Applied Intensity Component to " + args[1]);
-        break;
-
-      case "luma-component":
-        view.printStatements("Applying Luma Component to " + args[1]);
-        imageModel.applyLuma(args[1], args[2]);
-        view.printStatements("Applied Luma Component to " + args[1]);
-        break;
-
-      case "rgb-split":
-        view.printStatements("Applying RGB Split to " + args[1]);
-        imageModel.rgbSplit(args[1], args[2], args[3], args[4]);
-        view.printStatements("Applied RGB Split to " + args[1]);
-        break;
-
-      case "rgb-combine":
-        view.printStatements("Applying RGB Combine to " + args[1]);
-        imageModel.rgbCombine(args[1], args[2], args[3], args[4]);
-        view.printStatements("Applied RGB Combine to " + args[1]);
-        break;
-
-      case "brighten":
-        view.printStatements("Applying Brighten of " + args[1] + " to " + args[2]);
-        int inc = Integer.parseInt(args[1]);
-        imageModel.brightenImage(inc, args[2], args[3]);
-        view.printStatements("Applied Brighten of " + args[1] + " to " + args[2]);
-        break;
-
-      case "horizontal-flip":
-        view.printStatements("Applying Horizontal Flip to " + args[1]);
-        imageModel.flipHorizontally(args[1], args[2]);
-        view.printStatements("Applied Horizontal Flip to " + args[1]);
-        break;
-
-      case "vertical-flip":
-        view.printStatements("Applying Vertical Flip to " + args[1]);
-        imageModel.flipVertically(args[1], args[2]);
-        view.printStatements("Applied Vertical Flip to " + args[1]);
-        break;
-
-      case "sepia":
-        view.printStatements("Applying Sepia to " + args[1]);
-        imageModel.applySepia(args[1], args[2]);
-        view.printStatements("Applied Sepia to " + args[1]);
-        break;
-
-      case "blur":
-        view.printStatements("Applying Blur to " + args[1]);
-        imageModel.blurImage(args[1], args[2]);
-        view.printStatements("Applied Blur to " + args[1]);
-        break;
-
-      case "sharpen":
-        view.printStatements("Applying Sharpen to " + args[1]);
-        imageModel.sharpenImage(args[1], args[2]);
-        view.printStatements("Applied Sharpen to " + args[1]);
-        break;
-
-      case "histogram-vis":
-        view.printStatements("Applying Histogram Visualization to " + args[1]);
-        imageModel.applyHistogramVisualization(args[1], args[2]);
-        view.printStatements("Applied Histogram Visualization to " + args[1]);
-        break;
-
-      case "color-correct":
-        view.printStatements("Applying Color Correction to " + args[1]);
-        imageModel.applyColorCorrection(args[1], args[2]);
-        view.printStatements("Applied Color Correction to " + args[1]);
-        break;
-
-      case "levels-adjust":
-        view.printStatements("Applying Level Adjustment to " + args[1]);
-        int black = Integer.parseInt(args[1]);
-        int mid = Integer.parseInt(args[2]);
-        int white = Integer.parseInt(args[3]);
-        imageModel.applyLevelsAdjustment(black, mid, white,args[4], args[5]);
-        view.printStatements("Applied Level Adjustment to " + args[1]);
-        break;
-
-      case "blur-per":
-        view.printStatements("Applying Blur Percent to " + args[1]);
-        imageModel.blurImageSplit(args[1],args[2], Double.parseDouble(args[3]));
-        view.printStatements("Applied Blur Percent to " + args[1]);
-        break;
-
-      case "run":
-        view.printStatements("Executing commands in " + args[1]);
-        runScript(args[1]);
-        view.printStatements("Executed commands in " + args[1]);
-        break;
-
-
-      default:
-        view.printStatements("Invalid command: " + command);
+    if (factory != null) {
+      Command cmd = factory.create(args);
+      cmd.execute();
+    } else {
+      view.printStatements("Invalid command: " + command);
     }
   }
 
-  /**
-   * A function to accept the inputs from the view or user.
-   *
-   * @param scriptFilePath contains the location of the list of commands.
-   */
   @Override
   public void runScript(String scriptFilePath) {
     try (BufferedReader reader = new BufferedReader(new FileReader(scriptFilePath))) {
-
       String command;
       while ((command = reader.readLine()) != null) {
         command = command.trim();
         if (!command.startsWith("#") && !command.isEmpty()) {  // Ignore comments
           try {
-            execute(command.trim());
+            execute(command);
           } catch (Exception e) {
             System.err.println("Error executing command \"" + command + "\": " + e.getMessage());
           }
@@ -205,5 +100,3 @@ public class TextBasedController implements ImageController {
     }
   }
 }
-
-

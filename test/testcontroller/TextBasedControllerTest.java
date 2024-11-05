@@ -3,7 +3,7 @@ package testcontroller;
 import controller.TextBasedController;
 import org.junit.Before;
 import org.junit.Test;
-import testmodel.MockImageModel;
+import testmodel.MockImageModelV2;
 import testview.MockImageView;
 import java.io.IOException;
 import static org.junit.Assert.assertEquals;
@@ -14,13 +14,14 @@ import static org.junit.Assert.assertEquals;
 public class TextBasedControllerTest {
 
   private MockImageView mockView;
-  private MockImageModel mockModel;
+//  private MockImageModel mockModel;
+  private MockImageModelV2 mockModel;
   private TextBasedController controller;
 
   @Before
   public void setUp() {
     mockView = new MockImageView();
-    mockModel = new MockImageModel();
+    mockModel = new MockImageModelV2();
     controller = new TextBasedController(mockModel, mockView);
   }
 

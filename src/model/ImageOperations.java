@@ -7,8 +7,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -435,6 +439,199 @@ public class ImageOperations {
             blueImage.getBlueChannel());
   }
 
+  private static List<Double> transform(List<Double> sequence) {
+    List<Double> avg = new ArrayList<>();
+    List<Double> diff = new ArrayList<>();
+
+    for (int i = 0; i < sequence.size(); i += 2) {
+      double thisAvg = (sequence.get(i) + sequence.get(i + 1)) / Math.sqrt(2);
+      double thisDiff = (sequence.get(i) - sequence.get(i + 1)) / Math.sqrt(2);
+
+      avg.add(thisAvg);
+      diff.add(thisDiff);
+    }
+
+    List<Double> result = new ArrayList<>(avg);
+    result.addAll(diff);
+    return result;
+  }
+
+  private static List<Double> invert(List<Double> sequence) {
+    List<Double> result = new ArrayList<>();
+    int middle = sequence.size() / 2;
+
+    List<Double> avgSequence = sequence.subList(0, middle);
+    List<Double> diffSequence = sequence.subList(middle, sequence.size());
+
+    for (int i = 0; i < avgSequence.size(); i++) {
+      double thisAvg = (avgSequence.get(i) + diffSequence.get(i)) / Math.sqrt(2);
+      double thisDiff = (avgSequence.get(i) - diffSequence.get(i)) / Math.sqrt(2);
+
+      result.add(thisAvg);
+      result.add(thisDiff);
+    }
+
+    return result;
+  }
+
+  private static double[][] convertIntToDouble(int[][] intArray) {
+    int rows = intArray.length;
+    int cols = intArray[0].length;
+    double[][] doubleArray = new double[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        doubleArray[i][j] = (double) intArray[i][j];
+      }
+    }
+
+    return doubleArray;
+  }
+
+  private static int[][] convertDoubleToInt(double[][] doubleArray) {
+    int rows = doubleArray.length;
+    int cols = doubleArray[0].length;
+    int[][] intArray = new int[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        intArray[i][j] = (int) doubleArray[i][j]; // Cast double to int (truncation)
+      }
+    }
+
+    return intArray;
+  }
+
+  protected static int[][] thresholdChannel(double[][] channel, double percent) {
+    Set<Double> uniqueIntensities = new HashSet<>();
+    for (int i = 0; i < channel.length; i++) {
+      for (int j = 0; j < channel[i].length; j++) {
+        if (channel[i][j] != 0.0) {
+          uniqueIntensities.add(channel[i][j]);
+        }
+      }
+    }
+    double[] sortedIntensities = uniqueIntensities.stream().mapToDouble(Double::doubleValue).toArray();
+    Arrays.sort(sortedIntensities);
+
+    double thresholdIntensity;
+    int resetCount = (int) (sortedIntensities.length * (percent / 100));
+    if (resetCount < 1) {
+      thresholdIntensity = 0;
+    } else {
+      thresholdIntensity = sortedIntensities[resetCount - 1];
+    }
+
+    for (int i = 0; i < channel.length; i++) {
+      for (int j = 0; j < channel[i].length; j++) {
+        if (Math.abs(channel[i][j]) < thresholdIntensity) {
+          channel[i][j] = 0.0;
+        }
+      }
+    }
+
+    return convertDoubleToInt(channel);
+  }
+
+  protected static double[][] haar(int[][] channel) {
+    int rows = channel.length;
+    int cols = channel[0].length;
+    int size = Math.max(rows, cols);
+
+    int padSize = 1;
+    while (padSize < size) {
+      padSize *= 2;
+    }
+
+    double[][] doubleChannel = convertIntToDouble(channel);
+    double[][] squareArray = new double[padSize][padSize];
+    for (int i = 0; i < rows; i++) {
+      System.arraycopy(doubleChannel[i], 0, squareArray[i], 0, cols);
+    }
+
+    int currentPadSize = padSize;
+    while (currentPadSize > 1) {
+      for (int i = 0; i < currentPadSize; i++) {
+        List<Double> eachRow = new ArrayList<>();
+        for (int j = 0; j < currentPadSize; j++) {
+          eachRow.add(squareArray[i][j]);
+        }
+        List<Double> transformedRow = transform(eachRow);
+        for (int j = 0; j < currentPadSize; j++) {
+          squareArray[i][j] = transformedRow.get(j);
+        }
+      }
+
+      for (int j = 0; j < currentPadSize; j++) {
+        List<Double> eachCol = new ArrayList<>();
+        for (int i = 0; i < currentPadSize; i++) {
+          eachCol.add(squareArray[i][j]);
+        }
+        List<Double> transformedCol = transform(eachCol);
+        for (int i = 0; i < currentPadSize; i++) {
+          squareArray[i][j] = transformedCol.get(i);
+        }
+      }
+
+      currentPadSize /= 2;
+    }
+
+    double[][] originalChannel = new double[rows][cols];
+    for (int i = 0; i < rows; i++) {
+      System.arraycopy(squareArray[i], 0, originalChannel[i], 0, cols);
+    }
+    return originalChannel;
+  }
+
+  protected static int[][] invertHaar(int[][] channel) {
+    int rows = channel.length;
+    int cols = channel[0].length;
+    int size = Math.max(rows, cols);
+
+    int padSize = 1;
+    while (padSize < size) {
+      padSize *= 2;
+    }
+
+    double[][] doubleChannel = convertIntToDouble(channel);
+    double[][] squareArray = new double[padSize][padSize];
+    for (int i = 0; i < rows; i++) {
+      System.arraycopy(doubleChannel[i], 0, squareArray[i], 0, cols);
+    }
+
+    int currentPadSize = 2;
+    while (currentPadSize <= padSize) {
+      for (int j = 0; j < currentPadSize; j++) {
+        List<Double> eachCol = new ArrayList<>();
+        for (int i = 0; i < currentPadSize; i++) {
+          eachCol.add(squareArray[i][j]);
+        }
+        List<Double> invertedCol = invert(eachCol);
+        for (int i = 0; i < currentPadSize; i++) {
+          squareArray[i][j] = invertedCol.get(i);
+        }
+      }
+
+      for (int i = 0; i < currentPadSize; i++) {
+        List<Double> eachRow = new ArrayList<>();
+        for (int j = 0; j < currentPadSize; j++) {
+          eachRow.add(squareArray[i][j]);
+        }
+        List<Double> invertedRow = invert(eachRow);
+        for (int j = 0; j < currentPadSize; j++) {
+          squareArray[i][j] = invertedRow.get(j);
+        }
+      }
+
+      currentPadSize *= 2;
+    }
+
+    double[][] originalChannel = new double[rows][cols];
+    for (int i = 0; i < rows; i++) {
+      System.arraycopy(squareArray[i], 0, originalChannel[i], 0, cols);
+    }
+    return convertDoubleToInt(originalChannel);
+  }
 
   protected static Image histogramVisualization(Image image) {
     int[][] redChannel = image.getRedChannel();

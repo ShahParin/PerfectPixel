@@ -11,7 +11,10 @@
 #histogram-vis sample2 sample-histogram
 #save output/sample-histogram.png sample-histogram
 
+#load input/manhattan-small.png sample3
+#blur-per sample3 sample-blur 90
+#save output/sample-blur-per.png sample-blur
 
-load input/manhattan-small.png sample3
-blur-per sample3 sample-blur 90
-save output/sample-blur-per.png sample-blur
+load input/manhattan-small.png sample4
+compress 20 sample4 compress20
+save output/sample-compress.png compress20

@@ -136,7 +136,7 @@ Below are some sample examples on how commands should be written in script file 
 `rgb-split sample sample-red sample-green sample-blue`<br/><br/>
 
 - Combine 3 different red, green, and blue component images into a single image\
-`rgb-combine sample-new sample-red sample sample`<br/><br/>
+`rgb-combine sample-new sample-red sample-green sample-blue`<br/><br/>
 
 - Brighten the image by adding a constant (here, 25)\
 `brighten 25 sample sample-brighter`<br/><br/>
