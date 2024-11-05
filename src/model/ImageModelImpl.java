@@ -3,13 +3,12 @@ package model;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import jdk.jshell.execution.JdiExecutionControl;
 
 import static model.ImageOperations.blur;
 import static model.ImageOperations.brighten;
@@ -309,7 +308,7 @@ public class ImageModelImpl implements ImageModel {
 //    return sequence;
 //  }
 
-  private static double[][] convertIntToDouble(int[][] intArray) {
+  public double[][] convertIntToDouble(int[][] intArray) {
     int rows = intArray.length;
     int cols = intArray[0].length;
     double[][] doubleArray = new double[rows][cols];
@@ -323,7 +322,7 @@ public class ImageModelImpl implements ImageModel {
     return doubleArray;
   }
 
-  private static int[][] convertDoubleToInt(double[][] doubleArray) {
+  public int[][] convertDoubleToInt(double[][] doubleArray) {
     int rows = doubleArray.length;
     int cols = doubleArray[0].length;
     int[][] intArray = new int[rows][cols];
@@ -353,39 +352,37 @@ public class ImageModelImpl implements ImageModel {
       System.arraycopy(doubleChannel[i], 0, squareArray[i], 0, cols);
     }
 
-    while (padSize > 1) {
-      for (int i = 0; i < padSize; i++) {
+    int currentPadSize = padSize;
+    while (currentPadSize > 1) {
+      for (int i = 0; i < currentPadSize; i++) {
         List<Double> eachRow = new ArrayList<>();
-        for (int j = 0; j < padSize; j++) {
+        for (int j = 0; j < currentPadSize; j++) {
           eachRow.add(squareArray[i][j]);
         }
-
         List<Double> transformedRow = transform(eachRow);
-        for (int j = 0; j < padSize; j++) {
+        for (int j = 0; j < currentPadSize; j++) {
           squareArray[i][j] = transformedRow.get(j);
         }
       }
 
-      for (int j = 0; j < padSize; j++) {
+      for (int j = 0; j < currentPadSize; j++) {
         List<Double> eachCol = new ArrayList<>();
-        for (int i = 0; i < padSize; i++) {
+        for (int i = 0; i < currentPadSize; i++) {
           eachCol.add(squareArray[i][j]);
         }
-
         List<Double> transformedCol = transform(eachCol);
-        for (int i = 0; i < padSize; i++) {
+        for (int i = 0; i < currentPadSize; i++) {
           squareArray[i][j] = transformedCol.get(i);
         }
       }
 
-      padSize = padSize / 2;
+      currentPadSize /= 2;
     }
 
     double[][] originalChannel = new double[rows][cols];
     for (int i = 0; i < rows; i++) {
       System.arraycopy(squareArray[i], 0, originalChannel[i], 0, cols);
     }
-
     return originalChannel;
   }
 
@@ -399,14 +396,14 @@ public class ImageModelImpl implements ImageModel {
       }
     }
     double[] sortedIntensities = uniqueIntensities.stream().mapToDouble(Double::doubleValue).toArray();
+    Arrays.sort(sortedIntensities);
 
     double thresholdIntensity;
-    int resetCount = (int) (uniqueIntensities.size() * (percent/100));
-    if (resetCount < 0) {
+    int resetCount = (int) (sortedIntensities.length * (percent / 100));
+    if (resetCount < 1) {
       thresholdIntensity = 0;
-    }
-    else {
-      thresholdIntensity = sortedIntensities[resetCount-1];
+    } else {
+      thresholdIntensity = sortedIntensities[resetCount - 1];
     }
 
     for (int i = 0; i < channel.length; i++) {
@@ -452,39 +449,37 @@ public class ImageModelImpl implements ImageModel {
       System.arraycopy(doubleChannel[i], 0, squareArray[i], 0, cols);
     }
 
-    int counter = 2;
-    while (counter <= padSize) {
-      for (int j = 0; j < padSize; j++) {
+    int currentPadSize = 2;
+    while (currentPadSize <= padSize) {
+      for (int j = 0; j < currentPadSize; j++) {
         List<Double> eachCol = new ArrayList<>();
-        for (int i = 0; i < counter; i++) {
+        for (int i = 0; i < currentPadSize; i++) {
           eachCol.add(squareArray[i][j]);
         }
         List<Double> invertedCol = invert(eachCol);
-        for (int i = 0; i < counter; i++) {
+        for (int i = 0; i < currentPadSize; i++) {
           squareArray[i][j] = invertedCol.get(i);
         }
       }
 
-      for (int i = 0; i < padSize; i++) {
+      for (int i = 0; i < currentPadSize; i++) {
         List<Double> eachRow = new ArrayList<>();
-        for (int j = 0; j < counter; j++) {
+        for (int j = 0; j < currentPadSize; j++) {
           eachRow.add(squareArray[i][j]);
         }
-
         List<Double> invertedRow = invert(eachRow);
-        for (int j = 0; j < counter; j++) {
+        for (int j = 0; j < currentPadSize; j++) {
           squareArray[i][j] = invertedRow.get(j);
         }
       }
 
-      counter = counter * 2;
+      currentPadSize *= 2;
     }
 
     double[][] originalChannel = new double[rows][cols];
     for (int i = 0; i < rows; i++) {
       System.arraycopy(squareArray[i], 0, originalChannel[i], 0, cols);
     }
-
     return convertDoubleToInt(originalChannel);
   }
 
@@ -497,17 +492,5 @@ public class ImageModelImpl implements ImageModel {
 
     Image inverted = new Image(invertRed, invertGreen, invertBlue);
     images.put(newImageName, inverted);
-  }
-
-  public static void main(String[] args) throws IOException {
-    ImageModelImpl imageModel = new ImageModelImpl();
-
-    imageModel.loadImage("output\\samp.jpg", "original");
-
-    imageModel.compressImage("original", "Haar",10);
-    imageModel.saveImage("output\\sampleHaar.ppm", "Haar");
-
-    imageModel.decompressImage("Haar", "Invert");
-    imageModel.saveImage("output\\sampleHaarInvert.ppm", "Invert");
   }
 }
