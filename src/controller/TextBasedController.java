@@ -62,7 +62,7 @@ public class TextBasedController implements ImageController {
     commandMap.put("sepia", args -> new SepiaCommand(imageModel, args[1], args[2]));
     commandMap.put("blur", args -> new BlurCommand(imageModel, args[1], args[2]));
     commandMap.put("sharpen", args -> new SharpenCommand(imageModel, args[1], args[2]));
-    commandMap.put("histogram-vis", args -> new HistogramVisualizationCommand(imageModel, args[1], args[2]));
+    commandMap.put("histogram", args -> new HistogramVisualizationCommand(imageModel, args[1], args[2]));
     commandMap.put("color-correct", args -> new ColorCorrectCommand(imageModel, args[1], args[2]));
     commandMap.put("levels-adjust", args -> new LevelsAdjustCommand(imageModel, Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), args[4], args[5]));
     commandMap.put("blur-per", args -> new BlurPercentageCommand(imageModel, args[1], args[2], Double.parseDouble(args[3])));
