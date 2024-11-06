@@ -182,17 +182,21 @@ public class ImageModelImpl implements ImageModel {
   }
 
   @Override
-  public Image getImage(String imgName) throws IllegalArgumentException {
-    if (this.images.get(imgName) == null) {
-      throw new IllegalArgumentException("Image Not Found: " + imgName);
+  public Image getImage(String imageName) throws IllegalArgumentException {
+    Image thisImage = this.images.get(imageName);
+    if (thisImage == null) {
+      throw new IllegalArgumentException("Image Not Found: " + imageName);
     }
-    return this.images.get(imgName);
+
+    int[][] redChannel = thisImage.getRedChannel();
+    int[][] greenChannel = thisImage.getGreenChannel();
+    int[][] blueChannel = thisImage.getBlueChannel();
+
+    return new Image(redChannel, greenChannel, blueChannel);
   }
 
   @Override
   public void putImage(String imageName, Image image) {
     images.put(imageName, image);
   }
-
-
 }

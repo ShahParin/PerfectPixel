@@ -14,8 +14,6 @@ public class BlurCommand implements Command {
     this.imageName = imageName;
     this.newImageName = newImageName;
     this.percent = percent;
-
-
   }
 
   @Override

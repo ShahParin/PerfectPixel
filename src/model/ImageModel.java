@@ -131,14 +131,10 @@ public interface ImageModel {
   /**
    * Retrieves the image associated with the given name.
    *
-   * @param imgName the name of the image to get.
+   * @param imageName the name of the image to get.
    * @return returns the fetched image object.
    */
-  Image getImage(String imgName);
+  Image getImage(String imageName);
 
   void putImage(String imageName, Image image);
-
-
-
-
 }
