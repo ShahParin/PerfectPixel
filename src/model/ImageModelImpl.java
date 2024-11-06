@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static model.ImageOperations.applyBlurSplit;
 import static model.ImageOperations.blur;
 import static model.ImageOperations.brighten;
 import static model.ImageOperations.colorCorrect;
