@@ -1,15 +1,11 @@
 package model;
 
-import java.io.IOException;
-
 /**
  * The interface defines a set of operations that can be performed on the images.
  * It provides operations like loading, saving, and applying transformations to images,
  * changing color components, flipping, brightening, filter, and transformations.
  */
 public interface ImageModel {
-
-
   /**
    * Creates a new image that has only the red component of the image.
    *
@@ -136,5 +132,11 @@ public interface ImageModel {
    */
   Image getImage(String imageName);
 
+  /**
+   * Assigns the provided image to its image name.
+   *
+   * @param imageName name of the image.
+   * @param image the actual image object.
+   */
   void putImage(String imageName, Image image);
 }

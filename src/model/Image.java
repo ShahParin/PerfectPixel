@@ -28,6 +28,11 @@ public class Image {
     this.blueChannel = blueChannel;
   }
 
+  /**
+   * Creates a clone of the provided 2D array(channel).
+   * @param originalArray the 2D array/ channel whose clone is to be created.
+   * @return the clone of the 2D array/channel.
+   */
   private static int[][] copyArray2D(int[][] originalArray) {
     int[][] copyArray = new int[originalArray.length][originalArray[0].length];
     for (int i = 0; i < originalArray.length; i++) {

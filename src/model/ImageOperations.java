@@ -64,7 +64,6 @@ public class ImageOperations {
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
 
-
   /**
    * This functions flips the image vertically.
    *
@@ -151,8 +150,6 @@ public class ImageOperations {
 
     return ImageUtil.filterHelper(image, kernel);
   }
-
-
 
   /**
    * A function to return the brightness "value" of pixel.
@@ -510,7 +507,6 @@ public class ImageOperations {
     }
   }
 
-
   /**
    * Applies the Haar transformation on the provided channel.
    *
@@ -718,7 +714,6 @@ public class ImageOperations {
 
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
-
 
   /**
    * Adjusts the levels of an image by applying a curve to map each color channel to specified
