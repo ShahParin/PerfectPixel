@@ -1,8 +1,6 @@
 package controller.commands;
 
 import model.ImageModelV2;
-import view.ConsoleBasedView;
-import view.ImageView;
 
 public class GreenComponentCommand implements Command {
   private final ImageModelV2 imageModel;
@@ -18,8 +16,5 @@ public class GreenComponentCommand implements Command {
   @Override
   public void execute() {
     imageModel.applyGreenComponent(imageName, newImageName);
-
-    ImageView imageView = new ConsoleBasedView();
-    imageView.printStatements("Created Green component from " + imageName);
   }
 }

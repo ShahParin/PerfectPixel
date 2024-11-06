@@ -1,8 +1,6 @@
 package controller.commands;
 
 import model.ImageModelV2;
-import view.ConsoleBasedView;
-import view.ImageView;
 
 public class RedComponentCommand implements Command {
   private final ImageModelV2 imageModel;
@@ -18,8 +16,5 @@ public class RedComponentCommand implements Command {
   @Override
   public void execute() {
     imageModel.applyRedComponent(imageName, newImageName);
-
-    ImageView imageView = new ConsoleBasedView();
-    imageView.printStatements("Created Red component from " + imageName);
   }
 }

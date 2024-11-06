@@ -30,8 +30,4 @@ public class MockImageModelV2 extends MockImageModel implements ImageModelV2 {
   public void blurImageSplit(String imageName, String newImageName, double percentage) {
 
   }
-
-  public void blurImage(String imageName, String newImageName, double percentage) {
-
-  }
 }

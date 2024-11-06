@@ -1,34 +1,27 @@
 package controller.commands;
 
 
-
-import model.ImageModel;
-import view.ConsoleBasedView;
-import view.ImageView;
+import controller.ImageService;
 
 import java.io.IOException;
 
 public class LoadCommand implements Command {
-  private final ImageModel imageModel;
-  private final ImageView view;
+  private final ImageService imageService;
   private final String sourcePath;
   private final String imageName;
 
-  public LoadCommand(ImageModel imageModel, ImageView view, String sourcePath, String imageName) {
-    this.imageModel = imageModel;
-    this.view = view;
+  public LoadCommand(ImageService imageService, String sourcePath, String imageName) {
+    this.imageService = imageService;
     this.sourcePath = sourcePath;
     this.imageName = imageName;
   }
 
   @Override
-  public void execute() {
+  public void execute() throws IOException {
     try {
-      imageModel.loadImage(sourcePath, imageName);
-
-      view.printStatements("Loaded image from " + sourcePath);
+      imageService.loadImage(sourcePath, imageName);
     } catch (IOException e) {
-      view.printStatements("Error loading image: " + e.getMessage());
+      throw new IOException("Error loading image: " + e.getMessage());
     }
   }
 }

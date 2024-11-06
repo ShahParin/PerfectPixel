@@ -1,8 +1,6 @@
 package controller.commands;
 
 import model.ImageModelV2;
-import view.ConsoleBasedView;
-import view.ImageView;
 
 public class RGBCombineCommand implements Command {
   private final ImageModelV2 imageModel;
@@ -23,9 +21,5 @@ public class RGBCombineCommand implements Command {
   @Override
   public void execute() {
     imageModel.rgbCombine(newImageName, redImage, greenImage, blueImage);
-
-    ImageView imageView = new ConsoleBasedView();
-    imageView.printStatements("Applied RGB combine on the images, " + redImage + ", " + greenImage + ", "
-            + blueImage + ", " + newImageName);
   }
 }

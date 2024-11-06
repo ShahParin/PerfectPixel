@@ -1,8 +1,6 @@
 package controller.commands;
 
 import model.ImageModelV2;
-import view.ConsoleBasedView;
-import view.ImageView;
 
 public class BlurCommand implements Command {
   private final ImageModelV2 imageModel;
@@ -28,8 +26,6 @@ public class BlurCommand implements Command {
     else{
       imageModel.blurImage(imageName, newImageName);
     }
-    ImageView imageView = new ConsoleBasedView();
-    imageView.printStatements("Applied blur to " + imageName);
   }
 
 }

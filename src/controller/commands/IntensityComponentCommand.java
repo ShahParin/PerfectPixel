@@ -1,8 +1,6 @@
 package controller.commands;
 
 import model.ImageModelV2;
-import view.ConsoleBasedView;
-import view.ImageView;
 
 public class IntensityComponentCommand implements Command {
   private final ImageModelV2 imageModel;
@@ -18,8 +16,5 @@ public class IntensityComponentCommand implements Command {
   @Override
   public void execute() {
     imageModel.applyIntensity(imageName, newImageName);
-
-    ImageView imageView = new ConsoleBasedView();
-    imageView.printStatements("Created Intensity component from " + imageName);
   }
 }

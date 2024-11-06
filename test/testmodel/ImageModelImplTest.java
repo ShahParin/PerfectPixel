@@ -12,9 +12,10 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import controller.ImageService;
 import model.Image;
-import model.ImageModel;
-import model.ImageModelImpl;
+import model.ImageModelImplV2;
+import model.ImageModelV2;
 import model.NothingThereException;
 
 import static org.junit.Assert.assertEquals;
@@ -28,13 +29,14 @@ public class ImageModelImplTest {
   /*
   Initilizing the ImageModel object.
    */
-  private final ImageModel imageModel = new ImageModelImpl();
+  private final ImageModelV2 imageModel = new ImageModelImplV2();
+  private final ImageService imageService = new ImageService(imageModel);
 
   private Scanner getImageScanner(String filePath, String imageName) throws IOException {
     Scanner sc = null;
     String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
             + File.separator + filePath;
-    imageModel.loadImage(filePath, imageName);
+    imageService.loadImage(filePath, imageName);
 
     try {
       sc = new Scanner(new FileInputStream(pathRelative));
@@ -122,7 +124,7 @@ public class ImageModelImplTest {
    */
   @Test
   public void testLoadJPG() throws IOException {
-    imageModel.loadImage("input/sample.jpg", "sample");
+    imageService.loadImage("input/sample.jpg", "sample");
     Image expectedImage = imageModel.getImage("sample");
     int[][] redChannel = expectedImage.getRedChannel();
     int[][] greenChannel = expectedImage.getGreenChannel();
@@ -157,7 +159,7 @@ public class ImageModelImplTest {
    */
   @Test
   public void testLoadJPEG() throws IOException {
-    imageModel.loadImage("input/sample.jpeg", "sample");
+    imageService.loadImage("input/sample.jpeg", "sample");
     Image expectedImage = imageModel.getImage("sample");
     int[][] redChannel = expectedImage.getRedChannel();
     int[][] greenChannel = expectedImage.getGreenChannel();
@@ -189,7 +191,7 @@ public class ImageModelImplTest {
    */
   @Test
   public void testLoadPNG() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     Image expectedImage = imageModel.getImage("sample");
     int[][] redChannel = expectedImage.getRedChannel();
     int[][] greenChannel = expectedImage.getGreenChannel();
@@ -220,7 +222,7 @@ public class ImageModelImplTest {
    */
   @Test(expected = IOException.class)
   public void testLoadNonExistingPath() throws IOException {
-    imageModel.loadImage("sourceimage/sample.png", "sample");
+    imageService.loadImage("sourceimage/sample.png", "sample");
   }
 
   /**
@@ -228,7 +230,7 @@ public class ImageModelImplTest {
    */
   @Test(expected = NoSuchElementException.class)
   public void testCorruptedImage() throws IOException {
-    imageModel.loadImage("input/sampleCorrupted.ppm", "sample");
+    imageService.loadImage("input/sampleCorrupted.ppm", "sample");
   }
 
   /**
@@ -236,7 +238,7 @@ public class ImageModelImplTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testUnsupportedImage() throws IOException {
-    imageModel.loadImage("input/sample.txt", "sample");
+    imageService.loadImage("input/sample.txt", "sample");
   }
 
   /**
@@ -244,7 +246,7 @@ public class ImageModelImplTest {
    */
   @Test(expected = NothingThereException.class)
   public void testNoImage() throws IOException {
-    imageModel.loadImage("input/sampleEmpty.ppm", "sample");
+    imageService.loadImage("input/sampleEmpty.ppm", "sample");
   }
 
 
@@ -253,10 +255,10 @@ public class ImageModelImplTest {
    */
   @Test
   public void testSavingPPM() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageService.loadImage("input/sample.ppm", "sample");
     Image expectedImage = imageModel.getImage("sample");
-    imageModel.saveImage("output/sample.ppm", "sample");
-    imageModel.loadImage("output/sample.ppm", "sampleOutput");
+    imageService.saveImage("output/sample.ppm", "sample");
+    imageService.loadImage("output/sample.ppm", "sampleOutput");
     Image actualImage = imageModel.getImage("sampleOutput");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -270,10 +272,10 @@ public class ImageModelImplTest {
    */
   @Test
   public void testSavingPNG() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     Image expectedImage = imageModel.getImage("sample");
-    imageModel.saveImage("output/sample.png", "sample");
-    imageModel.loadImage("output/sample.png", "sampleOutput");
+    imageService.saveImage("output/sample.png", "sample");
+    imageService.loadImage("output/sample.png", "sampleOutput");
     Image actualImage = imageModel.getImage("sampleOutput");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -286,8 +288,8 @@ public class ImageModelImplTest {
    */
   @Test
   public void testSavingJPEG() throws IOException {
-    imageModel.loadImage("input/sample.jpeg", "sample");
-    imageModel.saveImage("output/sample.jpeg", "sample");
+    imageService.loadImage("input/sample.jpeg", "sample");
+    imageService.saveImage("output/sample.jpeg", "sample");
     String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
             + File.separator + "output/sample.jpeg";
     File file = new File(pathRelative);
@@ -299,8 +301,8 @@ public class ImageModelImplTest {
    */
   @Test
   public void testSavingJPG() throws IOException {
-    imageModel.loadImage("input/sample.jpg", "sample");
-    imageModel.saveImage("output/sample.jpg", "sample");
+    imageService.loadImage("input/sample.jpg", "sample");
+    imageService.saveImage("output/sample.jpg", "sample");
     String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
             + File.separator + "output/sample.jpg";
     File file = new File(pathRelative);
@@ -312,7 +314,7 @@ public class ImageModelImplTest {
    */
   @Test
   public void testPPMBlur() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.blurImage("sample", "sample-blur");
     Image actualImage = imageModel.getImage("sample-blur");
 
@@ -327,7 +329,7 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMRedComponent() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.applyRedComponent("sample", "sample-red-component");
     Image actualImage = imageModel.getImage("sample-red-component");
 
@@ -343,7 +345,7 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMGreenComponent() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.applyGreenComponent("sample", "sample-green-component");
     Image actualImage = imageModel.getImage("sample-green-component");
 
@@ -359,7 +361,7 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMBlueComponent() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.applyBlueComponent("sample", "sample-blue-component");
     Image actualImage = imageModel.getImage("sample-blue-component");
 
@@ -374,7 +376,7 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMValue() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.applyValue("sample", "sample-value");
     Image actualImage = imageModel.getImage("sample-value");
 
@@ -391,7 +393,7 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMIntensity() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.applyIntensity("sample", "sample-intensity");
     Image actualImage = imageModel.getImage("sample-intensity");
 
@@ -407,7 +409,7 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMLuma() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.applyLuma("sample", "sample-luma");
     Image actualImage = imageModel.getImage("sample-luma");
 
@@ -424,7 +426,7 @@ public class ImageModelImplTest {
   @Test
   public void testPPMRGBSplit() throws IOException {
 
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.rgbSplit("sample", "sample-red", "sample-green",
             "sample-blue");
 
@@ -445,9 +447,9 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMRGBCombine() throws IOException {
-    imageModel.loadImage("input/test-red.ppm", "sample-red");
-    imageModel.loadImage("input/test-green.ppm", "sample-green");
-    imageModel.loadImage("input/test-blue.ppm", "sample-blue");
+    imageService.loadImage("input/test-red.ppm", "sample-red");
+    imageService.loadImage("input/test-green.ppm", "sample-green");
+    imageService.loadImage("input/test-blue.ppm", "sample-blue");
 
     imageModel.rgbCombine("sample-rgb-combine","sample-red",
             "sample-green", "sample-blue");
@@ -465,7 +467,7 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMBrighten() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.brightenImage(20,"sample", "sample-brighten");
     Image actualImage = imageModel.getImage("sample-brighten");
 
@@ -483,11 +485,11 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMDarken() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.brightenImage(-40,"sample", "sample-darken");
     Image actualImage = imageModel.getImage("sample-darken");
 
-    imageModel.saveImage("output/sample-darken.ppm", "sample-darken");
+    imageService.saveImage("output/sample-darken.ppm", "sample-darken");
 
     int[][] expectedRedChannel = {{83, 0}, {215, 88}};
     int[][] expectedGreenChannel = {{5, 160}, {215, 88}};
@@ -501,12 +503,12 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMHorizontal() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.flipHorizontally("sample", "sample-horizontal");
     Image actualImage = imageModel.getImage("sample-horizontal");
 
 
-    imageModel.saveImage("output/sample-horizontal.ppm", "sample-horizontal");
+    imageService.saveImage("output/sample-horizontal.ppm", "sample-horizontal");
 
     int[][] expectedRedChannel = {{12, 123}, {128, 255}};
     int[][] expectedGreenChannel = {{200, 45}, {128, 255}};
@@ -520,7 +522,7 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMVertical() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.flipVertically("sample", "sample-vertical");
     Image actualImage = imageModel.getImage("sample-vertical");
 
@@ -536,7 +538,7 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMSepia() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.applySepia("sample", "sample-sepia");
     Image actualImage = imageModel.getImage("sample-sepia");
 
@@ -554,12 +556,12 @@ public class ImageModelImplTest {
 
   @Test
   public void testPPMSharpen() throws IOException {
-    imageModel.loadImage("input/test.ppm", "sample");
+    imageService.loadImage("input/test.ppm", "sample");
     imageModel.sharpenImage("sample", "sample-sharpen");
     Image actualImage = imageModel.getImage("sample-sharpen");
 
 
-    imageModel.saveImage("output/sample-sharpen.ppm", "sample-sharpen");
+    imageService.saveImage("output/sample-sharpen.ppm", "sample-sharpen");
 
     int[][] expectedRedChannel = {{0, 0},{0, 0}};
     int[][] expectedGreenChannel = {{0, 0},{0, 0}};
@@ -576,12 +578,12 @@ public class ImageModelImplTest {
    */
   @Test
   public void testPNGBlur() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.blurImage("sample", "sample-blur");
     Image actualImage = imageModel.getImage("sample-blur");
 
 
-    imageModel.loadImage("output/sample-blur-expected.png", "expectedImage");
+    imageService.loadImage("output/sample-blur-expected.png", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -591,12 +593,12 @@ public class ImageModelImplTest {
 
   @Test
   public void testPNGRedComponent() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.applyRedComponent("sample", "sample-red-component");
     Image actualImage = imageModel.getImage("sample-red-component");
 
 
-    imageModel.loadImage("output/sample-red-component-expected.png",
+    imageService.loadImage("output/sample-red-component-expected.png",
             "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
@@ -608,12 +610,12 @@ public class ImageModelImplTest {
 
   @Test
   public void testPNGGreenComponent() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.applyGreenComponent("sample", "sample-green-component");
     Image actualImage = imageModel.getImage("sample-green-component");
 
 
-    imageModel.loadImage("output/sample-green-component-expected.png",
+    imageService.loadImage("output/sample-green-component-expected.png",
             "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
@@ -625,13 +627,13 @@ public class ImageModelImplTest {
 
   @Test
   public void testPNGBlueComponent() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.applyBlueComponent("sample", "sample-blue-component");
     Image actualImage = imageModel.getImage("sample-blue-component");
 
 
 
-    imageModel.loadImage("output/sample-blue-component-expected.png",
+    imageService.loadImage("output/sample-blue-component-expected.png",
             "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
@@ -643,12 +645,12 @@ public class ImageModelImplTest {
 
   @Test
   public void testPNGValue() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.applyValue("sample", "sample-value");
     Image actualImage = imageModel.getImage("sample-value");
 
 
-    imageModel.loadImage("output/sample-value-expected.png",
+    imageService.loadImage("output/sample-value-expected.png",
             "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
@@ -660,12 +662,12 @@ public class ImageModelImplTest {
 
   @Test
   public void testPNGIntensity() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.applyIntensity("sample", "sample-intensity");
     Image actualImage = imageModel.getImage("sample-intensity");
 
 
-    imageModel.loadImage("output/sample-intensity-expected.png",
+    imageService.loadImage("output/sample-intensity-expected.png",
             "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
@@ -677,13 +679,13 @@ public class ImageModelImplTest {
 
   @Test
   public void testPNGLuma() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.applyLuma("sample", "sample-luma");
     Image actualImage = imageModel.getImage("sample-luma");
 
 
 
-    imageModel.loadImage("output/sample-luma-expected.png", "expectedImage");
+    imageService.loadImage("output/sample-luma-expected.png", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -695,7 +697,7 @@ public class ImageModelImplTest {
   @Test
   public void testPNGRGBSplit() throws IOException {
 
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.rgbSplit("sample", "sample-red",
             "sample-green", "sample-blue");
 
@@ -705,11 +707,11 @@ public class ImageModelImplTest {
 
 
 
-    imageModel.loadImage("output/sample-red-expected.png",
+    imageService.loadImage("output/sample-red-expected.png",
             "expectedImageRed");
-    imageModel.loadImage("output/sample-green-expected.png",
+    imageService.loadImage("output/sample-green-expected.png",
             "expectedImageGreen");
-    imageModel.loadImage("output/sample-blue-expected.png",
+    imageService.loadImage("output/sample-blue-expected.png",
             "expectedImageBlue");
 
     Image expectedImageRed = imageModel.getImage("expectedImageRed");
@@ -726,9 +728,9 @@ public class ImageModelImplTest {
   @Test
   public void testPNGRGBCombine() throws IOException {
 
-    imageModel.loadImage("input/sample-red.png", "sample-red");
-    imageModel.loadImage("input/sample-green.png", "sample-green");
-    imageModel.loadImage("input/sample-blue.png", "sample-blue");
+    imageService.loadImage("input/sample-red.png", "sample-red");
+    imageService.loadImage("input/sample-green.png", "sample-green");
+    imageService.loadImage("input/sample-blue.png", "sample-blue");
 
     imageModel.rgbCombine("sample-rgb-combine","sample-red",
             "sample-green", "sample-blue");
@@ -737,7 +739,7 @@ public class ImageModelImplTest {
 
 
 
-    imageModel.loadImage("output/sample.png", "expectedImage");
+    imageService.loadImage("output/sample.png", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -747,13 +749,13 @@ public class ImageModelImplTest {
 
   @Test
   public void testPNGHorizontal() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.flipHorizontally("sample", "sample-horizontal");
     Image actualImage = imageModel.getImage("sample-horizontal");
 
 
 
-    imageModel.loadImage("output/sample-horizontal-expected.png", "expectedImage");
+    imageService.loadImage("output/sample-horizontal-expected.png", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -764,13 +766,13 @@ public class ImageModelImplTest {
 
   @Test
   public void testPNGVertical() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.flipVertically("sample", "sample-vertical");
     Image actualImage = imageModel.getImage("sample-vertical");
 
 
 
-    imageModel.loadImage("output/sample-vertical-expected.png", "expectedImage");
+    imageService.loadImage("output/sample-vertical-expected.png", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -781,11 +783,11 @@ public class ImageModelImplTest {
 
   @Test
   public void testPNGSepia() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.applySepia("sample", "sample-sepia");
     Image actualImage = imageModel.getImage("sample-sepia");
 
-    imageModel.loadImage("output/sample-sepia-expected.png", "expectedImage");
+    imageService.loadImage("output/sample-sepia-expected.png", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -800,14 +802,14 @@ public class ImageModelImplTest {
    */
   @Test
   public void testPPMMultiple() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageService.loadImage("input/sample.ppm", "sample");
     imageModel.applySepia("sample", "sample-sepia");
     imageModel.flipVertically("sample-sepia", "sample-vertical");
     imageModel.blurImage("sample-vertical", "sample-blur");
     imageModel.applyLuma("sample-blur", "sample-luma");
     Image actualImage = imageModel.getImage("sample-luma");
 
-    imageModel.loadImage("output/sample-multiple.ppm", "expectedImage");
+    imageService.loadImage("output/sample-multiple.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -820,14 +822,14 @@ public class ImageModelImplTest {
    */
   @Test
   public void testPNGMultiple() throws IOException {
-    imageModel.loadImage("input/sample.png", "sample");
+    imageService.loadImage("input/sample.png", "sample");
     imageModel.applySepia("sample", "sample-sepia");
     imageModel.flipVertically("sample-sepia", "sample-vertical");
     imageModel.blurImage("sample-vertical", "sample-blur");
     imageModel.applyLuma("sample-blur", "sample-luma");
     Image actualImage = imageModel.getImage("sample-luma");
 
-    imageModel.loadImage("output/sample-multiple.png", "expectedImage");
+    imageService.loadImage("output/sample-multiple.png", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -840,11 +842,11 @@ public class ImageModelImplTest {
    */
   @Test
   public void testBrigthenMaximum() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageService.loadImage("input/sample.ppm", "sample");
     imageModel.brightenImage(500, "sample", "sample-brighten");
     Image actualImage = imageModel.getImage("sample-brighten");
 
-    imageModel.loadImage("output/sample-brighten-max-expected.ppm",
+    imageService.loadImage("output/sample-brighten-max-expected.ppm",
             "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
@@ -858,11 +860,11 @@ public class ImageModelImplTest {
    */
   @Test
   public void testDarkenMaximum() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageService.loadImage("input/sample.ppm", "sample");
     imageModel.brightenImage(-500, "sample", "sample-darken");
     Image actualImage = imageModel.getImage("sample-darken");
 
-    imageModel.loadImage("output/sample-darken-max-expected.ppm", "expectedImage");
+    imageService.loadImage("output/sample-darken-max-expected.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -875,11 +877,11 @@ public class ImageModelImplTest {
    */
   @Test
   public void testHorizontalFlipHLong() throws IOException {
-    imageModel.loadImage("input/sampleHLong.ppm", "sample");
+    imageService.loadImage("input/sampleHLong.ppm", "sample");
     imageModel.flipHorizontally("sample", "sample-hLong");
     Image actualImage = imageModel.getImage("sample-hLong");
 
-    imageModel.loadImage("output/sample-hLong-expected.ppm", "expectedImage");
+    imageService.loadImage("output/sample-hLong-expected.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -893,11 +895,11 @@ public class ImageModelImplTest {
    */
   @Test
   public void testHorizontalFlipVLong() throws IOException {
-    imageModel.loadImage("input/sampleVLong.ppm", "sample");
+    imageService.loadImage("input/sampleVLong.ppm", "sample");
     imageModel.flipHorizontally("sample", "sample-vLong");
     Image actualImage = imageModel.getImage("sample-vLong");
 
-    imageModel.loadImage("output/sample-vLong-expected.ppm", "expectedImage");
+    imageService.loadImage("output/sample-vLong-expected.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -910,11 +912,11 @@ public class ImageModelImplTest {
    */
   @Test
   public void testHorizontalSingle() throws IOException {
-    imageModel.loadImage("input/single.ppm", "single");
+    imageService.loadImage("input/single.ppm", "single");
     imageModel.flipHorizontally("single", "single-hFlip");
     Image actualImage = imageModel.getImage("single-hFlip");
 
-    imageModel.loadImage("output/single-hFlip-expected.ppm", "expectedImage");
+    imageService.loadImage("output/single-hFlip-expected.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -927,11 +929,11 @@ public class ImageModelImplTest {
    */
   @Test
   public void testVerticalFlipHLong() throws IOException {
-    imageModel.loadImage("input/sampleHLong.ppm", "sample");
+    imageService.loadImage("input/sampleHLong.ppm", "sample");
     imageModel.flipVertically("sample", "sample-hLong");
     Image actualImage = imageModel.getImage("sample-hLong");
 
-    imageModel.loadImage("output/sample-vertical-hLong-expected.ppm", "expectedImage");
+    imageService.loadImage("output/sample-vertical-hLong-expected.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -944,11 +946,11 @@ public class ImageModelImplTest {
    */
   @Test
   public void testVerticalFlipVLong() throws IOException {
-    imageModel.loadImage("input/sampleVLong.ppm", "sample");
+    imageService.loadImage("input/sampleVLong.ppm", "sample");
     imageModel.flipVertically("sample", "sample-vLong");
     Image actualImage = imageModel.getImage("sample-vLong");
 
-    imageModel.loadImage("output/sample-vertical-vLong-expected.ppm", "expectedImage");
+    imageService.loadImage("output/sample-vertical-vLong-expected.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -961,11 +963,11 @@ public class ImageModelImplTest {
    */
   @Test
   public void testVerticalSingle() throws IOException {
-    imageModel.loadImage("input/single.ppm", "single");
+    imageService.loadImage("input/single.ppm", "single");
     imageModel.flipHorizontally("single", "single-vFlip");
     Image actualImage = imageModel.getImage("single-vFlip");
 
-    imageModel.loadImage("output/single-vFlip-expected.ppm", "expectedImage");
+    imageService.loadImage("output/single-vFlip-expected.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -978,14 +980,14 @@ public class ImageModelImplTest {
    */
   @Test
   public void testMultipleBlur() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageService.loadImage("input/sample.ppm", "sample");
     imageModel.blurImage("sample", "sample-blur1");
     imageModel.blurImage("sample-blur1", "sample-blur2");
     imageModel.blurImage("sample-blur2", "sample-blur3");
     imageModel.blurImage("sample-blur3", "sample-blur4");
     Image actualImage = imageModel.getImage("sample-blur4");
 
-    imageModel.loadImage("output/sample-multiple-blur-expected.ppm", "expectedImage");
+    imageService.loadImage("output/sample-multiple-blur-expected.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -998,11 +1000,11 @@ public class ImageModelImplTest {
    */
   @Test
   public void testBlurSingle() throws IOException {
-    imageModel.loadImage("input/single.ppm", "single");
+    imageService.loadImage("input/single.ppm", "single");
     imageModel.flipHorizontally("single", "single-blur");
     Image actualImage = imageModel.getImage("single-blur");
 
-    imageModel.loadImage("output/single-blur-expected.ppm", "expectedImage");
+    imageService.loadImage("output/single-blur-expected.ppm", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
@@ -1015,16 +1017,16 @@ public class ImageModelImplTest {
    */
   @Test
   public void testMultipleSharpen() throws IOException {
-    imageModel.loadImage("input/sample.ppm", "sample");
+    imageService.loadImage("input/sample.ppm", "sample");
     imageModel.sharpenImage("sample", "sample-sharpen1");
     imageModel.sharpenImage("sample-sharpen1", "sample-sharpen2");
     imageModel.sharpenImage("sample-sharpen2", "sample-sharpen3");
     imageModel.sharpenImage("sample-sharpen3", "sample-sharpen4");
     Image actualImage = imageModel.getImage("sample-sharpen4");
 
-    imageModel.saveImage("output/sample-multiple-sharpen-expected.ppm",
+    imageService.saveImage("output/sample-multiple-sharpen-expected.ppm",
             "sample-sharpen4");
-    imageModel.loadImage("output/sample-multiple-sharpen-expected.ppm",
+    imageService.loadImage("output/sample-multiple-sharpen-expected.ppm",
             "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 

@@ -8,23 +8,7 @@ import java.io.IOException;
  * changing color components, flipping, brightening, filter, and transformations.
  */
 public interface ImageModel {
-  /**
-   * Loads an image from a file and gives it a name for future use.
-   *
-   * @param path      the file path of the image to load.
-   * @param imageName the name to assign to the loaded image.
-   * @throws IOException if there is a problem reading the file.
-   */
-  void loadImage(String path, String imageName) throws IOException;
 
-  /**
-   * Saves the image with the given name to a given file path.
-   *
-   * @param path      the file path to save the image.
-   * @param imageName the name of the image to save.
-   * @throws IOException if there is a problem writing the file.
-   */
-  void saveImage(String path, String imageName) throws IOException;
 
   /**
    * Creates a new image that has only the red component of the image.
@@ -151,6 +135,9 @@ public interface ImageModel {
    * @return returns the fetched image object.
    */
   Image getImage(String imgName);
+
+  void putImage(String imageName, Image image);
+
 
 
 

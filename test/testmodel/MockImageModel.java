@@ -1,6 +1,8 @@
 package testmodel;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import model.Image;
 import model.ImageModel;
@@ -11,18 +13,7 @@ import model.ImageModel;
 public class MockImageModel implements ImageModel {
 
   private final StringBuilder log = new StringBuilder();
-
-  @Override
-  public void loadImage(String path, String imageName) throws IOException {
-    log.append("loadImage called with path: ").append(path)
-            .append(" and name: ").append(imageName).append("\n");
-  }
-
-  @Override
-  public void saveImage(String path, String imageName) {
-    log.append("saveImage called with path: ").append(path)
-            .append(" and name: ").append(imageName).append("\n");
-  }
+  private final Map<String, Image> imageStorage = new HashMap<>();
 
 
   @Override
@@ -129,10 +120,18 @@ public class MockImageModel implements ImageModel {
 
   @Override
   public Image getImage(String imgName) {
-    return null;
+    return imageStorage.get(imgName);
   }
 
-  
+  @Override
+  public void putImage(String imageName, Image image) {
+    if (image == null) {
+      System.out.println("Image is null for " + imageName);
+    }
+    imageStorage.put(imageName, image);
+    log.append("Image with name: ").append(imageName).append(" stored.\n");
+  }
+
 
   public String getLog() {
     return log.toString();

@@ -31,26 +31,28 @@ import controller.commands.VerticalFlipCommand;
 import model.ImageModelV2;
 import view.ImageView;
 
+
 public class TextBasedController implements ImageController {
-  //  private final ImageModel imageModel;
   private final ImageModelV2 imageModel;
   private final ImageView view;
   private final Map<String, CommandFactory> commandMap;
+  private final ImageService imageService;
 
-  public TextBasedController(ImageModelV2 imageModel, ImageView view) {
+  public TextBasedController(ImageModelV2 imageModel, ImageView view, ImageService imageService) {
     this.imageModel = imageModel;
     this.view = view;
+    this.imageService = imageService;
     this.commandMap = new HashMap<>();
     initializeCommands();
   }
 
   private void initializeCommands() {
-    commandMap.put("load", args -> new LoadCommand(imageModel, view, args[1], args[2]));
-    commandMap.put("save", args -> new SaveCommand(imageModel, args[1], args[2]));
+    commandMap.put("load", args -> new LoadCommand(imageService, args[1], args[2]));
+    commandMap.put("save", args -> new SaveCommand(imageService, args[1], args[2]));
     commandMap.put("red-component", args -> new RedComponentCommand(imageModel, args[1], args[2]));
     commandMap.put("blue-component", args -> new BlueComponentCommand(imageModel, args[1], args[2]));
     commandMap.put("green-component", args -> new GreenComponentCommand(imageModel, args[1], args[2]));
-    commandMap.put("value-component", args -> new ValueComponentCommand(imageModel, view, args[1], args[2]));
+    commandMap.put("value-component", args -> new ValueComponentCommand(imageModel, args[1], args[2]));
     commandMap.put("intensity-component", args -> new IntensityComponentCommand(imageModel, args[1], args[2]));
     commandMap.put("luma-component", args -> new LumaComponentCommand(imageModel, args[1], args[2]));
     commandMap.put("rgb-split", args -> new RGBSplitCommand(imageModel, args[1], args[2], args[3], args[4]));
@@ -70,12 +72,16 @@ public class TextBasedController implements ImageController {
   public void execute(String command) throws IOException {
     String[] args = command.trim().split("\\s+");
     CommandFactory factory = commandMap.get(args[0]);
-
-    if (factory != null) {
-      Command cmd = factory.create(args);
-      cmd.execute();
-    } else {
-      view.printStatements("Invalid command: " + command);
+    try {
+      if (factory != null) {
+        Command cmd = factory.create(args);
+        cmd.execute();
+        view.printStatements("Successfully executed command: " + String.join(" ", args));
+      } else {
+        view.printStatements("Invalid command: " + command);
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
   }
 

@@ -1,8 +1,6 @@
 package controller.commands;
 
 import model.ImageModelV2;
-import view.ConsoleBasedView;
-import view.ImageView;
 
 public class VerticalFlipCommand implements Command {
   private final ImageModelV2 imageModel;
@@ -18,8 +16,5 @@ public class VerticalFlipCommand implements Command {
   @Override
   public void execute() {
     imageModel.flipVertically(imageName, newImageName);
-
-    ImageView imageView = new ConsoleBasedView();
-    imageView.printStatements("Vertically flipped " + imageName);
   }
 }

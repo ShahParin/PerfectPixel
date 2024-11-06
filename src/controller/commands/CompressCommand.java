@@ -1,8 +1,6 @@
 package controller.commands;
 
 import model.ImageModelV2;
-import view.ConsoleBasedView;
-import view.ImageView;
 
 public class CompressCommand implements Command {
   private final ImageModelV2 imageModel;
@@ -20,8 +18,5 @@ public class CompressCommand implements Command {
   @Override
   public void execute() {
     imageModel.applyCompression(imageName, newImageName, percent);
-
-    ImageView imageView = new ConsoleBasedView();
-    imageView.printStatements("Applied " + percent + "% compression to " + imageName);
   }
 }

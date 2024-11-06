@@ -1,8 +1,6 @@
 package controller.commands;
 
 import model.ImageModelV2;
-import view.ConsoleBasedView;
-import view.ImageView;
 
 public class RGBSplitCommand implements Command {
   private final ImageModelV2 imageModel;
@@ -22,8 +20,5 @@ public class RGBSplitCommand implements Command {
   @Override
   public void execute() {
     imageModel.rgbSplit(imageName, redImage, greenImage, blueImage);
-
-    ImageView imageView = new ConsoleBasedView();
-    imageView.printStatements("RGB split applied to " + imageName);
   }
 }

@@ -13,7 +13,7 @@ public class ImageUtil {
    * @param image the image whose width and height are to be calculated.
    * @return returns the width and height of the image.
    */
-  protected static int[] getDimensions(Image image) {
+  public static int[] getDimensions(Image image) {
     int height = image.getRedChannel().length;
     int width = image.getRedChannel()[0].length;
     return new int[]{height, width};

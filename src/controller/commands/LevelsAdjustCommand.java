@@ -1,8 +1,6 @@
 package controller.commands;
 
 import model.ImageModelV2;
-import view.ConsoleBasedView;
-import view.ImageView;
 
 public class LevelsAdjustCommand implements Command {
   private final ImageModelV2 imageModel;
@@ -25,9 +23,5 @@ public class LevelsAdjustCommand implements Command {
   @Override
   public void execute() {
     imageModel.applyLevelsAdjustment(black, mid, white, imageName, newImageName);
-
-    ImageView imageView = new ConsoleBasedView();
-    imageView.printStatements("Levels adjusted for " + imageName + "using black: " + black + " mid: "
-            + mid + " white: " + white);
   }
 }

@@ -1,6 +1,7 @@
 import java.io.File;
 
 import controller.ImageController;
+import controller.ImageService;
 import controller.TextBasedController;
 import model.ImageModel;
 import model.ImageModelImpl;
@@ -23,16 +24,18 @@ public class Main {
 //    ImageModel model = new ImageModelImpl();
     ImageView view = new ConsoleBasedView();
     ImageModelV2 model = new ImageModelImplV2();
-    ImageController controller = new TextBasedController(model, view);
+    ImageService imageService = new ImageService(model);
+    ImageController controller = new TextBasedController(model, view, imageService);
+
+    String scriptPath;
     if (args.length > 0) {
-      String scriptPath = new File(System.getProperty("user.dir")) + File.separator + args[0];
-      controller.runScript(scriptPath);
+      scriptPath = new File(System.getProperty("user.dir")) + File.separator + args[0];
     } else {
 //      String scriptPath = new File(System.getProperty("user.dir")) + File.separator
 //              + "DefaultScript.txt";
-      String scriptPath = new File(System.getProperty("user.dir")) + File.separator + "RunScript2.txt";
-      controller.runScript(scriptPath);
+      scriptPath = new File(System.getProperty("user.dir")) + File.separator + "RunScript2.txt";
     }
+    controller.runScript(scriptPath);
 
 //    try {
 //      controller.execute("load /input/sample.png image1");

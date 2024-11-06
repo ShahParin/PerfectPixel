@@ -4,27 +4,19 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+
 import java.util.Map;
-import java.util.Set;
 
 import static model.ImageOperations.blur;
 import static model.ImageOperations.brighten;
-import static model.ImageOperations.colorCorrect;
 import static model.ImageOperations.combineRGB;
 import static model.ImageOperations.extractBlueComponent;
 import static model.ImageOperations.extractGreenComponent;
 import static model.ImageOperations.extractRedComponent;
-import static model.ImageOperations.histogramVisualization;
-import static model.ImageOperations.levelsAdjust;
 import static model.ImageOperations.pixelIntensity;
 import static model.ImageOperations.pixelLuma;
 import static model.ImageOperations.pixelValue;
-import static model.ImageOperations.readOther;
-import static model.ImageOperations.readPPM;
-import static model.ImageOperations.saveOther;
-import static model.ImageOperations.savePPM;
+
 import static model.ImageOperations.sepia;
 import static model.ImageOperations.sharpen;
 import static model.ImageOperations.splitRGB;
@@ -50,44 +42,6 @@ public class ImageModelImpl implements ImageModel {
     this.images = new HashMap<>();
   }
 
-  @Override
-  public void loadImage(String path, String imageName) throws IOException {
-    try {
-      String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
-              + File.separator + path;
-      Image image;
-      if (path.contains("ppm")) {
-        image = readPPM(pathRelative);
-      } else if (path.contains("png") || path.contains(("jpeg")) || path.contains("jpg")) {
-        image = readOther(pathRelative);
-      } else {
-        throw new IllegalArgumentException("Unsupported image type: " + path);
-      }
-      images.put(imageName, image);
-    } catch (IOException e) {
-      throw new IOException(e);
-    }
-  }
-
-  @Override
-  public void saveImage(String path, String imageName) throws IOException {
-    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
-            + File.separator + path;
-
-    Image image = images.get(imageName);
-    if (image == null) {
-      throw new IllegalArgumentException("No image found with name: " + imageName);
-    }
-    try {
-      if (path.contains("ppm")) {
-        savePPM(pathRelative, image);
-      } else {
-        saveOther(pathRelative, image);
-      }
-    } catch (IOException e) {
-      throw new IOException(e);
-    }
-  }
 
   @Override
   public void applyRedComponent(String imageName, String newImageName) {
@@ -233,6 +187,11 @@ public class ImageModelImpl implements ImageModel {
       throw new IllegalArgumentException("Image Not Found: " + imgName);
     }
     return this.images.get(imgName);
+  }
+
+  @Override
+  public void putImage(String imageName, Image image) {
+    images.put(imageName, image);
   }
 
 
