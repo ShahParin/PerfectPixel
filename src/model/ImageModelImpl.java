@@ -37,70 +37,40 @@ public class ImageModelImpl implements ImageModel {
     this.images = new HashMap<>();
   }
 
-  @Override
-  public void applyRedComponent(String imageName, String newImageName) {
-    Image original = images.get(imageName);
-    if (original != null) {
-      Image redImage = extractRedComponent(original);
-      images.put(newImageName, redImage);
-    } else {
-      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
+  /**
+   * Extracts a specified component from the given image based on the provided ComponentType. It
+   * supports extracting the image components - red, green, blue, value, intensity, and luma.
+   *
+   * @param image         the image from which the component is to be extracted.
+   * @param componentType the type of component to be extracted.
+   * @return an image with just component of original image.
+   */
+  private Image extractComponent(Image image, ComponentType componentType) {
+    switch (componentType) {
+      case RED:
+        return extractRedComponent(image);
+      case GREEN:
+        return extractGreenComponent(image);
+      case BLUE:
+        return extractBlueComponent(image);
+      case VALUE:
+        return pixelValue(image);
+      case INTENSITY:
+        return pixelIntensity(image);
+      case LUMA:
+        return pixelLuma(image);
+      default:
+        throw new IllegalArgumentException("Unknown component type: " + componentType);
     }
   }
 
   @Override
-  public void applyGreenComponent(String imageName, String newImageName) {
+  public void applyComponent(String imageName, String newImageName, ComponentType componentType) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image greenImage = extractGreenComponent(original);
-      images.put(newImageName, greenImage);
-    } else {
-      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
-    }
-  }
-
-  @Override
-  public void applyBlueComponent(String imageName, String newImageName) {
-    Image original = images.get(imageName);
-    if (original != null) {
-      Image blueImage = extractBlueComponent(original);
-      images.put(newImageName, blueImage);
-    } else {
-      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
-    }
-  }
-
-  @Override
-  public void applyValue(String imageName, String newImageName) {
-    Image original = images.get(imageName);
-    if (original != null) {
-      Image valueImage = pixelValue(original);
-      valueImage.clamp();
-      images.put(newImageName, valueImage);
-    } else {
-      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
-    }
-  }
-
-  @Override
-  public void applyIntensity(String imageName, String newImageName) {
-    Image original = images.get(imageName);
-    if (original != null) {
-      Image intensityImage = pixelIntensity(original);
-      intensityImage.clamp();
-      images.put(newImageName, intensityImage);
-    } else {
-      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
-    }
-  }
-
-  @Override
-  public void applyLuma(String imageName, String newImageName) {
-    Image original = images.get(imageName);
-    if (original != null) {
-      Image lumaImage = pixelLuma(original);
-      lumaImage.clamp();
-      images.put(newImageName, lumaImage);
+      Image modifiedImage = extractComponent(original, componentType);
+      modifiedImage.clamp();  // Call clamp() if needed for specific types
+      images.put(newImageName, modifiedImage);
     } else {
       throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
@@ -198,14 +168,11 @@ public class ImageModelImpl implements ImageModel {
     if (red != null && green != null && blue != null) {
       Image combinedImage = combineRGB(red, green, blue);
       images.put(newImageName, combinedImage);
-    } 
-    else if (red == null) {
+    } else if (red == null) {
       throw new IllegalArgumentException("Image-" + redImage + " was never loaded.");
-    }
-    else if (green == null) {
+    } else if (green == null) {
       throw new IllegalArgumentException("Image-" + greenImage + " was never loaded.");
-    }
-    else {
+    } else {
       throw new IllegalArgumentException("Image-" + blueImage + " was never loaded.");
     }
   }

@@ -1,5 +1,6 @@
 package controller.commands;
 
+import model.ComponentType;
 import model.ImageModelV2;
 
 /**
@@ -46,7 +47,7 @@ public class LumaComponentCommand implements Command {
     if (percent != null) {
       imageModel.lumaComponentImageSplit(imageName, newImageName, percent);
     } else {
-      imageModel.applyLuma(imageName, newImageName);
+      imageModel.applyComponent(imageName, newImageName, ComponentType.LUMA);
     }
   }
 }

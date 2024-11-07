@@ -28,37 +28,6 @@ public class TextBasedControllerTest {
     imageService = new ImageService(mockModel);
     controller = new TextBasedController(mockModel, mockView, imageService);
   }
-//
-//  @Test
-//  public void testValidLoadCommand() throws IOException {
-//    String command = "load /input/sample.jpg sample";
-//    controller.execute(command);
-//
-//    // Verify the messages printed to the view
-//    String expectedViewLog =
-//            "Successfully executed command: "+command + "\n";
-//    assertEquals(expectedViewLog, mockView.getLog());
-//
-//    // Verify the model method calls
-//    String expectedModelLog = "loadImage called with path: sample.jpg and name: sample\n";
-//    assertEquals(expectedModelLog, mockModel.getLog());
-//
-//  }
-//
-//  @Test
-//  public void testValidSaveCommand() throws IOException {
-//    String command = "load /input/sample.jpg sample \n save /output/output.jpg sample";
-//    controller.execute(command);
-//
-//    // Verify the messages printed to the view
-//    String expectedViewLog =
-//            "Successfully executed command: "+command;
-//    assertEquals(expectedViewLog, mockView.getLog());
-//
-//    // Verify the model method calls
-//    String expectedModelLog = "saveImage called with path: output.jpg and name: sample\n";
-//    assertEquals(expectedModelLog, mockModel.getLog());
-//  }
 
   @Test
   public void testApplyRedComponent() throws IOException {
@@ -70,7 +39,7 @@ public class TextBasedControllerTest {
     assertEquals(expectedViewLog, mockView.getLog());
 
     String expectedModelLog =
-            "applyRedComponent called with imageName: sample and newImageName: redImage\n";
+            "applyComponent for RED called with imageName: sample and newImageName: redImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -85,7 +54,7 @@ public class TextBasedControllerTest {
     assertEquals(expectedViewLog, mockView.getLog());
 
     String expectedModelLog =
-            "applyGreenComponent called with imageName: sample and newImageName: greenImage\n";
+            "applyComponent for GREEN called with imageName: sample and newImageName: greenImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -100,7 +69,7 @@ public class TextBasedControllerTest {
     assertEquals(expectedViewLog, mockView.getLog());
 
     String expectedModelLog =
-            "applyBlueComponent called with imageName: sample and newImageName: blueImage\n";
+            "applyComponent for BLUE called with imageName: sample and newImageName: blueImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -114,7 +83,7 @@ public class TextBasedControllerTest {
     assertEquals(expectedViewLog, mockView.getLog());
 
     String expectedModelLog =
-            "applyValue called with imageName: sample and newImageName: valueImage\n";
+            "applyComponent for VALUE called with imageName: sample and newImageName: valueImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -128,7 +97,8 @@ public class TextBasedControllerTest {
     assertEquals(expectedViewLog, mockView.getLog());
 
     String expectedModelLog =
-            "applyIntensity called with imageName: sample and newImageName: intensityImage\n";
+            "applyComponent for INTENSITY called with imageName: sample and "
+                    + "newImageName: intensityImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
@@ -142,7 +112,7 @@ public class TextBasedControllerTest {
     assertEquals(expectedViewLog, mockView.getLog());
 
     String expectedModelLog =
-            "applyLuma called with imageName: sample and newImageName: lumaImage\n";
+            "applyComponent for LUMA called with imageName: sample and newImageName: lumaImage\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 

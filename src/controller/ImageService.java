@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import model.Image;
-import model.ImageModelV2;
+import model.ImageModel;
 
 import static controller.ImageFileUtils.readOther;
 import static controller.ImageFileUtils.readPPM;
@@ -15,19 +15,21 @@ import static controller.ImageFileUtils.savePPM;
  * Service class responsible for handling image loading and saving operations.
  */
 public class ImageService {
-  private final ImageModelV2 imageModel;
+  private final ImageModel imageModel;
 
   /**
    * Constructor to initialize the class object.
+   *
    * @param imageModel the
    */
-  public ImageService(ImageModelV2 imageModel) {
+  public ImageService(ImageModel imageModel) {
     this.imageModel = imageModel;
   }
 
   /**
    * Loads an image from the specified filepath.
-   * @param path the filepath of the image to load.
+   *
+   * @param path      the filepath of the image to load.
    * @param imageName the name of the image to load.
    * @throws IOException if there is an error with reading files.
    */
@@ -51,7 +53,8 @@ public class ImageService {
 
   /**
    * Saves an image to the specified filepath.
-   * @param path the filepath of the image to save to.
+   *
+   * @param path      the filepath of the image to save to.
    * @param imageName the name of the image to save.
    * @throws IOException if there is an error with saving files.
    */

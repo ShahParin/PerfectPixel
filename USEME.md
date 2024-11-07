@@ -1,5 +1,5 @@
 
-# PerfectPixel
+# PerfectPixel: Usage Guide
 
 ## 1. Fetching & Passing
 In the root directory of the project, ensure there is a folder named images, which should contain the following two subdirectories:

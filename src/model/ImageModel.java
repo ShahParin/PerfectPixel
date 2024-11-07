@@ -6,53 +6,16 @@ package model;
  * changing color components, flipping, brightening, filter, and transformations.
  */
 public interface ImageModel {
-  /**
-   * Creates a new image that has only the red component of the image.
-   *
-   * @param imageName    the name of the original image.
-   * @param newImageName the name of the new image with the red component.
-   */
-  void applyRedComponent(String imageName, String newImageName);
 
   /**
-   * Creates a new image that has only the green component of the image.
+   * A generic component class that supports extracting the image components - red, green, blue,
+   * value, intensity, and luma.
    *
-   * @param imageName    the name of the original image.
-   * @param newImageName the name of the new image with the green component.
+   * @param imageName     the name of the original image.
+   * @param newImageName  the name of the new image.
+   * @param componentType the Enum object having the components.
    */
-  void applyGreenComponent(String imageName, String newImageName);
-
-  /**
-   * Creates a new image that has only the blue component of the image.
-   *
-   * @param imageName    the name of the original image.
-   * @param newImageName the name of the new image with the blue component.
-   */
-  void applyBlueComponent(String imageName, String newImageName);
-
-  /**
-   * Creates a new image with the value component of the original image.
-   *
-   * @param imageName    the name of the original image.
-   * @param newImageName the name of the new image.
-   */
-  void applyValue(String imageName, String newImageName);
-
-  /**
-   * Creates a new image with the intensity component of the original image.
-   *
-   * @param imageName    the name of the original image.
-   * @param newImageName the name of the new image.
-   */
-  void applyIntensity(String imageName, String newImageName);
-
-  /**
-   * Creates a new image with the luma component of the original image.
-   *
-   * @param imageName    the name of the original image.
-   * @param newImageName the name of the new image.
-   */
-  void applyLuma(String imageName, String newImageName);
+  void applyComponent(String imageName, String newImageName, ComponentType componentType);
 
   /**
    * Flips the image horizontally and creates a new image.

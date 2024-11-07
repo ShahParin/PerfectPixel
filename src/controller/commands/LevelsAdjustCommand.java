@@ -59,7 +59,6 @@ public class LevelsAdjustCommand implements Command {
 
   }
 
-
   @Override
   public void execute() {
     if (percent != null) {

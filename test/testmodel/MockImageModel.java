@@ -3,6 +3,7 @@ package testmodel;
 import java.util.HashMap;
 import java.util.Map;
 
+import model.ComponentType;
 import model.Image;
 import model.ImageModel;
 
@@ -14,47 +15,10 @@ public class MockImageModel implements ImageModel {
   private final StringBuilder log = new StringBuilder();
   private final Map<String, Image> imageStorage = new HashMap<>();
 
-
   @Override
-  public void applyRedComponent(String imageName, String newImageName) {
-    log.append("applyRedComponent called with imageName: ").append(imageName)
-            .append(" and newImageName: ").append(newImageName).append("\n");
-
-  }
-
-  @Override
-  public void applyGreenComponent(String imageName, String newImageName) {
-    log.append("applyGreenComponent called with imageName: ").append(imageName)
-            .append(" and newImageName: ").append(newImageName).append("\n");
-
-  }
-
-  @Override
-  public void applyBlueComponent(String imageName, String newImageName) {
-    log.append("applyBlueComponent called with imageName: ").append(imageName)
-            .append(" and newImageName: ").append(newImageName).append("\n");
-
-  }
-
-  @Override
-  public void applyValue(String imageName, String newImageName) {
-    log.append("applyValue called with imageName: ").append(imageName)
-            .append(" and newImageName: ").append(newImageName).append("\n");
-
-  }
-
-  @Override
-  public void applyIntensity(String imageName, String newImageName) {
-    log.append("applyIntensity called with imageName: ").append(imageName)
-            .append(" and newImageName: ").append(newImageName).append("\n");
-
-  }
-
-  @Override
-  public void applyLuma(String imageName, String newImageName) {
-    log.append("applyLuma called with imageName: ").append(imageName)
-            .append(" and newImageName: ").append(newImageName).append("\n");
-
+  public void applyComponent(String imageName, String newImageName, ComponentType componentType) {
+    log.append("applyComponent for ").append(componentType).append(" called with imageName: ")
+            .append(imageName).append(" and newImageName: ").append(newImageName).append("\n");
   }
 
   @Override
@@ -113,8 +77,6 @@ public class MockImageModel implements ImageModel {
     log.append("rgbCombine called with newImageName: ").append(newImageName)
             .append(" and redImage: ").append(redImage).append(" and greenImage: ")
             .append(greenImage).append(" and blueImage: ").append(blueImage).append("\n");
-
-
   }
 
   @Override
@@ -131,12 +93,7 @@ public class MockImageModel implements ImageModel {
     log.append("Image with name: ").append(imageName).append(" stored.\n");
   }
 
-
   public String getLog() {
     return log.toString();
-  }
-
-  public void clearLog() {
-    log.setLength(0); // Clear the log for reuse
   }
 }

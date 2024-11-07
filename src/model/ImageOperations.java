@@ -717,6 +717,15 @@ public class ImageOperations {
    * @throws IllegalArgumentException if the black, mid, or white values are invalid.
    */
   protected static Image levelsAdjust(Image original, int b, int m, int w) {
+    if (b < 0 || b > 255) {
+      throw new IllegalArgumentException("Black point value should be between 0 and 255.");
+    }
+    if (m < 0 || m > 255) {
+      throw new IllegalArgumentException("Mid point value should be between 0 and 255.");
+    }
+    if (w < 0 || w > 255) {
+      throw new IllegalArgumentException("White point value should be between 0 and 255.");
+    }
 
     int[][] redChannel = original.getRedChannel();
     int[][] greenChannel = original.getGreenChannel();
@@ -740,7 +749,6 @@ public class ImageOperations {
 
 
     return histogramVisualization(new Image(adjustedRed, adjustedGreen, adjustedBlue));
-//    return new Image(adjustedRed, adjustedGreen, adjustedBlue);
   }
 
   /**
@@ -798,6 +806,10 @@ public class ImageOperations {
    */
   protected static Image applyOperationSplit(Image original, double percentage,
                                              ImageEffectProcessor operation) {
+    if (percentage < 0 || percentage > 100) {
+      throw new IllegalArgumentException("Percentage value should be between 0 and 100.");
+    }
+
     int width = getDimensions(original)[1];
     int height = getDimensions(original)[0];
 
@@ -825,16 +837,20 @@ public class ImageOperations {
 
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
+
   protected static Image applyOperationSplit(Image original, double percentage,
-                                             ParameterizedImageEffectProcessor operation, Integer b, Integer m, Integer w) {
+                                             ParameterizedImageEffectProcessor operation,
+                                             Integer b, Integer m, Integer w) {
+    if (percentage < 0 || percentage > 100) {
+      throw new IllegalArgumentException("Percentage value should be between 0 and 100.");
+    }
+
     int width = getDimensions(original)[1];
     int height = getDimensions(original)[0];
     int splitLine = (int) (width * (percentage / 100));
 
     Image modifiedImage = operation.applyEffect(original, b, m, w);
 
-
-    // Remainder of the split logic
     int[][] newRedChannel = new int[height][width];
     int[][] newGreenChannel = new int[height][width];
     int[][] newBlueChannel = new int[height][width];

@@ -13,9 +13,10 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import controller.ImageService;
+import model.ComponentType;
 import model.Image;
-import model.ImageModelImplV2;
-import model.ImageModelV2;
+import model.ImageModel;
+import model.ImageModelImpl;
 import model.NothingThereException;
 
 import static org.junit.Assert.assertEquals;
@@ -23,13 +24,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
- * THis is a JUnit test class for the ImageModel class.
+ * This is a JUnit test class for the ImageModel class.
  */
 public class ImageModelImplTest {
   /*
-  Initilizing the ImageModel object.
-   */
-  private final ImageModelV2 imageModel = new ImageModelImplV2();
+  Initialising the ImageModel object.
+  */
+  private final ImageModel imageModel = new ImageModelImpl();
   private final ImageService imageService = new ImageService(imageModel);
 
   private Scanner getImageScanner(String filePath, String imageName) throws IOException {
@@ -318,9 +319,9 @@ public class ImageModelImplTest {
     imageModel.blurImage("sample", "sample-blur");
     Image actualImage = imageModel.getImage("sample-blur");
 
-    int[][] expectedRedChannel = {{0, 0},{0, 0}};
-    int[][] expectedGreenChannel = {{0, 0},{0, 0}};
-    int[][] expectedBlueChannel = {{0, 0},{0, 0}};
+    int[][] expectedRedChannel = {{0, 0}, {0, 0}};
+    int[][] expectedGreenChannel = {{0, 0}, {0, 0}};
+    int[][] expectedBlueChannel = {{0, 0}, {0, 0}};
 
     assertEquals(expectedRedChannel, actualImage.getRedChannel());
     assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
@@ -330,7 +331,7 @@ public class ImageModelImplTest {
   @Test
   public void testPPMRedComponent() throws IOException {
     imageService.loadImage("input/test.ppm", "sample");
-    imageModel.applyRedComponent("sample", "sample-red-component");
+    imageModel.applyComponent("sample", "sample-red-component", ComponentType.RED);
     Image actualImage = imageModel.getImage("sample-red-component");
 
     int[][] expectedRedChannel = {{123, 12}, {255, 128}};
@@ -346,7 +347,8 @@ public class ImageModelImplTest {
   @Test
   public void testPPMGreenComponent() throws IOException {
     imageService.loadImage("input/test.ppm", "sample");
-    imageModel.applyGreenComponent("sample", "sample-green-component");
+    imageModel.applyComponent("sample", "sample-green-component", ComponentType.GREEN);
+
     Image actualImage = imageModel.getImage("sample-green-component");
 
     int[][] expectedRedChannel = {{45, 200}, {255, 128}};
@@ -362,7 +364,8 @@ public class ImageModelImplTest {
   @Test
   public void testPPMBlueComponent() throws IOException {
     imageService.loadImage("input/test.ppm", "sample");
-    imageModel.applyBlueComponent("sample", "sample-blue-component");
+    imageModel.applyComponent("sample", "sample-blue-component", ComponentType.BLUE);
+
     Image actualImage = imageModel.getImage("sample-blue-component");
 
     int[][] expectedRedChannel = {{67, 150}, {0, 125}};
@@ -377,7 +380,7 @@ public class ImageModelImplTest {
   @Test
   public void testPPMValue() throws IOException {
     imageService.loadImage("input/test.ppm", "sample");
-    imageModel.applyValue("sample", "sample-value");
+    imageModel.applyComponent("sample", "sample-value", ComponentType.VALUE);
     Image actualImage = imageModel.getImage("sample-value");
 
     int[][] expectedRedChannel = {{123, 200}, {255, 128}};
@@ -394,7 +397,7 @@ public class ImageModelImplTest {
   @Test
   public void testPPMIntensity() throws IOException {
     imageService.loadImage("input/test.ppm", "sample");
-    imageModel.applyIntensity("sample", "sample-intensity");
+    imageModel.applyComponent("sample", "sample-intensity", ComponentType.INTENSITY);
     Image actualImage = imageModel.getImage("sample-intensity");
 
 
@@ -410,7 +413,7 @@ public class ImageModelImplTest {
   @Test
   public void testPPMLuma() throws IOException {
     imageService.loadImage("input/test.ppm", "sample");
-    imageModel.applyLuma("sample", "sample-luma");
+    imageModel.applyComponent("sample", "sample-luma", ComponentType.LUMA);
     Image actualImage = imageModel.getImage("sample-luma");
 
     int[][] expectedRedChannel = {{63, 156}, {236, 127}};
@@ -451,7 +454,7 @@ public class ImageModelImplTest {
     imageService.loadImage("input/test-green.ppm", "sample-green");
     imageService.loadImage("input/test-blue.ppm", "sample-blue");
 
-    imageModel.rgbCombine("sample-rgb-combine","sample-red",
+    imageModel.rgbCombine("sample-rgb-combine", "sample-red",
             "sample-green", "sample-blue");
 
     Image actualImage = imageModel.getImage("sample-rgb-combine");
@@ -468,7 +471,7 @@ public class ImageModelImplTest {
   @Test
   public void testPPMBrighten() throws IOException {
     imageService.loadImage("input/test.ppm", "sample");
-    imageModel.brightenImage(20,"sample", "sample-brighten");
+    imageModel.brightenImage(20, "sample", "sample-brighten");
     Image actualImage = imageModel.getImage("sample-brighten");
 
 
@@ -486,10 +489,8 @@ public class ImageModelImplTest {
   @Test
   public void testPPMDarken() throws IOException {
     imageService.loadImage("input/test.ppm", "sample");
-    imageModel.brightenImage(-40,"sample", "sample-darken");
+    imageModel.brightenImage(-40, "sample", "sample-darken");
     Image actualImage = imageModel.getImage("sample-darken");
-
-    imageService.saveImage("output/sample-darken.ppm", "sample-darken");
 
     int[][] expectedRedChannel = {{83, 0}, {215, 88}};
     int[][] expectedGreenChannel = {{5, 160}, {215, 88}};
@@ -506,9 +507,6 @@ public class ImageModelImplTest {
     imageService.loadImage("input/test.ppm", "sample");
     imageModel.flipHorizontally("sample", "sample-horizontal");
     Image actualImage = imageModel.getImage("sample-horizontal");
-
-
-    imageService.saveImage("output/sample-horizontal.ppm", "sample-horizontal");
 
     int[][] expectedRedChannel = {{12, 123}, {128, 255}};
     int[][] expectedGreenChannel = {{200, 45}, {128, 255}};
@@ -543,7 +541,6 @@ public class ImageModelImplTest {
     Image actualImage = imageModel.getImage("sample-sepia");
 
 
-
     int[][] expectedRedChannel = {{95, 186}, {255, 172}};
     int[][] expectedGreenChannel = {{85, 166}, {255, 153}};
     int[][] expectedBlueChannel = {{66, 129}, {205, 119}};
@@ -560,12 +557,9 @@ public class ImageModelImplTest {
     imageModel.sharpenImage("sample", "sample-sharpen");
     Image actualImage = imageModel.getImage("sample-sharpen");
 
-
-    imageService.saveImage("output/sample-sharpen.ppm", "sample-sharpen");
-
-    int[][] expectedRedChannel = {{0, 0},{0, 0}};
-    int[][] expectedGreenChannel = {{0, 0},{0, 0}};
-    int[][] expectedBlueChannel = {{0, 0},{0, 0}};
+    int[][] expectedRedChannel = {{0, 0}, {0, 0}};
+    int[][] expectedGreenChannel = {{0, 0}, {0, 0}};
+    int[][] expectedBlueChannel = {{0, 0}, {0, 0}};
 
     assertEquals(expectedRedChannel, actualImage.getRedChannel());
     assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
@@ -594,7 +588,7 @@ public class ImageModelImplTest {
   @Test
   public void testPNGRedComponent() throws IOException {
     imageService.loadImage("input/sample.png", "sample");
-    imageModel.applyRedComponent("sample", "sample-red-component");
+    imageModel.applyComponent("sample", "sample-red-component", ComponentType.RED);
     Image actualImage = imageModel.getImage("sample-red-component");
 
 
@@ -611,7 +605,7 @@ public class ImageModelImplTest {
   @Test
   public void testPNGGreenComponent() throws IOException {
     imageService.loadImage("input/sample.png", "sample");
-    imageModel.applyGreenComponent("sample", "sample-green-component");
+    imageModel.applyComponent("sample", "sample-green-component", ComponentType.GREEN);
     Image actualImage = imageModel.getImage("sample-green-component");
 
 
@@ -628,9 +622,8 @@ public class ImageModelImplTest {
   @Test
   public void testPNGBlueComponent() throws IOException {
     imageService.loadImage("input/sample.png", "sample");
-    imageModel.applyBlueComponent("sample", "sample-blue-component");
+    imageModel.applyComponent("sample", "sample-blue-component", ComponentType.BLUE);
     Image actualImage = imageModel.getImage("sample-blue-component");
-
 
 
     imageService.loadImage("output/sample-blue-component-expected.png",
@@ -646,7 +639,7 @@ public class ImageModelImplTest {
   @Test
   public void testPNGValue() throws IOException {
     imageService.loadImage("input/sample.png", "sample");
-    imageModel.applyValue("sample", "sample-value");
+    imageModel.applyComponent("sample", "sample-value", ComponentType.VALUE);
     Image actualImage = imageModel.getImage("sample-value");
 
 
@@ -663,7 +656,7 @@ public class ImageModelImplTest {
   @Test
   public void testPNGIntensity() throws IOException {
     imageService.loadImage("input/sample.png", "sample");
-    imageModel.applyIntensity("sample", "sample-intensity");
+    imageModel.applyComponent("sample", "sample-intensity", ComponentType.INTENSITY);
     Image actualImage = imageModel.getImage("sample-intensity");
 
 
@@ -680,9 +673,8 @@ public class ImageModelImplTest {
   @Test
   public void testPNGLuma() throws IOException {
     imageService.loadImage("input/sample.png", "sample");
-    imageModel.applyLuma("sample", "sample-luma");
+    imageModel.applyComponent("sample", "sample-luma", ComponentType.LUMA);
     Image actualImage = imageModel.getImage("sample-luma");
-
 
 
     imageService.loadImage("output/sample-luma-expected.png", "expectedImage");
@@ -704,7 +696,6 @@ public class ImageModelImplTest {
     Image actualImageRed = imageModel.getImage("sample-red");
     Image actualImageGreen = imageModel.getImage("sample-green");
     Image actualImageBlue = imageModel.getImage("sample-blue");
-
 
 
     imageService.loadImage("output/sample-red-expected.png",
@@ -732,11 +723,10 @@ public class ImageModelImplTest {
     imageService.loadImage("input/sample-green.png", "sample-green");
     imageService.loadImage("input/sample-blue.png", "sample-blue");
 
-    imageModel.rgbCombine("sample-rgb-combine","sample-red",
+    imageModel.rgbCombine("sample-rgb-combine", "sample-red",
             "sample-green", "sample-blue");
 
     Image actualImage = imageModel.getImage("sample-rgb-combine");
-
 
 
     imageService.loadImage("output/sample.png", "expectedImage");
@@ -754,7 +744,6 @@ public class ImageModelImplTest {
     Image actualImage = imageModel.getImage("sample-horizontal");
 
 
-
     imageService.loadImage("output/sample-horizontal-expected.png", "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");
 
@@ -769,7 +758,6 @@ public class ImageModelImplTest {
     imageService.loadImage("input/sample.png", "sample");
     imageModel.flipVertically("sample", "sample-vertical");
     Image actualImage = imageModel.getImage("sample-vertical");
-
 
 
     imageService.loadImage("output/sample-vertical-expected.png", "expectedImage");
@@ -806,7 +794,7 @@ public class ImageModelImplTest {
     imageModel.applySepia("sample", "sample-sepia");
     imageModel.flipVertically("sample-sepia", "sample-vertical");
     imageModel.blurImage("sample-vertical", "sample-blur");
-    imageModel.applyLuma("sample-blur", "sample-luma");
+    imageModel.applyComponent("sample-blur", "sample-luma", ComponentType.LUMA);
     Image actualImage = imageModel.getImage("sample-luma");
 
     imageService.loadImage("output/sample-multiple.ppm", "expectedImage");
@@ -826,7 +814,7 @@ public class ImageModelImplTest {
     imageModel.applySepia("sample", "sample-sepia");
     imageModel.flipVertically("sample-sepia", "sample-vertical");
     imageModel.blurImage("sample-vertical", "sample-blur");
-    imageModel.applyLuma("sample-blur", "sample-luma");
+    imageModel.applyComponent("sample-blur", "sample-luma", ComponentType.LUMA);
     Image actualImage = imageModel.getImage("sample-luma");
 
     imageService.loadImage("output/sample-multiple.png", "expectedImage");
@@ -1024,8 +1012,6 @@ public class ImageModelImplTest {
     imageModel.sharpenImage("sample-sharpen3", "sample-sharpen4");
     Image actualImage = imageModel.getImage("sample-sharpen4");
 
-    imageService.saveImage("output/sample-multiple-sharpen-expected.ppm",
-            "sample-sharpen4");
     imageService.loadImage("output/sample-multiple-sharpen-expected.ppm",
             "expectedImage");
     Image expectedImage = imageModel.getImage("expectedImage");

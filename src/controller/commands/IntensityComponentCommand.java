@@ -1,5 +1,6 @@
 package controller.commands;
 
+import model.ComponentType;
 import model.ImageModelV2;
 
 /**
@@ -46,7 +47,7 @@ public class IntensityComponentCommand implements Command {
     if (percent != null) {
       imageModel.intensityComponentImageSplit(imageName, newImageName, percent);
     } else {
-      imageModel.applyIntensity(imageName, newImageName);
+      imageModel.applyComponent(imageName, newImageName, ComponentType.INTENSITY);
     }
   }
 }

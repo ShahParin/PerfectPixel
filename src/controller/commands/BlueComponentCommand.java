@@ -1,5 +1,6 @@
 package controller.commands;
 
+import model.ComponentType;
 import model.ImageModelV2;
 
 /**
@@ -25,6 +26,6 @@ public class BlueComponentCommand implements Command {
 
   @Override
   public void execute() {
-    imageModel.applyBlueComponent(imageName, newImageName);
+    imageModel.applyComponent(imageName, newImageName, ComponentType.BLUE);
   }
 }
