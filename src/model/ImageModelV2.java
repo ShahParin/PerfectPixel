@@ -51,4 +51,70 @@ public interface ImageModelV2 extends ImageModel {
    * @param percentage   the percentage of image split for the image transformation.
    */
   void blurImageSplit(String imageName, String newImageName, double percentage);
+
+  /**
+   * Provides a split view of the applied image transformation.
+   *
+   * @param imageName    the name of image to apply transformation.
+   * @param newImageName the name of the transformed image.
+   * @param percentage   the percentage of image split for the image transformation.
+   */
+  void sharpenImageSplit(String imageName, String newImageName, double percentage);
+
+  /**
+   * Provides a split view of the applied image transformation.
+   *
+   * @param imageName    the name of image to apply transformation.
+   * @param newImageName the name of the transformed image.
+   * @param percentage   the percentage of image split for the image transformation.
+   */
+  void sepiaImageSplit(String imageName, String newImageName, double percentage);
+
+  /**
+   * Provides a split view of the applied image transformation.
+   *
+   * @param imageName    the name of image to apply transformation.
+   * @param newImageName the name of the transformed image.
+   * @param percentage   the percentage of image split for the image transformation.
+   */
+  void valueComponentImageSplit(String imageName, String newImageName, double percentage);
+
+  /**
+   * Provides a split view of the applied image transformation.
+   *
+   * @param imageName    the name of image to apply transformation.
+   * @param newImageName the name of the transformed image.
+   * @param percentage   the percentage of image split for the image transformation.
+   */
+  void lumaComponentImageSplit(String imageName, String newImageName, double percentage);
+
+  /**
+   * Provides a split view of the applied image transformation.
+   *
+   * @param imageName    the name of image to apply transformation.
+   * @param newImageName the name of the transformed image.
+   * @param percentage   the percentage of image split for the image transformation.
+   */
+  void intensityComponentImageSplit(String imageName, String newImageName, double percentage);
+
+  /**
+   * Provides a split view of the applied image transformation.
+   *
+   * @param imageName    the name of the image to apply color correct.
+   * @param newImageName the name of the color corrected image.
+   */
+  void applyColorCorrectionSplit(String imageName, String newImageName,double percentage);
+
+  /**
+   * Provides a split view of the applied image transformation.
+   *
+   * @param black        the black point for clamping pixels.
+   * @param mid          the mid value for clamping pixels.
+   * @param white        the white value for clamping pixels.
+   * @param imageName    the name of the image to adjust levels.
+   * @param newImageName the name of the image with adjusted levels.
+   */
+  void applyLevelsAdjustmentSplit(int black, int mid, int white, String imageName, String newImageName, double percentage);
+
+
 }

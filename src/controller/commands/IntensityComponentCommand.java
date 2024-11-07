@@ -9,6 +9,7 @@ public class IntensityComponentCommand implements Command {
   private final ImageModelV2 imageModel;
   private final String imageName;
   private final String newImageName;
+  private final Double percent;
 
   /**
    * Constructor to initialize the class object.
@@ -21,10 +22,31 @@ public class IntensityComponentCommand implements Command {
     this.imageModel = imageModel;
     this.imageName = imageName;
     this.newImageName = newImageName;
+    this.percent = null;
+
+  }
+  /**
+   * Constructor to initialize the class object for split command.
+   *
+   * @param imageModel      the image model object.
+   * @param imageName       the name of the image.
+   * @param newImageName    the name of the new image.
+   * @param splitPercentage the percent of split.
+   */
+  public IntensityComponentCommand(ImageModelV2 imageModel, String imageName, String newImageName,
+                              double splitPercentage) {
+    this.imageModel = imageModel;
+    this.imageName = imageName;
+    this.newImageName = newImageName;
+    this.percent = splitPercentage;
   }
 
   @Override
   public void execute() {
-    imageModel.applyIntensity(imageName, newImageName);
+    if (percent != null) {
+      imageModel.intensityComponentImageSplit(imageName, newImageName, percent);
+    } else {
+      imageModel.applyIntensity(imageName, newImageName);
+    }
   }
 }

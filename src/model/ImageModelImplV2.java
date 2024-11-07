@@ -88,4 +88,66 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
       images.put(newImageName, blurredImagePercentage);
     }
   }
+
+  @Override
+  public void sharpenImageSplit(String imageName, String newImageName, double percentage) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image sharpenedImagePercentage = applyOperationSplit(original, percentage,
+              ImageOperations::sharpen);
+      sharpenedImagePercentage.clamp();
+      images.put(newImageName, sharpenedImagePercentage);
+    }
+  }
+
+  @Override
+  public void sepiaImageSplit(String imageName, String newImageName, double percentage) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image sepiaImagePercentage = applyOperationSplit(original, percentage,
+              ImageOperations::sepia);
+      sepiaImagePercentage.clamp();
+      images.put(newImageName, sepiaImagePercentage);
+    }
+  }
+
+
+  @Override
+  public void valueComponentImageSplit(String imageName, String newImageName, double percentage) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image sepiaImagePercentage = applyOperationSplit(original, percentage,
+              ImageOperations::pixelValue);
+      sepiaImagePercentage.clamp();
+      images.put(newImageName, sepiaImagePercentage);
+    }
+  }
+
+
+  @Override
+  public void lumaComponentImageSplit(String imageName, String newImageName, double percentage) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image sepiaImagePercentage = applyOperationSplit(original, percentage,
+              ImageOperations::pixelLuma);
+      sepiaImagePercentage.clamp();
+      images.put(newImageName, sepiaImagePercentage);
+    }
+  }
+
+
+  @Override
+  public void intensityComponentImageSplit(String imageName, String newImageName, double percentage) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image sepiaImagePercentage = applyOperationSplit(original, percentage,
+              ImageOperations::pixelIntensity);
+      sepiaImagePercentage.clamp();
+      images.put(newImageName, sepiaImagePercentage);
+    }
+  }
+
+
+
+
 }
