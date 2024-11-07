@@ -2,6 +2,10 @@ package testmodel;
 
 import model.ImageModelV2;
 
+/**
+ * This class is created for implementing mock model for testing the controller with the extended
+ * model.
+ */
 public class MockImageModelV2 extends MockImageModel implements ImageModelV2 {
 
   @Override
@@ -22,7 +26,8 @@ public class MockImageModelV2 extends MockImageModel implements ImageModelV2 {
   }
 
   @Override
-  public void applyLevelsAdjustment(int black, int mid, int white, String imageName, String newImageName) {
+  public void applyLevelsAdjustment(int black, int mid, int white, String imageName,
+                                    String newImageName) {
 
   }
 

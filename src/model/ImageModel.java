@@ -136,7 +136,7 @@ public interface ImageModel {
    * Assigns the provided image to its image name.
    *
    * @param imageName name of the image.
-   * @param image the actual image object.
+   * @param image     the actual image object.
    */
   void putImage(String imageName, Image image);
 }

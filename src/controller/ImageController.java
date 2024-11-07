@@ -15,5 +15,12 @@ public interface ImageController {
    */
   void runScript(String scriptFilePath);
 
+  /**
+   * Executes a single command line input by interpreting the command and arguments,
+   * and creating the appropriate command instance to execute it.
+   *
+   * @param command the command line input to execute.
+   * @throws IOException if an error occurs during command execution.
+   */
   void execute(String command) throws IOException;
 }

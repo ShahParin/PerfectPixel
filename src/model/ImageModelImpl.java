@@ -1,10 +1,6 @@
 package model;
 
-import java.io.File;
-import java.io.IOException;
-
 import java.util.HashMap;
-
 import java.util.Map;
 
 import static model.ImageOperations.blur;
@@ -16,7 +12,6 @@ import static model.ImageOperations.extractRedComponent;
 import static model.ImageOperations.pixelIntensity;
 import static model.ImageOperations.pixelLuma;
 import static model.ImageOperations.pixelValue;
-
 import static model.ImageOperations.sepia;
 import static model.ImageOperations.sharpen;
 import static model.ImageOperations.splitRGB;
@@ -41,7 +36,6 @@ public class ImageModelImpl implements ImageModel {
   public ImageModelImpl() {
     this.images = new HashMap<>();
   }
-
 
   @Override
   public void applyRedComponent(String imageName, String newImageName) {

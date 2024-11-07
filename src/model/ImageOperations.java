@@ -2,19 +2,11 @@ package model;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
-
-import javax.imageio.ImageIO;
 
 import static model.ImageUtil.getDimensions;
 import static model.ImageUtil.getNewComponent;
@@ -31,7 +23,8 @@ public class ImageOperations {
    * @return returns the transformed image.
    */
   protected static Image sepia(Image image) {
-    double[][] sepiaKernel = new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168}, {0.272, 0.534, 0.131}};
+    double[][] sepiaKernel = new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168},
+            {0.272, 0.534, 0.131}};
     return ImageUtil.transformationHelper(image, sepiaKernel);
   }
 
@@ -130,7 +123,8 @@ public class ImageOperations {
    * @return returns the blurred image.
    */
   protected static Image blur(Image image) {
-    float[][] kernel = {{1 / 16f, 1 / 8f, 1 / 16f}, {1 / 8f, 1 / 4f, 1 / 8f}, {1 / 16f, 1 / 8f, 1 / 16f}};
+    float[][] kernel = {{1 / 16f, 1 / 8f, 1 / 16f},
+            {1 / 8f, 1 / 4f, 1 / 8f}, {1 / 16f, 1 / 8f, 1 / 16f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
@@ -414,8 +408,8 @@ public class ImageOperations {
    * Copies a sub-array from a larger padded array to match original dimensions.
    *
    * @param array the padded 2D array.
-   * @param rows original row count.
-   * @param cols original column count.
+   * @param rows  original row count.
+   * @param cols  original column count.
    * @return sub-array with original dimensions.
    */
   private static double[][] copySubArray(double[][] array, int rows, int cols) {
@@ -468,35 +462,31 @@ public class ImageOperations {
   /**
    * Applies the transformation on each row or column within the specified pad size.
    *
-   * @param array The array to transform.
-   * @param padSize The current size of the padded section to transform.
+   * @param array     The array to transform.
+   * @param padSize   The current size of the padded section to transform.
    * @param isForward Whether to apply the forward (true) or inverse (false) transform.
-   * @param isRow Whether to apply the transformation on rows (true) or columns (false).
+   * @param isRow     Whether to apply the transformation on rows (true) or columns (false).
    */
-  private static void applyTransform(double[][] array, int padSize, boolean isForward, boolean isRow) {
+  private static void applyTransform(double[][] array, int padSize, boolean isForward,
+                                     boolean isRow) {
     for (int index = 0; index < padSize; index++) {
       double[] elements = new double[padSize];
 
-      // Collect the elements from the current row or column.
       for (int inner = 0; inner < padSize; inner++) {
         elements[inner] = isRow ? array[index][inner] : array[inner][index];
       }
 
-      // Convert elements to a List<Double> for transformation.
       List<Double> elementsList = new ArrayList<>();
       for (double value : elements) {
         elementsList.add(value);
       }
 
-      // Transform the collected elements.
       List<Double> transformedList = isForward ? transform(elementsList) : invert(elementsList);
 
-      // Convert transformed elements back to a double[].
       for (int inner = 0; inner < padSize; inner++) {
         elements[inner] = transformedList.get(inner);
       }
 
-      // Place the transformed elements back into the array.
       for (int inner = 0; inner < padSize; inner++) {
         if (isRow) {
           array[index][inner] = elements[inner];
@@ -719,85 +709,82 @@ public class ImageOperations {
    * Adjusts the levels of an image by applying a curve to map each color channel to specified
    * black, midtone, and white points.
    *
-   * @param image the image to adjust.
-   * @param black the black point for clamping pixels.
-   * @param mid   the mid value for clamping pixels.
-   * @param white the white value for clamping pixels.
+   * @param original the image to adjust.
+   * @param b        the black point for clamping pixels.
+   * @param m        the mid value for clamping pixels.
+   * @param w        the white value for clamping pixels.
    * @return the adjusted image.
    * @throws IllegalArgumentException if the black, mid, or white values are invalid.
    */
-  protected static Image levelsAdjust(Image image, int black, int mid, int white) {
-    if (black >= mid || mid >= white || black < 0 || white > 255) {
-      throw new IllegalArgumentException("Invalid levels adjustment values.");
-    }
+  protected static Image levelsAdjust(Image original, int b, int m, int w) {
 
-    double[] curve = createLevelsCurve(black, mid, white);
+    int[][] redChannel = original.getRedChannel();
+    int[][] greenChannel = original.getGreenChannel();
+    int[][] blueChannel = original.getBlueChannel();
 
-    int[][] redChannel = adjustChannelWithCurve(image.getRedChannel(), curve);
-    int[][] greenChannel = adjustChannelWithCurve(image.getGreenChannel(), curve);
-    int[][] blueChannel = adjustChannelWithCurve(image.getBlueChannel(), curve);
+    double A = Math.pow(b, 2) * (m - w) - b * (Math.pow(m, 2) - Math.pow(w, 2))
+            + w * Math.pow(m, 2) - m * Math.pow(w, 2);
 
-    return histogramVisualization(new Image(redChannel, greenChannel, blueChannel));
+    double Aa = -b * (128 - 255) + 128 * w - 255 * m;
+    double Ab = Math.pow(b, 2) * (128 - 255) + 255 * Math.pow(m, 2) - 128 * Math.pow(w, 2);
+    double Ac = Math.pow(b, 2) * (255 * m - 128 * w) - b * (255 * Math.pow(m, 2)
+            - 128 * Math.pow(w, 2));
+
+    double a = Aa / A;
+    double bCoeff = Ab / A;
+    double c = Ac / A;
+
+    int[][] adjustedRed = adjustChannel(redChannel, a, bCoeff, c, b, w);
+    int[][] adjustedGreen = adjustChannel(greenChannel, a, bCoeff, c, b, w);
+    int[][] adjustedBlue = adjustChannel(blueChannel, a, bCoeff, c, b, w);
+
+
+    return histogramVisualization(new Image(adjustedRed, adjustedGreen, adjustedBlue));
+//    return new Image(adjustedRed, adjustedGreen, adjustedBlue);
   }
 
   /**
-   * Creates a quadratic curve for levels adjustment, mapping intensity values between specified
-   * black, midtone, and white points.
+   * Adjusts a color channel by applying the quadratic transformation to each pixel value.
    *
-   * @param black the black point intensity
-   * @param mid   the midtone intensity
-   * @param white the white point intensity
-   * @return a double array representing the level adjustment curve
-   */
-  private static double[] createLevelsCurve(int black, int mid, int white) {
-    double[] curve = new double[256];
-
-    double slope1 = 128.0 / (mid - black);
-    double slope2 = 127.0 / (white - mid);
-
-    for (int i = 0; i < 256; i++) {
-      if (i < black) {
-        curve[i] = 0;
-      } else if (i <= mid) {
-        curve[i] = slope1 * (i - black);
-      } else if (i <= white) {
-        curve[i] = 128 + slope2 * (i - mid);
-      } else {
-        curve[i] = 255;
-      }
-    }
-
-    return curve;
-  }
-
-  /**
-   * Adjusts a color channel by applying a pre-defined levels curve to each pixel value.
-   *
-   * @param channel each of the color channels for red, green or blue.
-   * @param curve   the level adjustment curve.
+   * @param channel each of the color channels (red, green, blue).
+   * @param a       quadratic coefficient.
+   * @param bCoeff  linear coefficient.
+   * @param c       constant coefficient.
+   * @param b       black point threshold.
+   * @param w       white point threshold.
    * @return the adjusted color channel.
    */
-  private static int[][] adjustChannelWithCurve(int[][] channel, double[] curve) {
+  private static int[][] adjustChannel(int[][] channel, double a, double bCoeff, double c, int b,
+                                       int w) {
     int height = channel.length;
     int width = channel[0].length;
     int[][] adjustedChannel = new int[height][width];
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        adjustedChannel[i][j] = clamp(curve[channel[i][j]]);
+        int value = channel[i][j];
+        double result;
+
+        if (value <= b) {
+          result = 0;
+        } else if (value >= w) {
+          result = 255;
+        } else {
+          result = a * Math.pow(value, 2) + bCoeff * value + c;
+          result = clamp((int) result);
+        }
+
+        adjustedChannel[i][j] = (int) Math.round(result);
       }
     }
     return adjustedChannel;
   }
 
   /**
-   * Clamps a double value to ensure it remains within the valid color range (0–255).
-   *
-   * @param value the value to clamp.
-   * @return clamped integer value.
+   * Clamps a value to ensure it is between 0 and 255.
    */
-  private static int clamp(double value) {
-    return (int) Math.max(0, Math.min(255, value));
+  private static int clamp(int value) {
+    return Math.max(0, Math.min(255, value));
   }
 
   /**

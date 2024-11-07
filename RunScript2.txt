@@ -1,25 +1,28 @@
 # Load an image and name it
-#load input/galaxy-adjusted.png sample
+#load input/galaxy.png sample
 #levels-adjust 20 100 255 sample sample-level
 #save output/sample-level.png sample-level
 
-#load input/galaxy-corrected.png sample1
-#color-correct sample1 sample-correct
-#save output/sample-correct.png sample-correct
+#load input/test-level.ppm sample
+#levels-adjust 20 100 255 sample sample-level
+#save output/sample-level.ppm sample-level
 
-#load input/manhattan-small.png sample2
-#histogram-vis sample2 sample-histogram
-#save output/sample-histogram.png sample-histogram
+#load input/test-level.ppm sample1
+#color-correct sample1 sample-correct
+#save output/sample-correct.ppm sample-correct
+
+#load input/test-level.ppm sample2
+#histogram sample2 sample-histogram
+#save output/sample-histogram.ppm sample-histogram
 
 load input/manhattan-small.png sample3
-blur sample3 sample-blur 90
+blur sample3 sample-blur split 90
 save output/sample-blur-per.png sample-blur
 
-load input/manhattan-small.png sample4
-compress 90 sample4 compress20
-save output/sample-compress.png compress20
+#load input/manhattan-small.png sample4
+#compress 90 sample4 compress20
+#save output/sample-compress.png compress20
 
-
-load /input/sample.jpg sample
-horizontal-flip sample sample-flipped
-save /output/output.jpg sample-flipped
+#load /input/sample.jpg sample
+#horizontal-flip sample sample-flipped
+#save /output/output.jpg sample-flipped

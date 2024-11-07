@@ -15,6 +15,10 @@ import model.NothingThereException;
 
 import static model.ImageUtil.getDimensions;
 
+/**
+ * Utility class for handling image file operations, such as reading and saving
+ * images in various formats (PPM, PNG, JPEG, JPG).
+ */
 public class ImageFileUtils {
   /**
    * This functions reads the ppm image file.

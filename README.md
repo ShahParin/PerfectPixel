@@ -1,169 +1,102 @@
 # PerfectPixel
 
 ## Project Overview
+PerfectPixel is a Java-based image processing application. It supports a range of image processing operations such as color adjustments, filtering, transformations, and image compression. Users can interact with the application via text-based scripts or command-line inputs to perform various image manipulations.
 
-This project contains a set of image processing commands applied to an image. The script performs operations such as extracting color components, flipping, applying filters (sepia, greyscale, etc.), and combining channels, all on a single image. The commands can be run through a script file, executing various transformations in sequence.
+## Features
+- **Load/Save Images**: Supports JPG, JPEG, PNG, and PPM file formats.
+- **Channel Visualization**: Isolates the red, green, or blue channels for analysis or display.
+- **Brightness Adjustment**: Brightens or darkens an image by adjusting each pixel's color values.
+- **Image Flipping**: Provides options to flip images horizontally or vertically.
+- **Filtering**:
+  - **Blur**: Applies a Gaussian blur to soften image details.
+  - **Sharpen**: Enhances image edges for a crisper look.
+- **Color Transformations**:
+  - **Greyscale**: Converts images to greyscale using the Luma transformation.
+  - **Sepia Tone**: Applies a sepia filter to get the characteristic reddish brown tone of 19th century images.
+- **Image Compression**:
+  - **Haar Wavelet Transform**: Applies a customizable compression by utilizing the Haar Wavelet.
+- **Histograms**:
+  - **Visualization**: Generates a histogram displaying the color intensity distribution across the red, green, and blue channels.
+  - **Color Correction**: Adjusts the color balance by aligning histogram peaks of individual channels.
+  - **Levels Adjustment**: Enhances image contrast using black, midtone, and white points on the histogram.
+- **Split View Preview**: Provides a side-by-side view of the original and modified image to visualize transformations in real time.
+
 
 ## Folder Structure
-This project follows an MVC architecture, with organized directories for images, source code (model, view, controller, main ), and Unit tests for each component.
-
-    .
-    ├── images                # Contains project-related images
-    ├── src                   # Source code for the application      
-    │   ├── model             # Business logic    
-    │   ├── view              # View Componenets 
-    │   ├── controller        # Application logic and user input handling      
-    │   ├── Main              # Entry point of the application  
-    │   
-    ├── test                  # Contains Unit testing 
-    │   ├── testmodel         # Model Testing         
-    │   ├── testview          # View Testing       
-    │   ├── testcontroller    # Controller Testing    
-    └── ...
+This project follows an MVC architecture, with organized directories for images, source code (Model, View, Controller, Main), and Unit tests for ease of understanding.
+```
+  .
+  ├── images                  # Contains project-related images
+  ├── src                     # Source code for the application      
+  │   ├── controller          # Application logic and user input handling      
+  │   ├── model               # Business logic    
+  │   ├── view                # View Components
+  │   └── Main                # Entry point of the application  
+  ├── test                    # Contains Unit testing
+  │   ├── testcontroller      # Controller Testing    
+  │   ├── testmodel           # Model Testing         
+  │   └── testview            # View Testing       
+  ├── README.md               # Overview of the project, features supported, dependencies, and testing
+  └── USEME.md                # Contains detailed instructions on how to use the project for end-users
+```
 
 ## Classes & Interfaces
 Below is the class diagram for the application,
-![UML Class Diagram](Assignment4_MVC.png)
+![UML Class Diagram](PerfectPixel_UML.png)
 
-**ImageController.java:** This is an Interface for the Controller. It executes the commands provided for image loading, manipulation or storing.
-**TextBasedController.java:** This class represents the Controller, acting as the mediator between the inputs from the View and the different operations to be preformed from the Model.
-
-**Image.java:** This is the representation class of any Image that is going to be processed in the entire application. It contains 3 channels, Red, Green and Blue as 2D Arrays. It also contains logic for intensity, luma and value for a particular pixel.
-**ImageModel.java:** This interface defines a set of operations that can be performed on the images. It provides operations like loading, saving, and applying transformations to images, changing color components, flipping, brightening, filter, and transformations.
-**ImageModelImpl.java:** This class provides functionality to manage and manipulate images. It supports operations like loading, saving, applying color filters, transforming, and combining images. The images can be loaded and saved in different formats, and the class offers various methods to extract and manipulate specific color components (red, green, blue) or grayscale versions of images (based on value, intensity, and luma).
-**ImageOperations.java:** This class contains the logic for all the operations that should be performed on the images. Some of the supported operations are filters, transforms, splitting and combining RGB images.
-**ImageUtil.java:** This is a utilities class for the ImageModel. It abstracts some of the operations to be performed on the images, like fetching the image dimensions, abstracting logic for filters and transformations.
-**NothingThereException.java:** A custom exception class when the image has no pixels defined.
-
-**ImageView.java:** This is an Interface for the View. It displays all the output statements to the end user.
-**ConsoleBasedView.java:** This class represents the View, it will display the logs for each operation asked by the user.
-
-## How to Use
-
-### 1. Fetching & Passing 
-In the root directory of the project, ensure there is a folder named images, which should contain the following two subdirectories:
-
-    input/: This directory holds the input images that the program processes.
-    output/: This directory stores the output images generated by the program.
-
-Make sure to place and check the appropriate images in their respective directories before running the project.
-
-### 2. Compilation Instructions
-
-To compile the Java files, ensure that you are inside the `src` directory of the project. Depending on your operating system and shell, use one of the following commands:
-
-- **PowerShell**:
-  ```powershell
-  Get-ChildItem -Recurse -Filter *.java | ForEach-Object { javac -d ../res $_.FullName }
-  
-- **Command Prompt (CMD)**:
-  ```
-  for /r %i in (*.java) do javac -d ..\res "%i"
-
-- **Git Bash / Linux**:
-  ```
-  find . -name "*.java" -exec javac -d ../res {} \;
-
-- **macOS (Option 1):**:
-  ```
-  find . -name "*.java | xargs javac -d ../res
-
-- **macOS (Option 1):**:
-  ```
-  for file in $(find . -name "*.java"); do javac -d ../res "$file"; done
-
-Each of these commands will recursively find all Java files in the src directory and compile them into the res directory.
-
-### 3. Running the Program
-
-To run the application, follow these steps:
-
-1. Open your terminal or command prompt.
-2. Navigate to the root directory of the project.
-3. Execute one of the following commands:
+- **Model:**
+  - **Image.java:** This is the representation class of any Image that is going to be processed in the entire application. It contains 3 channels, Red, Green and Blue as 2D Arrays. It also contains logic for intensity, luma and value for a particular pixel.
+  - **ImageModel.java:** This interface defines a set of operations that can be performed on the images. It provides operations like loading, saving, and applying transformations to images, changing color components, flipping, brightening, filter, and transformations.
+  - **ImageModelImpl.java:** This class provides functionality to manage and manipulate images. It supports operations like loading, saving, applying color filters, transforming, and combining images. The images can be loaded and saved in different formats, and the class offers various methods to extract and manipulate specific color components (red, green, blue) or grayscale versions of images (based on value, intensity, and luma).
+  - **ImageModelV2.java:** This interface extends the ImageModel and supports additional functions like compression, histogram, color correction, level adjustment and split image display.
+  - **ImageModelImplV2:** This class extends the class, ImageModelImpl and supports additional operations like compression, histogram, image corrections, and split image view.
+  - **ImageOperations.java:** This class contains the logic for all the operations that should be performed on the images. Some of the supported operations are filters, transforms, splitting and combining RGB images.
+  - **ImageUtil.java:** This is a utilities class for the ImageModel. It abstracts some of the operations to be performed on the images, like fetching the image dimensions, abstracting logic for filters and transformations.
+  - **ImageEffectProcessor:** Interface for applying image effects to an image.
+  - **NothingThereException.java:** A custom exception class when the image has no pixels defined.
 
 
-**Option 1: Without Command Line Arguments**
-
-- If you do not need to pass any command line arguments, use:
-
-   ```
-   java -cp res Main
-  
-**Option 2: With Command Line Arguments**
-
-- If you need to pass command line arguments, replace `filename` with your desired argument and use::
-
-   ```
-   java -cp res Main fileName
-
-- The given file should be in the root directory of the project.
+- **View:**
+  - **ImageView.java:** This is an Interface for the View. It displays all the output statements to the end user.
+  - **ConsoleBasedView.java:** This class represents the View, it will display the logs for each operation asked by the user.
 
 
-### Script Commands
-As all input images are inside /images/input, user needs to give "/input/fileName" to load images.
+- **Controller:**
+  - **ImageController.java:** This is an Interface for the Controller. It executes the commands provided for image loading, manipulation or storing.
+  - **TextBasedController.java:** This class represents the Controller, acting as the mediator between the inputs from the View and the different operations to be preformed from the Model.
+  - **ImageFileUtils.java:** Utility class for handling image file operations, such as reading and saving images in various formats (PPM, PNG, JPEG, JPG).
+  - **ImageService.java:** Service class responsible for handling image loading and saving operations.
+  - **BlueComponentCommand.java:** Extracts the blue component from an image and saves the result as a new image.
+  - **BlurCommand.java:** Applies a blur effect to the specified image, creating a softened or smoothed version.
+  - **BrightenCommand.java:** Adjusts the brightness of an image, either increasing or decreasing it based on user input.
+  - **ColorCorrectCommand.java:** Applies color correction to the image to adjust color balance, tones, or saturation.
+  - **CompressCommand.java:** Compresses the image, possibly by reducing its dimensions or color depth to reduce file size.
+  - **GreenComponentCommand.java:** Extracts the green component from an image and saves the result as a new image.
+  - **HistogramVisualizationCommand.java:** Generates a histogram visualization of the image, showing color distributions.
+  - **HorizontalFlipCommand.java:** Flips the image horizontally, creating a mirror image.
+  - **IntensityComponentCommand.java:** Extracts the intensity component, which is typically the average of the RGB values, representing brightness.
+  - **LevelsAdjustCommand.java:** Adjusts the levels of an image, balancing highlights, midtones, and shadows for better contrast.
+  - **LoadCommand.java:** Loads an image into the model for processing.
+  - **LumaComponentCommand.java:** Extracts the luma component, which represents the perceived brightness in an image based on weighted RGB values.
+  - **RedComponentCommand.java:** Extracts the red component from an image and saves the result as a new image.
+  - **RGBCombineCommand.java:** Combines separate red, green, and blue component images into a single RGB image.
+  - **RGBSplitCommand.java:** Splits an RGB image into separate red, green, and blue component images.
+  - **SaveCommand.java:** Saves the processed image to a specified file location.
+  - **SepiaCommand.java:** Applies a sepia tone effect to the image, giving it a warm, antique look.
+  - **SharpenCommand.java:** Sharpens the image to enhance edges and fine details.
+  - **ValueComponentCommand.java:** Extracts the value component, which is the maximum of the RGB values, representing the lightest color in each pixel.
+  - **VerticalFlipCommand.java:** Flips the image vertically, creating an upside-down image.
 
-As all output images are inside /images/output, user needs to give "/output/fileName" to save image.
+## Dependencies
+The project relies solely on JDK classes and does not require external libraries.
 
-This is the done to improvise clarity while loading, manipulation, enhancement and saving of multiple images, avoid confusion and keep images segregated.
+## Testing
+Each feature includes unit tests, covering the model and controller logic. Mock objects were used to simulate the controller responses.
 
-Below are some sample examples on how commands should be written in script file to get desired output:
-- Load an image and name it\
-`load input/sample.ppm sample`<br/><br/>
+## Known Limitations
+**File Size**: Large images may slow down processing, but will yield results.
 
-- Save a loaded image named "sample"\
-`save input/sample.ppm sample`<br/><br/>
-
-- Create a new image with just the red component\
-`red-component sample sample-red`<br/><br/>
-
-- Create a new image with just the green component\
-`green-component sample sample-green`<br/><br/>
-
-- Create a new image with just the blue component\
-`blue-component sample sample-blue`<br/><br/>
-
-- Create a new image using the value component\
-`value-component sample sample-value`<br/><br/>
-
-- Create a new image using the intensity component\
-`intensity-component sample sample-intensity`<br/><br/>
-
-- Create a new image using the luma component\
-`luma-component sample sample-luma`<br/><br/>
-
-- Split the image into RGB components\
-`rgb-split sample sample-red sample-green sample-blue`<br/><br/>
-
-- Combine 3 different red, green, and blue component images into a single image\
-`rgb-combine sample-new sample-red sample-green sample-blue`<br/><br/>
-
-- Brighten the image by adding a constant (here, 25)\
-`brighten 25 sample sample-brighter`<br/><br/>
-
-- Darken the image by adding a negative constant (here, -25)\
-`brighten -25 sample sample-brighter`<br/><br/>
-
-- Flip the image horizontally\
-`horizontal-flip sample sample-horizontal`<br/><br/>
-
-- Flip the image vertically\
-`vertical-flip sample sample-vertical`<br/><br/>
-
-- Add sepia transform to the image\
-`sepia sample sample-sepia`<br/><br/>
-
-- Add blur filter to the image\
-`blur sample sample-blur`<br/><br/>
-
-- Add sharpen filter to the image\
-`sharpen sample sample-greyscale`<br/><br/>
-
-- Overwrite the image with another file\
-`load input/sample.ppm sample`<br/><br/>
-
-  
-### 4. Citation
-
-- The images used in this project are either "clicked and owned" or "created and owned" by
+## Citation
+The images used in this project are either "clicked and owned" or "created and owned" by
 [@shivang2402](https://github.com/shivang2402) or [@ShahParin](https://github.com/ShahParin). Please credit accordingly if used elsewhere.

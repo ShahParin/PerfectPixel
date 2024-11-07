@@ -30,6 +30,7 @@ public class Image {
 
   /**
    * Creates a clone of the provided 2D array(channel).
+   *
    * @param originalArray the 2D array/ channel whose clone is to be created.
    * @return the clone of the 2D array/channel.
    */

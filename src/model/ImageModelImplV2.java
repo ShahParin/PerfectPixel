@@ -51,7 +51,6 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
     Image original = images.get(imageName);
     if (original != null) {
       Image histogramVisualization = histogramVisualization(original);
-//      histogramVisualization.clamp();
 
       images.put(newImageName, histogramVisualization);
     }
@@ -69,7 +68,8 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
   }
 
   @Override
-  public void applyLevelsAdjustment(int black, int mid, int white, String imageName, String newImageName) {
+  public void applyLevelsAdjustment(int black, int mid, int white, String imageName,
+                                    String newImageName) {
     Image original = images.get(imageName);
     if (original != null) {
       Image levelsAdjust = levelsAdjust(original, black, mid, white);
@@ -82,7 +82,8 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
   public void blurImageSplit(String imageName, String newImageName, double percentage) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image blurredImagePercentage = applyOperationSplit(original, percentage, ImageOperations::blur);
+      Image blurredImagePercentage = applyOperationSplit(original, percentage,
+              ImageOperations::blur);
       blurredImagePercentage.clamp();
       images.put(newImageName, blurredImagePercentage);
     }
