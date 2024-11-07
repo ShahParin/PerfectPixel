@@ -30,20 +30,24 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
     }
     Image original = images.get(imageName);
 
-    double[][] newRed = haar(original.getRedChannel());
-    double[][] newGreen = haar(original.getGreenChannel());
-    double[][] newBlue = haar(original.getBlueChannel());
+    if (original != null) {
+      double[][] newRed = haar(original.getRedChannel());
+      double[][] newGreen = haar(original.getGreenChannel());
+      double[][] newBlue = haar(original.getBlueChannel());
 
-    int[][] thresholdRed = thresholdChannel(newRed, percent);
-    int[][] thresholdGreen = thresholdChannel(newGreen, percent);
-    int[][] thresholdBlue = thresholdChannel(newBlue, percent);
+      int[][] thresholdRed = thresholdChannel(newRed, percent);
+      int[][] thresholdGreen = thresholdChannel(newGreen, percent);
+      int[][] thresholdBlue = thresholdChannel(newBlue, percent);
 
-    int[][] invertRed = invertHaar(thresholdRed);
-    int[][] invertGreen = invertHaar(thresholdGreen);
-    int[][] invertBlue = invertHaar(thresholdBlue);
+      int[][] invertRed = invertHaar(thresholdRed);
+      int[][] invertGreen = invertHaar(thresholdGreen);
+      int[][] invertBlue = invertHaar(thresholdBlue);
 
-    Image result = new Image(invertRed, invertGreen, invertBlue);
-    images.put(newImageName, result);
+      Image result = new Image(invertRed, invertGreen, invertBlue);
+      images.put(newImageName, result);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
+    }
   }
 
   @Override
@@ -53,6 +57,8 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
       Image histogramVisualization = histogramVisualization(original);
 
       images.put(newImageName, histogramVisualization);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -63,7 +69,8 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
       Image colorCorrection = colorCorrect(original);
 
       images.put(newImageName, colorCorrection);
-
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -75,6 +82,8 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
       Image levelsAdjust = levelsAdjust(original, black, mid, white);
 
       images.put(newImageName, levelsAdjust);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -86,6 +95,8 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
               ImageOperations::blur);
       blurredImagePercentage.clamp();
       images.put(newImageName, blurredImagePercentage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -97,6 +108,8 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
               ImageOperations::sharpen);
       sharpenedImagePercentage.clamp();
       images.put(newImageName, sharpenedImagePercentage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -108,6 +121,8 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
               ImageOperations::sepia);
       sepiaImagePercentage.clamp();
       images.put(newImageName, sepiaImagePercentage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -120,6 +135,8 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
               ImageOperations::pixelValue);
       sepiaImagePercentage.clamp();
       images.put(newImageName, sepiaImagePercentage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -132,18 +149,23 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
               ImageOperations::pixelLuma);
       sepiaImagePercentage.clamp();
       images.put(newImageName, sepiaImagePercentage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
 
   @Override
-  public void intensityComponentImageSplit(String imageName, String newImageName, double percentage) {
+  public void intensityComponentImageSplit(String imageName, String newImageName,
+                                           double percentage) {
     Image original = images.get(imageName);
     if (original != null) {
       Image sepiaImagePercentage = applyOperationSplit(original, percentage,
               ImageOperations::pixelIntensity);
       sepiaImagePercentage.clamp();
       images.put(newImageName, sepiaImagePercentage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -155,19 +177,22 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
               ImageOperations::colorCorrect);
 
       images.put(newImageName, colorCorrection);
-
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
   @Override
-  public void applyLevelsAdjustmentSplit(int black, int mid, int white, String imageName, String newImageName, double percentage) {
+  public void applyLevelsAdjustmentSplit(int black, int mid, int white, String imageName,
+                                         String newImageName, double percentage) {
     Image original = images.get(imageName);
     if (original != null) {
-      Image levelsAdjust = applyOperationSplit(original, percentage, ImageOperations::levelsAdjust, black, mid, white);
+      Image levelsAdjust = applyOperationSplit(original, percentage,
+              ImageOperations::levelsAdjust, black, mid, white);
 
       images.put(newImageName, levelsAdjust);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
-
-
 }

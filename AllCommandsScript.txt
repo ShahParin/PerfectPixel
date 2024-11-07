@@ -115,5 +115,5 @@ color-correct sample sample-colorCorrectSplit split 40
 save output/sample-colorCorrectSplit.ppm sample-colorCorrectSplit
 
 # Partially adjust the level of RGB peaks the image (here, 40% from left)
-levels-adjust sample sample-levelsAdjustSplit split 40
+levels-adjust 20 100 255 sample sample-levelsAdjustSplit split 40
 save output/sample-levelsAdjustSplit.ppm sample-levelsAdjustSplit

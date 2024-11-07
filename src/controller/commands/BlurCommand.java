@@ -1,5 +1,7 @@
 package controller.commands;
 
+import java.io.FileNotFoundException;
+
 import model.ImageModelV2;
 
 /**
@@ -42,7 +44,7 @@ public class BlurCommand implements Command {
   }
 
   @Override
-  public void execute() {
+  public void execute() throws FileNotFoundException {
     if (percent != null) {
       imageModel.blurImageSplit(imageName, newImageName, percent);
     } else {

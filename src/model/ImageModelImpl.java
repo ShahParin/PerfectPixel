@@ -43,6 +43,8 @@ public class ImageModelImpl implements ImageModel {
     if (original != null) {
       Image redImage = extractRedComponent(original);
       images.put(newImageName, redImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -52,6 +54,8 @@ public class ImageModelImpl implements ImageModel {
     if (original != null) {
       Image greenImage = extractGreenComponent(original);
       images.put(newImageName, greenImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -61,6 +65,8 @@ public class ImageModelImpl implements ImageModel {
     if (original != null) {
       Image blueImage = extractBlueComponent(original);
       images.put(newImageName, blueImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -71,6 +77,8 @@ public class ImageModelImpl implements ImageModel {
       Image valueImage = pixelValue(original);
       valueImage.clamp();
       images.put(newImageName, valueImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -81,6 +89,8 @@ public class ImageModelImpl implements ImageModel {
       Image intensityImage = pixelIntensity(original);
       intensityImage.clamp();
       images.put(newImageName, intensityImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -91,6 +101,8 @@ public class ImageModelImpl implements ImageModel {
       Image lumaImage = pixelLuma(original);
       lumaImage.clamp();
       images.put(newImageName, lumaImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -100,6 +112,8 @@ public class ImageModelImpl implements ImageModel {
     if (original != null) {
       Image flippedImage = ImageOperations.flipHorizontally(original);
       images.put(newImageName, flippedImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -109,6 +123,8 @@ public class ImageModelImpl implements ImageModel {
     if (original != null) {
       Image flippedImage = ImageOperations.flipVertically(original);
       images.put(newImageName, flippedImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -119,6 +135,8 @@ public class ImageModelImpl implements ImageModel {
       Image brightenedImage = brighten(original, increment);
       brightenedImage.clamp();
       images.put(newImageName, brightenedImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -129,6 +147,8 @@ public class ImageModelImpl implements ImageModel {
       Image blurredImage = blur(original);
       blurredImage.clamp();
       images.put(newImageName, blurredImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -139,6 +159,8 @@ public class ImageModelImpl implements ImageModel {
       Image sharpenedImage = sharpen(original);
       sharpenedImage.clamp();
       images.put(newImageName, sharpenedImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -149,6 +171,8 @@ public class ImageModelImpl implements ImageModel {
       Image sepiaImage = sepia(original);
       sepiaImage.clamp();
       images.put(newImageName, sepiaImage);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -160,6 +184,8 @@ public class ImageModelImpl implements ImageModel {
       images.put(redImage, channels[0]);
       images.put(greenImage, channels[1]);
       images.put(blueImage, channels[2]);
+    } else {
+      throw new IllegalArgumentException("Image-" + imageName + " was never loaded.");
     }
   }
 
@@ -172,11 +198,20 @@ public class ImageModelImpl implements ImageModel {
     if (red != null && green != null && blue != null) {
       Image combinedImage = combineRGB(red, green, blue);
       images.put(newImageName, combinedImage);
+    } 
+    else if (red == null) {
+      throw new IllegalArgumentException("Image-" + redImage + " was never loaded.");
+    }
+    else if (green == null) {
+      throw new IllegalArgumentException("Image-" + greenImage + " was never loaded.");
+    }
+    else {
+      throw new IllegalArgumentException("Image-" + blueImage + " was never loaded.");
     }
   }
 
   @Override
-  public Image getImage(String imageName) throws IllegalArgumentException {
+  public Image getImage(String imageName) {
     Image thisImage = this.images.get(imageName);
     if (thisImage == null) {
       throw new IllegalArgumentException("Image Not Found: " + imageName);

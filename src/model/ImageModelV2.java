@@ -103,7 +103,7 @@ public interface ImageModelV2 extends ImageModel {
    * @param imageName    the name of the image to apply color correct.
    * @param newImageName the name of the color corrected image.
    */
-  void applyColorCorrectionSplit(String imageName, String newImageName,double percentage);
+  void applyColorCorrectionSplit(String imageName, String newImageName, double percentage);
 
   /**
    * Provides a split view of the applied image transformation.
@@ -114,7 +114,6 @@ public interface ImageModelV2 extends ImageModel {
    * @param imageName    the name of the image to adjust levels.
    * @param newImageName the name of the image with adjusted levels.
    */
-  void applyLevelsAdjustmentSplit(int black, int mid, int white, String imageName, String newImageName, double percentage);
-
-
+  void applyLevelsAdjustmentSplit(int black, int mid, int white, String imageName,
+                                  String newImageName, double percentage);
 }

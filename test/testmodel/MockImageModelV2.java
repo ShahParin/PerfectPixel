@@ -35,4 +35,39 @@ public class MockImageModelV2 extends MockImageModel implements ImageModelV2 {
   public void blurImageSplit(String imageName, String newImageName, double percentage) {
 
   }
+
+  @Override
+  public void sharpenImageSplit(String imageName, String newImageName, double percentage) {
+
+  }
+
+  @Override
+  public void sepiaImageSplit(String imageName, String newImageName, double percentage) {
+
+  }
+
+  @Override
+  public void valueComponentImageSplit(String imageName, String newImageName, double percentage) {
+
+  }
+
+  @Override
+  public void lumaComponentImageSplit(String imageName, String newImageName, double percentage) {
+
+  }
+
+  @Override
+  public void intensityComponentImageSplit(String imageName, String newImageName, double percentage) {
+
+  }
+
+  @Override
+  public void applyColorCorrectionSplit(String imageName, String newImageName, double percentage) {
+
+  }
+
+  @Override
+  public void applyLevelsAdjustmentSplit(int black, int mid, int white, String imageName, String newImageName, double percentage) {
+
+  }
 }
