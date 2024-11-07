@@ -1,0 +1,4 @@
+# Load an image and name it
+load input/other.ppm otherFile
+brighten -25 otherFile otherFile-darker
+save output/otherFile-darker.ppm otherFile-darker

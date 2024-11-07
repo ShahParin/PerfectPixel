@@ -9,31 +9,59 @@ In the root directory of the project, ensure there is a folder named images, whi
 
 Make sure to place and check the appropriate images in their respective directories before running the project.
 
-## 2. Running the Program
+## 2. Compilation Instructions
+
+To compile the Java files, ensure that you are inside the `src` directory of the project. Depending on your operating system and shell, use one of the following commands:
+
+- **PowerShell**:
+  ```powershell
+  Get-ChildItem -Recurse -Filter *.java | ForEach-Object { javac -d ../res $_.FullName }
+
+- **Command Prompt (CMD)**:
+  ```
+  for /r %i in (*.java) do javac -d ..\res "%i"
+
+- **Git Bash / Linux**:
+  ```
+  find . -name "*.java" -exec javac -d ../res {} \;
+
+- **macOS (Option 1):**:
+  ```
+  find . -name "*.java | xargs javac -d ../res
+
+- **macOS (Option 1):**:
+  ```
+  for file in $(find . -name "*.java"); do javac -d ../res "$file"; done
+
+Each of these commands will recursively find all Java files in the src directory and compile them into the res directory.
+
+## 3. Running the Program
 
 To run the application, follow these steps:
 
 1. Open your terminal or command prompt.
 2. Navigate to the root directory of the project.
-3. Execute the program utilizing one of the following options:
+3. Execute one of the following commands:
+
 
 **Option 1: Without Command Line Arguments**
 
-If you want to use interactive mode, execute the command:
-  ```
-  java -jar out/artifacts/PerfectPixel_jar/PerfectPixel.jar
-  ```
+- If you do not need to pass any command line arguments, use:
+
+   ```
+   java -cp res Main
 
 **Option 2: With Command Line Arguments**
 
-If you need to pass command line arguments,
-- Place the file of your choice in the root directory of the project or utilize `OtherScript.txt`.
-- Replace `filename` with your desired argument and execute the command:
-  ```
-  java -jar out/artifacts/PerfectPixel_jar/PerfectPixel.jar -file filename
-  ```
+- If you need to pass command line arguments, replace `filename` with your desired argument and use::
 
-## Appendix: Script Commands
+   ```
+   java -cp res Main fileName
+
+- The given file should be in the root directory of the project.
+
+
+## Script Commands
 As all input images are inside /images/input, user needs to give "/input/fileName" to load images.
 
 As all output images are inside /images/output, user needs to give "/output/fileName" to save image.

@@ -1,0 +1,119 @@
+# Load an image and name it
+load input/sample.ppm sample
+save output/sample.ppm sample
+
+# Create a new image with just the red component
+red-component sample sample-red
+save output/sample-red.ppm sample-red
+
+# Create a new image with just the green component
+green-component sample sample-green
+save output/sample-green.ppm sample-green
+
+# Create a new image with just the blue component
+blue-component sample sample-blue
+save output/sample-blue.ppm sample-blue
+
+# Create a new image using the value component
+value-component sample sample-value
+save output/sample-value.ppm sample-value
+
+# Create a new image using the intensity component
+intensity-component sample sample-intensity
+save output/sample-intensity.ppm sample-intensity
+
+# Create a new image using the luma component
+luma-component sample sample-luma
+save output/sample-luma.ppm sample-luma
+
+# Split the image into RGB components
+rgb-split sample sample-red sample-green sample-blue
+save output/sample-red.ppm sample-red
+save output/sample-green.ppm sample-green
+save output/sample-blue.ppm sample-blue
+
+# Combine RGB components into a single image
+rgb-combine sample-combine sample-red sample-green sample-blue
+
+# Brighten the image by adding 25
+brighten 25 sample sample-brighter
+save output/sample-brighter.ppm sample-brighter
+
+# Darken the image by subtracting 25
+brighten -25 sample sample-darker
+save output/sample-darker.ppm sample-darker
+
+# Flip the image horizontally
+horizontal-flip sample sample-horizontal
+save output/sample-horizontal.ppm sample-horizontal
+
+# Flip the image vertically
+vertical-flip sample sample-vertical
+save output/sample-vertical.ppm sample-vertical
+
+# Blur the image
+blur sample sample-blur
+save output/sample-blur.ppm sample-blur
+
+# Sharpen the image
+sharpen sample sample-sharpen
+save output/sample-sharpen.ppm sample-sharpen
+
+# Add sepia filter to the image
+sepia sample sample-sepia
+save output/sample-sepia.ppm sample-sepia
+
+# Overwrite the image with another file
+load input/other.ppm sample
+save output/sample-other.ppm sample
+
+# Run a script file
+run OtherScript.txt
+
+# Compress an image by 65%
+compress 65 sample sample-compress65
+save output/sample-compress65.ppm sample-compress65
+
+# Create a histogram of the image
+histogram sample sample-histogram
+save output/sample-histogram.ppm sample-histogram
+
+# Correct the color levels of the image
+color-correct sample sample-colorCorrect
+save output/sample-colorCorrect.ppm sample-colorCorrect
+
+# Adjusting the level of RGB peaks
+levels-adjust 20 100 255 sample sample-levelAdjust
+save output/sample-levelAdjust.ppm sample-levelAdjust
+
+# Partially blurring the image (here, 40% from left)
+blur sample sample-blurSplit split 40
+save output/sample-blurSplit.ppm sample-blurSplit
+
+# Partially sharpen the image (here, 40% from left)
+sharpen sample sample-sharpenSplit split 40
+save output/sample-sharpenSplit.ppm sample-sharpenSplit
+
+# Partially apply the sepia to the image (here, 40% from left)
+sepia sample sample-sepiaSplit split 40
+save output/sample-sepiaSplit.ppm sample-sepiaSplit
+
+# Partially apply the intensity to the image (here, 40% from left)
+intensity-component sample sample-intensitySplit split 40
+save output/sample-intensitySplit.ppm sample-intensitySplit
+
+# Partially apply the luma to the image (here, 40% from left)
+luma-component sample sample-lumaSplit split 40
+save output/sample-lumaSplit.ppm sample-lumaSplit
+
+# Partially apply the value to the image (here, 40% from left)
+value-component sample sample-valueSplit split 40
+save output/sample-valueSplit.ppm sample-valueSplit
+
+# Partially correct the color levels the image (here, 40% from left)
+color-correct sample sample-colorCorrectSplit split 40
+save output/sample-colorCorrectSplit.ppm sample-colorCorrectSplit
+
+# Partially adjust the level of RGB peaks the image (here, 40% from left)
+levels-adjust sample sample-levelsAdjustSplit split 40
+save output/sample-levelsAdjustSplit.ppm sample-levelsAdjustSplit

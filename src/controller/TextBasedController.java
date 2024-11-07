@@ -64,54 +64,159 @@ public class TextBasedController implements ImageController {
    * the command instance with the provided arguments.
    */
   private void initializeCommands() {
-    commandMap.put("load", args -> new LoadCommand(imageService, args[1], args[2]));
-    commandMap.put("save", args -> new SaveCommand(imageService, args[1], args[2]));
-    commandMap.put("red-component", args -> new RedComponentCommand(imageModel, args[1], args[2]));
-    commandMap.put("blue-component", args -> new BlueComponentCommand(imageModel, args[1],
-            args[2]));
-    commandMap.put("green-component", args -> new GreenComponentCommand(imageModel, args[1],
-            args[2]));
-    commandMap.put("value-component", args -> new ValueComponentCommand(imageModel, args[1],
-            args[2]));
-    commandMap.put("intensity-component", args -> new IntensityComponentCommand(imageModel,
-            args[1], args[2]));
-    commandMap.put("luma-component", args -> new LumaComponentCommand(imageModel, args[1],
-            args[2]));
-    commandMap.put("rgb-split", args -> new RGBSplitCommand(imageModel, args[1], args[2], args[3],
-            args[4]));
-    commandMap.put("rgb-combine", args -> new RGBCombineCommand(imageModel, args[1], args[2],
-            args[3], args[4]));
-    commandMap.put("brighten", args -> new BrightenCommand(imageModel, Integer.parseInt(args[1]),
-            args[2], args[3]));
-    commandMap.put("horizontal-flip", args -> new HorizontalFlipCommand(imageModel, args[1],
-            args[2]));
-    commandMap.put("vertical-flip", args -> new VerticalFlipCommand(imageModel, args[1], args[2]));
-    commandMap.put("sepia", args -> new SepiaCommand(imageModel, args[1], args[2]));
+    commandMap.put("load", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("load command requires 2 arguments.");
+      }
+      return new LoadCommand(imageService, args[1], args[2]);
+    });
+
+    commandMap.put("save", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("save command requires 2 arguments.");
+      }
+      return new SaveCommand(imageService, args[1], args[2]);
+    });
+
+    commandMap.put("red-component", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("red-component command requires 2 arguments.");
+      }
+      return new RedComponentCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("blue-component", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("blue-component command requires 2 arguments.");
+      }
+      return new BlueComponentCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("green-component", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("green-component command requires 2 arguments.");
+      }
+      return new GreenComponentCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("value-component", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("value-component command requires 2 arguments.");
+      }
+      return new ValueComponentCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("intensity-component", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("intensity-component command requires 2 arguments.");
+      }
+      return new IntensityComponentCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("luma-component", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("luma-component command requires 2 arguments.");
+      }
+      return new LumaComponentCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("rgb-split", args -> {
+      if (args.length < 5) {
+        throw new IllegalArgumentException("rgb-split command requires 4 arguments.");
+      }
+      return new RGBSplitCommand(imageModel, args[1], args[2], args[3], args[4]);
+    });
+
+    commandMap.put("rgb-combine", args -> {
+      if (args.length < 5) {
+        throw new IllegalArgumentException("rgb-combine command requires 4 arguments.");
+      }
+      return new RGBCombineCommand(imageModel, args[1], args[2], args[3], args[4]);
+    });
+
+    commandMap.put("brighten", args -> {
+      if (args.length < 4) {
+        throw new IllegalArgumentException("brighten command requires 3 arguments.");
+      }
+      return new BrightenCommand(imageModel, Integer.parseInt(args[1]), args[2], args[3]);
+    });
+
+    commandMap.put("horizontal-flip", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("horizontal-flip command requires 2 arguments.");
+      }
+      return new HorizontalFlipCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("vertical-flip", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("vertical-flip command requires 2 arguments.");
+      }
+      return new VerticalFlipCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("sepia", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("sepia command requires 2 arguments.");
+      }
+      return new SepiaCommand(imageModel, args[1], args[2]);
+    });
+
     commandMap.put("blur", args -> {
       if (args.length == 3) {
-        // Normal blur operation
         return new BlurCommand(imageModel, args[1], args[2]);
       } else if (args.length == 5 && args[3].equals("split")) {
-        // Split blur
         double splitPercentage = Double.parseDouble(args[4]);
         return new BlurCommand(imageModel, args[1], args[2], splitPercentage);
       } else {
         throw new IllegalArgumentException("Invalid arguments for blur command.");
       }
     });
-    commandMap.put("sharpen", args -> new SharpenCommand(imageModel, args[1], args[2]));
-    commandMap.put("histogram", args -> new HistogramVisualizationCommand(imageModel, args[1],
-            args[2]));
-    commandMap.put("color-correct", args -> new ColorCorrectCommand(imageModel, args[1], args[2]));
-    commandMap.put("levels-adjust", args -> new LevelsAdjustCommand(imageModel,
-            Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]),
-            args[4], args[5]));
-    commandMap.put("compress", args -> new CompressCommand(imageModel, Double.parseDouble(args[1]),
-            args[2], args[3]));
-//    commandMap.put("run", args -> new RunScriptCommand());
+
+    commandMap.put("sharpen", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("sharpen command requires 2 arguments.");
+      }
+      return new SharpenCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("histogram", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("histogram command requires 2 arguments.");
+      }
+      return new HistogramVisualizationCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("color-correct", args -> {
+      if (args.length < 3) {
+        throw new IllegalArgumentException("color-correct command requires 2 arguments.");
+      }
+      return new ColorCorrectCommand(imageModel, args[1], args[2]);
+    });
+
+    commandMap.put("levels-adjust", args -> {
+      if (args.length < 6) {
+        throw new IllegalArgumentException("levels-adjust command requires 5 arguments.");
+      }
+      return new LevelsAdjustCommand(imageModel, Integer.parseInt(args[1]), Integer.parseInt(args[2]),
+              Integer.parseInt(args[3]), args[4], args[5]);
+    });
+
+    commandMap.put("compress", args -> {
+      if (args.length < 4) {
+        throw new IllegalArgumentException("compress command requires 3 arguments.");
+      }
+      return new CompressCommand(imageModel, Double.parseDouble(args[1]), args[2], args[3]);
+    });
+
+    commandMap.put("run", args -> {
+      if (args.length < 2) {
+        throw new IllegalArgumentException("run command requires a script file path.");
+      }
+      return () -> runScript(args[1]);
+    });
   }
 
-  @Override
   public void execute(String command) throws IOException {
     String[] args = command.trim().split("\\s+");
     CommandFactory factory = commandMap.get(args[0]);
@@ -121,7 +226,7 @@ public class TextBasedController implements ImageController {
         cmd.execute();
         view.printStatements("Successfully executed command: " + String.join(" ", args) + "\n");
       } else {
-        view.printStatements("Invalid command: " + command+"\n");
+        view.printStatements("Invalid command: " + command + "\n");
       }
     } catch (Exception e) {
       throw new RuntimeException(e);

@@ -37,9 +37,8 @@ public class Main {
         System.err.println("Invalid file path: " + scriptPath);
       }
     } else {
-      // No "-file" argument; enter interactive mode
-//        System.out.println("Entering interactive mode. Type your commands below (type 'exit' to quit):");
-      controller.runScript(null);  // Call the method that handles interactive mode
+      // Interactive mode
+      controller.runScript(null);
     }
   }
 }
