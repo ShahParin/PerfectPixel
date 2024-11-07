@@ -825,4 +825,34 @@ public class ImageOperations {
 
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);
   }
+  protected static Image applyOperationSplit(Image original, double percentage,
+                                             ParameterizedImageEffectProcessor operation, Integer b, Integer m, Integer w) {
+    int width = getDimensions(original)[1];
+    int height = getDimensions(original)[0];
+    int splitLine = (int) (width * (percentage / 100));
+
+    Image modifiedImage = operation.applyEffect(original, b, m, w);
+
+
+    // Remainder of the split logic
+    int[][] newRedChannel = new int[height][width];
+    int[][] newGreenChannel = new int[height][width];
+    int[][] newBlueChannel = new int[height][width];
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        if (j < splitLine) {
+          newRedChannel[i][j] = modifiedImage.getRedChannel()[i][j];
+          newGreenChannel[i][j] = modifiedImage.getGreenChannel()[i][j];
+          newBlueChannel[i][j] = modifiedImage.getBlueChannel()[i][j];
+        } else {
+          newRedChannel[i][j] = original.getRedChannel()[i][j];
+          newGreenChannel[i][j] = original.getGreenChannel()[i][j];
+          newBlueChannel[i][j] = original.getBlueChannel()[i][j];
+        }
+      }
+    }
+
+    return new Image(newRedChannel, newGreenChannel, newBlueChannel);
+  }
 }

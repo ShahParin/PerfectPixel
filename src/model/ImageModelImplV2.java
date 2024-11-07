@@ -147,7 +147,27 @@ public class ImageModelImplV2 extends ImageModelImpl implements ImageModelV2 {
     }
   }
 
+  @Override
+  public void applyColorCorrectionSplit(String imageName, String newImageName, double percentage) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image colorCorrection = applyOperationSplit(original, percentage,
+              ImageOperations::colorCorrect);
 
+      images.put(newImageName, colorCorrection);
+
+    }
+  }
+
+  @Override
+  public void applyLevelsAdjustmentSplit(int black, int mid, int white, String imageName, String newImageName, double percentage) {
+    Image original = images.get(imageName);
+    if (original != null) {
+      Image levelsAdjust = applyOperationSplit(original, percentage, ImageOperations::levelsAdjust, black, mid, white);
+
+      images.put(newImageName, levelsAdjust);
+    }
+  }
 
 
 }
