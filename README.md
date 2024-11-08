@@ -27,7 +27,10 @@ PerfectPixel is a Java-based image processing application. It supports a range o
 This project follows an MVC architecture, with organized directories for images, source code (Model, View, Controller, Main), and Unit tests for ease of understanding.
 ```
   .
-  ├── images                  # Contains project-related images
+  ├── inputImages             # Contains project-related images
+  ├── res                     # Contains output images, scripts and UML diagram
+  │   ├── outputImages        # Images produced by the application      
+  │   ├── PerfectPixel.jar    # The JAR file for execution      
   ├── src                     # Source code for the application      
   │   ├── controller          # Application logic and user input handling      
   │   ├── model               # Business logic    
@@ -43,7 +46,7 @@ This project follows an MVC architecture, with organized directories for images,
 
 ## Classes & Interfaces
 Below is the class diagram for the application,
-![UML Class Diagram](PerfectPixel_UML.png)
+![UML Class Diagram](res/PerfectPixel_UML.png)
 
 - **Model:**
   - **Image.java:** This is the representation class of any Image that is going to be processed in the entire application. It contains 3 channels, Red, Green and Blue as 2D Arrays. It also contains logic for intensity, luma and value for a particular pixel.
@@ -54,7 +57,9 @@ Below is the class diagram for the application,
   - **ImageOperations.java:** This class contains the logic for all the operations that should be performed on the images. Some of the supported operations are filters, transforms, splitting and combining RGB images.
   - **ImageUtil.java:** This is a utilities class for the ImageModel. It abstracts some of the operations to be performed on the images, like fetching the image dimensions, abstracting logic for filters and transformations.
   - **ImageEffectProcessor:** Interface for applying image effects to an image.
+  - **ParameterizedImageEffectProcessor.java:** Interface for image effect processors that require additional parameters, black point, mid point, and white point to apply effects on an image.
   - **NothingThereException.java:** A custom exception class when the image has no pixels defined.
+  - **ComponentType.java:** Enum representing different components that can be extracted or visualized for the image.
 
 
 - **View:**
@@ -67,6 +72,8 @@ Below is the class diagram for the application,
   - **TextBasedController.java:** This class represents the Controller, acting as the mediator between the inputs from the View and the different operations to be preformed from the Model.
   - **ImageFileUtils.java:** Utility class for handling image file operations, such as reading and saving images in various formats (PPM, PNG, JPEG, JPG).
   - **ImageService.java:** Service class responsible for handling image loading and saving operations.
+  - **Command.java:** Represents a command that can be executed to perform numerous image processing operations.
+  - **CommandFactory.java:** A factory interface for creating command instances based on provided arguments.
   - **BlueComponentCommand.java:** Extracts the blue component from an image and saves the result as a new image.
   - **BlurCommand.java:** Applies a blur effect to the specified image, creating a softened or smoothed version.
   - **BrightenCommand.java:** Adjusts the brightness of an image, either increasing or decreasing it based on user input.
@@ -87,6 +94,23 @@ Below is the class diagram for the application,
   - **SharpenCommand.java:** Sharpens the image to enhance edges and fine details.
   - **ValueComponentCommand.java:** Extracts the value component, which is the maximum of the RGB values, representing the lightest color in each pixel.
   - **VerticalFlipCommand.java:** Flips the image vertically, creating an upside-down image.
+
+## New Version Updates
+- Bug Fixes:
+  - Updated the getters of the Image class to prevent model leaks.
+  - I/O operations - loading and saving of files were moved to the controller.
+  - Updated all the methods to throw an IllegalArgumentException when the name of image to fetch is incorrect.
+  - De-duplicated the function calls for extracting image components by utilizing an Enum.
+- Feature Addition:
+  - Added support for operations like,
+    - Image compression
+    - Histogram visualization
+    - Color correction of images
+    - Level adjustment to improve image contrast
+    - Split view previews to visualize changes
+  - Added interactive user input mode
+  - Optimized the controller design by utilizing Command Design Pattern
+  - User can directly run the program using the JAR file instead building and running the main file
 
 ## Dependencies
 The project relies solely on JDK classes and does not require external libraries.

@@ -35,8 +35,7 @@ public class ImageService {
    */
   public void loadImage(String path, String imageName) throws IOException {
     try {
-      String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
-              + File.separator + path;
+      String pathRelative = new File(System.getProperty("user.dir")) + File.separator + path;
       Image image;
       if (path.contains("ppm")) {
         image = readPPM(pathRelative);
@@ -59,8 +58,7 @@ public class ImageService {
    * @throws IOException if there is an error with saving files.
    */
   public void saveImage(String path, String imageName) throws IOException {
-    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + "images"
-            + File.separator + path;
+    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + path;
 
     Image image = imageModel.getImage(imageName);
     if (image == null) {

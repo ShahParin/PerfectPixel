@@ -12,8 +12,8 @@ import model.ImageModel;
  */
 public class MockImageModel implements ImageModel {
 
-  private final StringBuilder log = new StringBuilder();
-  private final Map<String, Image> imageStorage = new HashMap<>();
+  protected final StringBuilder log = new StringBuilder();
+  protected final Map<String, Image> imageStorage = new HashMap<>();
 
   @Override
   public void applyComponent(String imageName, String newImageName, ComponentType componentType) {

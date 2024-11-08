@@ -26,6 +26,7 @@ public class ValueComponentCommand implements Command {
     this.percent = null;
 
   }
+
   /**
    * Constructor to initialize the class object for split command.
    *

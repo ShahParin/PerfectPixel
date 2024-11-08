@@ -1,0 +1,63 @@
+# Brighten the image slightly before applying a sepia filter for a warm, vibrant look.
+load inputImages/sample.ppm sample
+brighten 30 sample sample-brightSepia
+sepia sample-brightSepia sample-sepia
+save res/outputImages/sample-sepia.ppm sample-sepia
+
+# Adjust RGB levels to enhance contrast, then blur the image for a softened effect.
+load inputImages/sample.ppm sample
+levels-adjust 20 150 220 sample sample-levelAdjust
+blur sample-levelAdjust sample-blur
+save res/outputImages/sample-blur.ppm sample-blur
+
+# Extract the luma component to convert the image to grayscale, then generate a histogram.
+load inputImages/sample.ppm sample
+luma-component sample sample-luma
+histogram sample-luma sample-histogram
+save res/outputImages/sample-histogram.ppm sample-histogram
+
+# Sharpen the image for clarity, then add a partial sepia filter on the left side.
+load inputImages/sample.ppm sample
+sharpen sample sample-sharpen
+sepia sample-sharpen sample-sepiaSplit split 40
+save res/outputImages/sample-sepiaSplit.ppm sample-sepiaSplit
+
+# Enhance the intensity of the image, then partially blur it for a soft-focused effect.
+load inputImages/sample.ppm sample
+intensity-component sample sample-intensity
+blur sample-intensity sample-blurSplit split 50
+save res/outputImages/sample-blurSplit.ppm sample-blurSplit
+
+# Split the image into RGB components, correct color levels on the red component, then save each component separately.
+load inputImages/sample.ppm sample
+rgb-split sample sample-red sample-green sample-blue
+color-correct sample-red sample-redColorCorrect
+save res/outputImages/sample-red.ppm sample-redColorCorrect
+save res/outputImages/sample-green.ppm sample-green
+save res/outputImages/sample-blue.ppm sample-blue
+
+# Apply the blue component filter, compress the image to reduce file size, and then generate a histogram.
+load inputImages/sample.ppm sample
+blue-component sample sample-blue
+compress 50 sample-blue sample-compress50
+histogram sample-compress50 sample-histogram
+save res/outputImages/sample-histogram.ppm sample-histogram
+
+# Convert the image to grayscale using the luma component, darken it, and then save.
+load inputImages/sample.ppm sample
+luma-component sample sample-luma
+brighten -20 sample-luma sample-darker
+save res/outputImages/sample-darker.ppm sample-darker
+
+# Extract the value component for a high-contrast grayscale effect, flip horizontally, then apply a sepia tone.
+load inputImages/sample.ppm sample
+value-component sample sample-value
+horizontal-flip sample-value sample-horizontal
+sepia sample-horizontal sample-sepia
+save res/outputImages/sample-sepia.ppm sample-sepia
+
+# Blur the image, then partially adjust RGB levels on the left for a contrasting split effect.
+load inputImages/sample.ppm sample
+blur sample sample-blur
+levels-adjust 30 100 255 sample-blur sample-levelsAdjustSplit split 30
+save res/outputImages/sample-levelsAdjustSplit.ppm sample-levelsAdjustSplit

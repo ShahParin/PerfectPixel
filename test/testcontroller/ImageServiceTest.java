@@ -11,6 +11,9 @@ import testmodel.MockImageModelV2;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * This is a JUnit test class for ImageService class.
+ */
 public class ImageServiceTest {
   private final StringBuilder log = new StringBuilder();
 
@@ -34,7 +37,7 @@ public class ImageServiceTest {
     ImageService imageService = new ImageService(mockModel);
 
     mockModel.putImage("sample1111", mockImage);
-    imageService.loadImage("input/test.ppm", "sample1111");
+    imageService.loadImage("inputImages/test.ppm", "sample1111");
 
     return mockModel.getImage("sample1111");
   }
@@ -59,7 +62,7 @@ public class ImageServiceTest {
     ImageService imageService = new ImageService(mockModel);
 
     mockModel.putImage("sampleToSave", mockImage);
-    imageService.saveImage("output/test_output.ppm", "sampleToSave");
+    imageService.saveImage("res/outputImages/test_output.ppm", "sampleToSave");
 
     Image savedImage = mockModel.getImage("sampleToSave");
     return savedImage;
@@ -67,20 +70,20 @@ public class ImageServiceTest {
 
   @Test
   public void testScriptExecution() throws IOException {
-    String scriptContent = "load /input/sample.jpg sample\n"
+    String scriptContent = "load /inputImages/sample.jpg sample\n"
             + "horizontal-flip sample sample-horizontal\n"
             + "brighten 20 sample brightened_sample\n"
-            + "save brightened_sample /output/brightened_output.jpg\n";
+            + "save brightened_sample /res/outputImages/brightened_output.jpg\n";
 
     runScript(scriptContent);
-    String expectedLog = "Loaded image from /input/sample.jpg as sample\n"
+    String expectedLog = "Loaded image from /inputImages/sample.jpg as sample\n"
             + "Applied Horizontal Flip to sample as sample-horizontal\n"
             + "Brightened image sample by 20 and saved as brightened_sample\n"
-            + "Saved image brightened_sample to /output/brightened_output.jpg\n";
+            + "Saved image brightened_sample to /res/outputImages/brightened_output.jpg\n";
     assertEquals(expectedLog, getLog());
   }
 
-  public void runScript(String scriptContent) {
+  private void runScript(String scriptContent) {
     try {
       String[] commands = scriptContent.split("\n");
       for (String command : commands) {
@@ -193,7 +196,10 @@ public class ImageServiceTest {
     }
   }
 
-
+  /**
+   * Function to get the logs inside each method.
+   * @return the log statement.
+   */
   public String getLog() {
     return log.toString();
   }

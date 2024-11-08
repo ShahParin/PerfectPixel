@@ -100,24 +100,36 @@ public class TextBasedController implements ImageController {
     });
 
     commandMap.put("value-component", args -> {
-      if (args.length < 3) {
-        throw new IllegalArgumentException("value-component command requires 2 arguments.");
+      if (args.length == 3) {
+        return new ValueComponentCommand(imageModel, args[1], args[2]);
+      } else if (args.length == 5 && args[3].equals("split")) {
+        double splitPercentage = Double.parseDouble(args[4]);
+        return new ValueComponentCommand(imageModel, args[1], args[2], splitPercentage);
+      } else {
+        throw new IllegalArgumentException("Invalid arguments for blur command.");
       }
-      return new ValueComponentCommand(imageModel, args[1], args[2]);
     });
 
     commandMap.put("intensity-component", args -> {
-      if (args.length < 3) {
-        throw new IllegalArgumentException("intensity-component command requires 2 arguments.");
+      if (args.length == 3) {
+        return new IntensityComponentCommand(imageModel, args[1], args[2]);
+      } else if (args.length == 5 && args[3].equals("split")) {
+        double splitPercentage = Double.parseDouble(args[4]);
+        return new IntensityComponentCommand(imageModel, args[1], args[2], splitPercentage);
+      } else {
+        throw new IllegalArgumentException("Invalid arguments for blur command.");
       }
-      return new IntensityComponentCommand(imageModel, args[1], args[2]);
     });
 
     commandMap.put("luma-component", args -> {
-      if (args.length < 3) {
-        throw new IllegalArgumentException("luma-component command requires 2 arguments.");
+      if (args.length == 3) {
+        return new LumaComponentCommand(imageModel, args[1], args[2]);
+      } else if (args.length == 5 && args[3].equals("split")) {
+        double splitPercentage = Double.parseDouble(args[4]);
+        return new LumaComponentCommand(imageModel, args[1], args[2], splitPercentage);
+      } else {
+        throw new IllegalArgumentException("Invalid arguments for blur command.");
       }
-      return new LumaComponentCommand(imageModel, args[1], args[2]);
     });
 
     commandMap.put("rgb-split", args -> {
@@ -156,10 +168,14 @@ public class TextBasedController implements ImageController {
     });
 
     commandMap.put("sepia", args -> {
-      if (args.length < 3) {
-        throw new IllegalArgumentException("sepia command requires 2 arguments.");
+      if (args.length == 3) {
+        return new SepiaCommand(imageModel, args[1], args[2]);
+      } else if (args.length == 5 && args[3].equals("split")) {
+        double splitPercentage = Double.parseDouble(args[4]);
+        return new SepiaCommand(imageModel, args[1], args[2], splitPercentage);
+      } else {
+        throw new IllegalArgumentException("Invalid arguments for blur command.");
       }
-      return new SepiaCommand(imageModel, args[1], args[2]);
     });
 
     commandMap.put("blur", args -> {
@@ -174,32 +190,46 @@ public class TextBasedController implements ImageController {
     });
 
     commandMap.put("sharpen", args -> {
-      if (args.length < 3) {
-        throw new IllegalArgumentException("sharpen command requires 2 arguments.");
+      if (args.length == 3) {
+        return new SharpenCommand(imageModel, args[1], args[2]);
+      } else if (args.length == 5 && args[3].equals("split")) {
+        double splitPercentage = Double.parseDouble(args[4]);
+        return new SharpenCommand(imageModel, args[1], args[2], splitPercentage);
+      } else {
+        throw new IllegalArgumentException("Invalid arguments for blur command.");
       }
-      return new SharpenCommand(imageModel, args[1], args[2]);
     });
 
     commandMap.put("histogram", args -> {
       if (args.length < 3) {
-        throw new IllegalArgumentException("histogram command requires 2 arguments.");
+        throw new IllegalArgumentException("vertical-flip command requires 2 arguments.");
       }
       return new HistogramVisualizationCommand(imageModel, args[1], args[2]);
     });
 
     commandMap.put("color-correct", args -> {
-      if (args.length < 3) {
-        throw new IllegalArgumentException("color-correct command requires 2 arguments.");
+      if (args.length == 3) {
+        return new ColorCorrectCommand(imageModel, args[1], args[2]);
+      } else if (args.length == 5 && args[3].equals("split")) {
+        double splitPercentage = Double.parseDouble(args[4]);
+        return new ColorCorrectCommand(imageModel, args[1], args[2], splitPercentage);
+      } else {
+        throw new IllegalArgumentException("Invalid arguments for blur command.");
       }
-      return new ColorCorrectCommand(imageModel, args[1], args[2]);
     });
 
     commandMap.put("levels-adjust", args -> {
-      if (args.length < 6) {
-        throw new IllegalArgumentException("levels-adjust command requires 5 arguments.");
+      if (args.length == 6) {
+        return new LevelsAdjustCommand(imageModel, Integer.parseInt(args[1]),
+                Integer.parseInt(args[2]),Integer.parseInt(args[3]), args[4], args[5]);
+      } else if (args.length == 8 && args[6].equals("split")) {
+        double splitPercentage = Double.parseDouble(args[7]);
+        return new LevelsAdjustCommand(imageModel, Integer.parseInt(args[1]),
+                Integer.parseInt(args[2]),Integer.parseInt(args[3]), args[4], args[5],
+                splitPercentage);
+      } else {
+        throw new IllegalArgumentException("Invalid arguments for blur command.");
       }
-      return new LevelsAdjustCommand(imageModel, Integer.parseInt(args[1]), Integer.parseInt(args[2]),
-              Integer.parseInt(args[3]), args[4], args[5]);
     });
 
     commandMap.put("compress", args -> {
@@ -217,6 +247,11 @@ public class TextBasedController implements ImageController {
     });
   }
 
+  /**
+   * This executes all the commands.
+   * @param command the command line input to execute.
+   * @throws IOException for any IO error.
+   */
   public void execute(String command) throws IOException {
     String[] args = command.trim().split("\\s+");
     CommandFactory factory = commandMap.get(args[0]);
@@ -224,7 +259,8 @@ public class TextBasedController implements ImageController {
       if (factory != null) {
         Command cmd = factory.create(args);
         cmd.execute();
-        view.printStatements("Successfully executed command: " + String.join(" ", args) + "\n");
+        view.printStatements("Successfully executed command: " + String.join(" ", args)
+                + "\n");
       } else {
         view.printStatements("Invalid command: " + command + "\n");
       }
@@ -254,8 +290,8 @@ public class TextBasedController implements ImageController {
       }
     } else {
       // Interactive mode
-      view.printStatements("Entering interactive mode. Type your commands below " +
-              "(type 'exit' to quit):\n");
+      view.printStatements("Entering interactive mode. Type your commands below "
+              + "(type 'exit' to quit):\n");
 
       try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
         String command;
