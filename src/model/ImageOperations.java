@@ -648,7 +648,9 @@ public class ImageOperations {
 
     Image correctedImage = adjustImageColors(image, redOffset, greenOffset, blueOffset);
 
-    return histogramVisualization(correctedImage);
+//    return histogramVisualization(correctedImage);
+    return correctedImage;
+
   }
 
   /**
@@ -752,7 +754,9 @@ public class ImageOperations {
     int[][] adjustedGreen = adjustChannel(greenChannel, ansA, bCoeff, ansC, b, w);
     int[][] adjustedBlue = adjustChannel(blueChannel, ansA, bCoeff, ansC, b, w);
 
-    return histogramVisualization(new Image(adjustedRed, adjustedGreen, adjustedBlue));
+//    return histogramVisualization(new Image(adjustedRed, adjustedGreen, adjustedBlue));
+    return new Image(adjustedRed, adjustedGreen, adjustedBlue);
+
   }
 
   /**

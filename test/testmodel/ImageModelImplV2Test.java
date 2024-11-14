@@ -413,5 +413,4 @@ public class ImageModelImplV2Test extends ImageModelImplTest {
     assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
   }
 
-
 }
