@@ -1,5 +1,6 @@
 package testview;
 
+import model.Image;
 import view.ImageView;
 
 /**
@@ -11,6 +12,16 @@ public class MockImageView implements ImageView {
   @Override
   public void printStatements(String message) {
     log.append(message).append("\n");
+  }
+
+  @Override
+  public void LoadFile(Image image) {
+
+  }
+
+  @Override
+  public void SaveFile(String filename) {
+
   }
 
   public String getLog() {

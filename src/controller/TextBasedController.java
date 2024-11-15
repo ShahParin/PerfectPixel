@@ -64,19 +64,9 @@ public class TextBasedController implements ImageController {
    * the command instance with the provided arguments.
    */
   private void initializeCommands() {
-    commandMap.put("load", args -> {
-      if (args.length < 3) {
-        throw new IllegalArgumentException("load command requires 2 arguments.");
-      }
-      return new LoadCommand(imageService, args[1], args[2]);
-    });
+    commandMap.put("load", args -> new LoadCommand(imageService, args[1], args[2]));
 
-    commandMap.put("save", args -> {
-      if (args.length < 3) {
-        throw new IllegalArgumentException("save command requires 2 arguments.");
-      }
-      return new SaveCommand(imageService, args[1], args[2]);
-    });
+    commandMap.put("save", args -> new SaveCommand(imageService, args[1], args[2]));
 
     commandMap.put("red-component", args -> {
       if (args.length < 3) {

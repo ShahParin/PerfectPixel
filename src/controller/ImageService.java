@@ -35,12 +35,13 @@ public class ImageService {
    */
   public void loadImage(String path, String imageName) throws IOException {
     try {
-      String pathRelative = new File(System.getProperty("user.dir")) + File.separator + path;
       Image image;
-      if (path.contains("ppm")) {
-        image = readPPM(pathRelative);
-      } else if (path.contains("png") || path.contains(("jpeg")) || path.contains("jpg")) {
-        image = readOther(pathRelative);
+      if (path.toLowerCase().contains("ppm")) {
+        image = readPPM(path);
+        System.out.println("path"+path);
+      } else if (path.toLowerCase().contains("png") || path.toLowerCase().contains(("jpeg")) ||
+              path.toLowerCase().contains("jpg")) {
+        image = readOther(path);
       } else {
         throw new IllegalArgumentException("Unsupported image type: " + path);
       }
@@ -58,17 +59,15 @@ public class ImageService {
    * @throws IOException if there is an error with saving files.
    */
   public void saveImage(String path, String imageName) throws IOException {
-    String pathRelative = new File(System.getProperty("user.dir")) + File.separator + path;
-
     Image image = imageModel.getImage(imageName);
     if (image == null) {
       throw new IllegalArgumentException("No image found with name: " + imageName);
     }
     try {
-      if (path.contains("ppm")) {
-        savePPM(pathRelative, image);
+      if (path.toLowerCase().contains("ppm")) {
+        savePPM(path, image);
       } else {
-        saveOther(pathRelative, image);
+        saveOther(path, image);
       }
     } catch (IOException e) {
       throw new IOException(e);
