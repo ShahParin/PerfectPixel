@@ -61,7 +61,7 @@ public class ViewController implements GUIFeatures {
   public void load(String filePath, String imageName) throws IOException {
     Command loadCommand = new LoadCommand(imageService, filePath, imageName);
     loadCommand.execute();
-    view.printStatements("Image loaded: " + imageName);
+//    view.printStatements("Image loaded: " + imageName);
     Image image = imageModel.getImage(imageName);
     view.LoadFile(image);
   }
