@@ -1,69 +1,28 @@
 package controller;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.swing.*;
-
-import controller.commands.Command;
-import controller.commands.CommandFactory;
-import controller.commands.LoadCommand;
-import controller.commands.SaveCommand;
+import controller.commands.*;
 import model.Image;
 import model.ImageModelV2;
 import view.ImageView;
-
-import static model.ImageUtil.getDimensions;
 
 public class ViewController implements GUIFeatures {
   private final ImageModelV2 imageModel;
   private final ImageView view;
   private final ImageService imageService;
-//  private final String currentImageName;
-  private final Map<String, CommandFactory> commandMap;
 
   public ViewController(ImageModelV2 imageModel, ImageView view, ImageService imageService) {
     this.imageModel = imageModel;
     this.view = view;
     this.imageService = imageService;
-//    this.currentImageName = "newImage";
-    commandMap = new HashMap<>();
-//    initializeCommands();
   }
-
-//  private void initializeCommands() {
-//    commandMap.put("load", args -> new LoadCommand(imageService, args[1], args[2]));
-//
-//    commandMap.put("save", args -> new SaveCommand(imageService, args[1], args[2]));
-//  }
-
-//  private void processCommands(Command command) throws IOException {
-//    command.execute();
-//  }
-
-//  @Override
-//  public void load(String path) throws IOException {
-//    imageService.loadImage(path, currentImageName);
-//  }
-//
-//  private void executeCommand(Command command, String successMessage) {
-//    try {
-//      command.execute();
-//      view.printStatements(successMessage);
-//    } catch (Exception e) {
-//      view.printStatements("Error: " + e.getMessage());
-//    }
-//  }
 
   @Override
   public void load(String filePath, String imageName) throws IOException {
     Command loadCommand = new LoadCommand(imageService, filePath, imageName);
     loadCommand.execute();
-//    view.printStatements("Image loaded: " + imageName);
-    Image image = imageModel.getImage(imageName);
-    view.LoadFile(image);
+    view.printStatements("Image loaded: " + imageName);
   }
 
   @Override
@@ -71,35 +30,89 @@ public class ViewController implements GUIFeatures {
     Command saveCommand = new SaveCommand(imageService, path, imageName);
     saveCommand.execute();
     view.printStatements("Image saved: " + imageName);
-    view.SaveFile(path);
   }
 
-//  @Override
-//  public void imageToBufferedImage(String imageName) {
-//    Image image = imageModel.getImage(imageName);
-//
-//    int height = getDimensions(image)[0];
-//    int width = getDimensions(image)[1];
-//
-//    BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-//
-//    for (int y = 0; y < height; y++) {
-//      for (int x = 0; x < width; x++) {
-//        int red = image.getRedChannel()[y][x];
-//        int green = image.getGreenChannel()[y][x];
-//        int blue = image.getBlueChannel()[y][x];
-//
-//        int rgb = (red << 16) | (green << 8) | blue;
-//        bufferedImage.setRGB(x, y, rgb);
-//      }
-//    }
-//
-//    if (bufferedImage != null) {
-//      ImageIcon imageIcon = new ImageIcon(bufferedImage);
-//      view.displayImage(imageIcon);  // Display in the GUI
-//      view.printStatements("Displaying image: " + imageName);
-//    } else {
-//      view.printStatements("Error: Image " + imageName + " not found.");
-//    }
-//  }
+  @Override
+  public void blur(String imageName, String newImageName) throws IOException {
+    Command blurCommand = new BlurCommand(imageModel, imageName, newImageName);
+    blurCommand.execute();
+    view.printStatements("Image blurred: " + newImageName);
+  }
+
+  @Override
+  public void sharpen(String imageName, String newImageName) throws IOException {
+    Command sharpenCommand = new SharpenCommand(imageModel, imageName, newImageName);
+    sharpenCommand.execute();
+    view.printStatements("Image sharpened: " + newImageName);
+  }
+
+  @Override
+  public void horizontalFlip(String imageName, String newImageName) throws IOException {
+    Command horizontalFlipCommand = new HorizontalFlipCommand(imageModel, imageName, newImageName);
+    horizontalFlipCommand.execute();
+    view.printStatements("Image flipped horizontally: " + newImageName);
+  }
+
+  @Override
+  public void verticalFlip(String imageName, String newImageName) throws IOException {
+    Command verticalFlipCommand = new VerticalFlipCommand(imageModel, imageName, newImageName);
+    verticalFlipCommand.execute();
+    view.printStatements("Image flipped vertically: " + newImageName);
+  }
+
+  @Override
+  public void greyscale(String imageName, String newImageName) throws IOException {
+    Command greyscaleCommand = new LumaComponentCommand(imageModel, imageName, newImageName);
+    greyscaleCommand.execute();
+    view.printStatements("Image converted to greyscale: " + newImageName);
+  }
+
+  @Override
+  public void sepia(String imageName, String newImageName) throws IOException {
+    Command sepiaCommand = new SepiaCommand(imageModel, imageName, newImageName);
+    sepiaCommand.execute();
+    view.printStatements("Image converted to sepia tone: " + newImageName);
+  }
+
+  @Override
+  public void redComponent(String imageName, String newImageName) throws IOException {
+    Command redComponentCommand = new RedComponentCommand(imageModel, imageName, newImageName);
+    redComponentCommand.execute();
+    view.printStatements("Red component extracted: " + newImageName);
+  }
+
+  @Override
+  public void greenComponent(String imageName, String newImageName) throws IOException {
+    Command greenComponentCommand = new GreenComponentCommand(imageModel, imageName, newImageName);
+    greenComponentCommand.execute();
+    view.printStatements("Green component extracted: " + newImageName);
+  }
+
+  @Override
+  public void blueComponent(String imageName, String newImageName) throws IOException {
+    Command blueComponentCommand = new BlueComponentCommand(imageModel, imageName, newImageName);
+    blueComponentCommand.execute();
+    view.printStatements("Blue component extracted: " + newImageName);
+  }
+
+  @Override
+  public void levelsAdjust(String imageName, String newImageName, int black,
+                           int mid, int white) throws IOException {
+    Command levelsAdjustCommand = new LevelsAdjustCommand(imageModel, black, mid, white
+            ,imageName, newImageName);
+    levelsAdjustCommand.execute();
+    view.printStatements("Levels adjusted: " + newImageName);
+  }
+
+  @Override
+  public void colorCorrect(String imageName, String newImageName) throws IOException {
+    Command colorCorrectCommand = new ColorCorrectCommand(imageModel, imageName, newImageName);
+    colorCorrectCommand.execute();
+    view.printStatements("Image color corrected: " + newImageName);
+  }
+
+  @Override
+  public Image getImage(String imageName) {
+    return imageModel.getImage(imageName);
+  }
 }

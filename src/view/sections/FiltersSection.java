@@ -16,15 +16,12 @@ public class FiltersSection extends GenericPanel {
     setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     setBorder(BorderFactory.createTitledBorder("Filters"));
 
-
     // Add buttons for filters
     blurButton = new GenericButton("Blur", "BLUR", listener);
     sharpenButton = new GenericButton("Sharpen", "SHARPEN", listener);
 
-//    add(new JLabel("Filters"));
     add(blurButton);
     add(Box.createRigidArea(new Dimension(25, 0)));
-
     add(sharpenButton);
   }
 }

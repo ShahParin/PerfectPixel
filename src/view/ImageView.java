@@ -1,7 +1,5 @@
 package view;
 
-import model.Image;
-
 /**
  * This is an Interface for the View. It displays all the output statements to the end user.
  */
@@ -13,8 +11,4 @@ public interface ImageView {
    * @param statement the print statements to be displayed.
    */
   void printStatements(String statement);
-
-  void LoadFile(Image image);
-
-  void SaveFile(String filename);
 }

@@ -19,9 +19,9 @@ public class ColorChannelsSection extends GenericPanel {
 
 
     // Add buttons for color channels
-    redButton = new GenericButton("Red", "RED", listener);
-    greenButton = new GenericButton("Green", "GREEN", listener);
-    blueButton = new GenericButton("Blue", "BLUE", listener);
+    redButton = new GenericButton("Red", "RED_COMPONENT", listener);
+    greenButton = new GenericButton("Green", "GREEN_COMPONENT", listener);
+    blueButton = new GenericButton("Blue", "BLUE_COMPONENT", listener);
 
 //    add(new JLabel("Color Channels"));
     add(Box.createRigidArea(new Dimension(25, 0)));

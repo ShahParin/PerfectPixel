@@ -369,20 +369,35 @@
 //    fileSaveDisplay.setText("Image saved to: " + filename);
 //  }
 //}
-        package view;
 
-import view.components.GenericLabel;
-import view.components.ImageDisplay;
-import view.sections.*;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
+package view;
+
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import controller.GUIFeatures;
 import model.Image;
+import view.components.GenericLabel;
+import view.components.ImageDisplay;
+import view.sections.ColorChannelsSection;
+import view.sections.ColorCorrectionSection;
+import view.sections.FileIOSection;
+import view.sections.FiltersSection;
+import view.sections.FlippingSection;
+import view.sections.HistogramSection;
+import view.sections.ImageDisplaySection;
+import view.sections.LevelsAdjustmentSection;
+import view.sections.OperationLogSection;
+import view.sections.TransformationsSection;
 
 import static model.ImageUtil.getDimensions;
 
@@ -477,7 +492,9 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   }
 
   //  @Override
-  public void refreshImagePlaceholder(Image image) {
+  public void refreshImagePlaceholder() {
+    Image image = features.getImage(currentImageName);
+
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
@@ -510,14 +527,48 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
       case "SAVE_IMAGE":
         handleSaveImage();
         break;
+      case "BLUR":
+        handleBlurImage();
+        break;
+      case "SHARPEN":
+        handleSharpenImage();
+        break;
+      case "HORIZONTAL_FLIP":
+        handleHorizontalFlip();
+        break;
+      case "VERTICAL_FLIP":
+        handleVerticalFlip();
+        break;
+      case "GRAYSCALE":
+        handleGreyscale();
+        break;
+      case "SEPIA":
+        handleSepia();
+        break;
+      case "RED_COMPONENT":
+        handleRedComponent();
+        break;
+      case "GREEN_COMPONENT":
+        handleGreenComponent();
+        break;
+      case "BLUE_COMPONENT":
+        handleBlueComponent();
+        break;
+      case "LEVELS_ADJUST":
+        handleLevelsAdjust();
+        break;
+      case "COLOR_CORRECT":
+        handleColorCorrect();
+        break;
       default:
-        System.out.println("Unknown command: " + e.getActionCommand());
+        printStatements("Unknown command: " + e.getActionCommand());
     }
   }
 
   private void handleLoadImage() {
     JFileChooser fileChooser = new JFileChooser(".");
-    FileNameExtensionFilter filter = new FileNameExtensionFilter("Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
     fileChooser.setFileFilter(filter);
 
     int returnValue = fileChooser.showOpenDialog(this);
@@ -535,12 +586,15 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
       } else {
         printStatements("Error: Features not set");
       }
+
+      refreshImagePlaceholder();
     }
   }
 
   private void handleSaveImage() {
     JFileChooser fileChooser = new JFileChooser(".");
-    FileNameExtensionFilter filter = new FileNameExtensionFilter("Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
     fileChooser.setFileFilter(filter);
 
     int returnValue = fileChooser.showSaveDialog(this);
@@ -560,6 +614,194 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     }
   }
 
+  private void handleBlurImage() {
+    if (features != null && currentImageName != null) {
+      try {
+        String blurredImageName = currentImageName + "_blur";
+        features.blur(currentImageName, blurredImageName);
+
+        currentImageName = blurredImageName;
+        refreshImagePlaceholder();
+
+        printStatements("Image blurred successfully.");
+      } catch (Exception ex) {
+        printStatements("Error during blur operation: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleSharpenImage() {
+    if (features != null && currentImageName != null) {
+      try {
+        String sharpenImageName = currentImageName + "_sharpen";
+        features.sharpen(currentImageName, sharpenImageName);
+
+        currentImageName = sharpenImageName;
+        refreshImagePlaceholder();
+
+        printStatements("Image blurred successfully.");
+      } catch (Exception ex) {
+        printStatements("Error during blur operation: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleHorizontalFlip() {
+    if (features != null && currentImageName != null) {
+      try {
+        String flippedImageName = currentImageName + "_hflip";
+        features.horizontalFlip(currentImageName, flippedImageName);
+        currentImageName = flippedImageName;
+        refreshImagePlaceholder();
+        printStatements("Image flipped horizontally.");
+      } catch (Exception ex) {
+        printStatements("Error during horizontal flip: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleVerticalFlip() {
+    if (features != null && currentImageName != null) {
+      try {
+        String flippedImageName = currentImageName + "_vflip";
+        features.verticalFlip(currentImageName, flippedImageName);
+        currentImageName = flippedImageName;
+        refreshImagePlaceholder();
+        printStatements("Image flipped vertically.");
+      } catch (Exception ex) {
+        printStatements("Error during vertical flip: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleGreyscale() {
+    if (features != null && currentImageName != null) {
+      try {
+        String greyImageName = currentImageName + "_greyscale";
+        features.greyscale(currentImageName, greyImageName);
+        currentImageName = greyImageName;
+        refreshImagePlaceholder();
+        printStatements("Image converted to greyscale.");
+      } catch (Exception ex) {
+        printStatements("Error during greyscale operation: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleSepia() {
+    if (features != null && currentImageName != null) {
+      try {
+        String sepiaImageName = currentImageName + "_sepia";
+        features.sepia(currentImageName, sepiaImageName);
+        currentImageName = sepiaImageName;
+        refreshImagePlaceholder();
+        printStatements("Image converted to sepia tone.");
+      } catch (Exception ex) {
+        printStatements("Error during sepia operation: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleRedComponent() {
+    if (features != null && currentImageName != null) {
+      try {
+        String redImageName = currentImageName + "_red";
+        features.redComponent(currentImageName, redImageName);
+        currentImageName = redImageName;
+        refreshImagePlaceholder();
+        printStatements("Red component extracted.");
+      } catch (Exception ex) {
+        printStatements("Error extracting red component: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleGreenComponent() {
+    if (features != null && currentImageName != null) {
+      try {
+        String greenImageName = currentImageName + "_green";
+        features.greenComponent(currentImageName, greenImageName);
+        currentImageName = greenImageName;
+        refreshImagePlaceholder();
+        printStatements("Green component extracted.");
+      } catch (Exception ex) {
+        printStatements("Error extracting green component: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleBlueComponent() {
+    if (features != null && currentImageName != null) {
+      try {
+        String blueImageName = currentImageName + "_blue";
+        features.blueComponent(currentImageName, blueImageName);
+        currentImageName = blueImageName;
+        refreshImagePlaceholder();
+        printStatements("Blue component extracted.");
+      } catch (Exception ex) {
+        printStatements("Error extracting blue component: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleLevelsAdjust() {
+    if (features != null && currentImageName != null) {
+      try {
+        int black = levelsAdjustmentSection.getBlack();
+        int midTones = levelsAdjustmentSection.getMidTone();
+        int white = levelsAdjustmentSection.getWhite();
+
+        String adjustedImageName = currentImageName + "_levelsAdjusted";
+        features.levelsAdjust(currentImageName, adjustedImageName, black, midTones, white);
+
+        currentImageName = adjustedImageName;
+        refreshImagePlaceholder();
+        printStatements("Levels adjusted successfully.");
+      } catch (NumberFormatException ex) {
+        printStatements("Invalid input for levels adjustment. Please enter numeric values.");
+      } catch (Exception ex) {
+        printStatements("Error during levels adjustment: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleColorCorrect() {
+    if (features != null && currentImageName != null) {
+      try {
+        String correctedImageName = currentImageName + "_corrected";
+        features.colorCorrect(currentImageName, correctedImageName);
+        currentImageName = correctedImageName;
+        refreshImagePlaceholder();
+        printStatements("Image color corrected.");
+      } catch (Exception ex) {
+        printStatements("Error during color correction: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+
   @Override
   public void itemStateChanged(ItemEvent e) {
     // Handle item state changes if needed
@@ -573,15 +815,5 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   //  @Override
   public void updateOperationLog(String message) {
     System.out.println(message);  // Replace with log updating code if needed
-  }
-
-  @Override
-  public void LoadFile(Image image) {
-    refreshImagePlaceholder(image);
-  }
-
-  @Override
-  public void SaveFile(String filename) {
-    fileSaveDisplay.setText("Image saved to: " + filename);
   }
 }

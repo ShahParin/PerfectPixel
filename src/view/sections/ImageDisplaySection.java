@@ -22,8 +22,12 @@ public class ImageDisplaySection extends GenericPanel {
     setLayout(new BorderLayout());
     setBorder(BorderFactory.createTitledBorder("Image Display"));
 
+    JScrollPane scrollPane = new JScrollPane(imageDisplay);
+    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
     // Add the image display component to the panel
-    add(imageDisplay, BorderLayout.CENTER);
+    add(scrollPane, BorderLayout.CENTER);
   }
 
   // Method to update the image in the display section

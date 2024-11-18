@@ -27,13 +27,24 @@ public class LevelsAdjustmentSection extends GenericPanel {
     blackInputField = new GenericInputField("Black Level");
     midInputField = new GenericInputField("Mid Level");
     whiteInputField = new GenericInputField("White Level");
-    applyButton = new GenericButton("Apply", "APPLY", listener);
+    applyButton = new GenericButton("Apply", "LEVELS_ADJUST", listener);
 
     // Adding fields to the section
     add(blackInputField);
     add(midInputField);
     add(whiteInputField);
     add(applyButton);
+  }
 
+  public int getBlack() {
+    return Integer.parseInt(blackInputField.getText());
+  }
+
+  public int getMidTone() {
+    return Integer.parseInt(midInputField.getText());
+  }
+
+  public int getWhite() {
+    return Integer.parseInt(whiteInputField.getText());
   }
 }

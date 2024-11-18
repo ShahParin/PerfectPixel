@@ -143,19 +143,23 @@ public class ImageFileUtils {
 
     BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
+    int[][] redChannel = image.getRedChannel();
+    int[][] greenChannel = image.getGreenChannel();
+    int[][] blueChannel = image.getBlueChannel();
+
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        int red = image.getRedChannel()[y][x];
-        int green = image.getGreenChannel()[y][x];
-        int blue = image.getBlueChannel()[y][x];
+        int red = redChannel[y][x];
+        int green = greenChannel[y][x];
+        int blue = blueChannel[y][x];
 
         int rgb = (red << 16) | (green << 8) | blue;
         outputImage.setRGB(x, y, rgb);
       }
     }
 
-    String[] parts = filename.split("\\.");
-    String ext = parts[parts.length - 1];
+    String ext = filename.contains(".") ? filename.substring(filename
+            .lastIndexOf('.') + 1) : "png";
     File outputFile = new File(filename);
     ImageIO.write(outputImage, ext, outputFile);
   }

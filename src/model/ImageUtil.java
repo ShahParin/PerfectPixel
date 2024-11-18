@@ -42,21 +42,27 @@ public class ImageUtil {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
+    int[][] redChannel = image.getRedChannel();
+    int[][] greenChannel = image.getGreenChannel();
+    int[][] blueChannel = image.getBlueChannel();
+
     int[][] newRedChannel = getNewComponent(height, width);
     int[][] newGreenChannel = getNewComponent(height, width);
     int[][] newBlueChannel = getNewComponent(height, width);
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        newRedChannel[i][j] = (int) (kernel[0][0] * image.getRedChannel()[i][j]
-                + kernel[0][1] * image.getGreenChannel()[i][j]
-                + kernel[0][2] * image.getBlueChannel()[i][j]);
-        newGreenChannel[i][j] = (int) (kernel[1][0] * image.getRedChannel()[i][j]
-                + kernel[1][1] * image.getGreenChannel()[i][j]
-                + kernel[1][2] * image.getBlueChannel()[i][j]);
-        newBlueChannel[i][j] = (int) (kernel[2][0] * image.getRedChannel()[i][j]
-                + kernel[2][1] * image.getGreenChannel()[i][j]
-                + kernel[2][2] * image.getBlueChannel()[i][j]);
+        int red = redChannel[i][j];
+        int green = greenChannel[i][j];
+        int blue = blueChannel[i][j];
+
+        // Compute new pixel values using the kernel
+        newRedChannel[i][j] = (int) (kernel[0][0] * red + kernel[0][1] * green
+                + kernel[0][2] * blue);
+        newGreenChannel[i][j] = (int) (kernel[1][0] * red + kernel[1][1] * green
+                + kernel[1][2] * blue);
+        newBlueChannel[i][j] = (int) (kernel[2][0] * red + kernel[2][1] * green
+                + kernel[2][2] * blue);
       }
     }
     return new Image(newRedChannel, newGreenChannel, newBlueChannel);

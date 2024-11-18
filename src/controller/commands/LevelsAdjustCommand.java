@@ -34,7 +34,6 @@ public class LevelsAdjustCommand implements Command {
     this.imageName = imageName;
     this.newImageName = newImageName;
     this.percent = null;
-
   }
 
   /**

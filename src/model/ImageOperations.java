@@ -635,9 +635,9 @@ public class ImageOperations {
     int[][] greenChannel = image.getGreenChannel();
     int[][] blueChannel = image.getBlueChannel();
 
-    int redPeak = findWeightedPeak(redChannel, 10, 245);
-    int greenPeak = findWeightedPeak(greenChannel, 10, 245);
-    int bluePeak = findWeightedPeak(blueChannel, 10, 245);
+    int redPeak = findWeightedPeak(redChannel);
+    int greenPeak = findWeightedPeak(greenChannel);
+    int bluePeak = findWeightedPeak(blueChannel);
 
     int avgPeak = (redPeak + greenPeak + bluePeak) / 3;
 
@@ -645,30 +645,23 @@ public class ImageOperations {
     int greenOffset = (avgPeak - greenPeak) / 2;
     int blueOffset = (avgPeak - bluePeak) / 2;
 
-
-    Image correctedImage = adjustImageColors(image, redOffset, greenOffset, blueOffset);
-
-//    return histogramVisualization(correctedImage);
-    return correctedImage;
-
+    return adjustImageColors(image, redOffset, greenOffset, blueOffset);
   }
 
   /**
    * Finds the weighted peak intensity of a color channel within a specified range.
    *
    * @param channel each of the color channels for red, green or blue.
-   * @param min     the minimum intensity value in the range.
-   * @param max     the maximum intensity value in the range
    * @return the weighted average intensity, representing the peak.
    */
-  private static int findWeightedPeak(int[][] channel, int min, int max) {
+  private static int findWeightedPeak(int[][] channel) {
     int[] histogram = new int[256];
     int total = 0;
     int weightedSum = 0;
 
     for (int[] row : channel) {
       for (int value : row) {
-        if (value >= min && value <= max) {
+        if (value >= 10 && value <= 245) {
           histogram[value]++;
           weightedSum += value * histogram[value];
           total += histogram[value];
@@ -676,7 +669,7 @@ public class ImageOperations {
       }
     }
 
-    return total == 0 ? min : weightedSum / total;
+    return total == 0 ? 10 : weightedSum / total;
   }
 
   /**
@@ -692,6 +685,11 @@ public class ImageOperations {
                                          int blueOffset) {
     int width = getDimensions(image)[1];
     int height = getDimensions(image)[0];
+//    System.out.println("hbhh");
+
+    int[][] redChannel = image.getRedChannel();
+    int[][] greenChannel = image.getGreenChannel();
+    int[][] blueChannel = image.getBlueChannel();
 
     int[][] newRedChannel = new int[height][width];
     int[][] newGreenChannel = new int[height][width];
@@ -699,9 +697,9 @@ public class ImageOperations {
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        newRedChannel[i][j] = clamp(image.getRedChannel()[i][j] + redOffset);
-        newGreenChannel[i][j] = clamp(image.getGreenChannel()[i][j] + greenOffset);
-        newBlueChannel[i][j] = clamp(image.getBlueChannel()[i][j] + blueOffset);
+        newRedChannel[i][j] = clamp(redChannel[i][j] + redOffset);
+        newGreenChannel[i][j] = clamp(greenChannel[i][j] + greenOffset);
+        newBlueChannel[i][j] = clamp(blueChannel[i][j] + blueOffset);
       }
     }
 

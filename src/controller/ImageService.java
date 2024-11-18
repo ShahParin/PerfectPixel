@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.io.IOException;
 
 import model.Image;
@@ -36,11 +35,11 @@ public class ImageService {
   public void loadImage(String path, String imageName) throws IOException {
     try {
       Image image;
-      if (path.toLowerCase().contains("ppm")) {
+      if (path.toLowerCase().endsWith("ppm")) {
         image = readPPM(path);
         System.out.println("path"+path);
-      } else if (path.toLowerCase().contains("png") || path.toLowerCase().contains(("jpeg")) ||
-              path.toLowerCase().contains("jpg")) {
+      } else if (path.toLowerCase().endsWith("png") || path.toLowerCase().endsWith(("jpeg")) ||
+              path.toLowerCase().endsWith("jpg")) {
         image = readOther(path);
       } else {
         throw new IllegalArgumentException("Unsupported image type: " + path);
@@ -64,7 +63,7 @@ public class ImageService {
       throw new IllegalArgumentException("No image found with name: " + imageName);
     }
     try {
-      if (path.toLowerCase().contains("ppm")) {
+      if (path.toLowerCase().endsWith(".ppm")) {
         savePPM(path, image);
       } else {
         saveOther(path, image);

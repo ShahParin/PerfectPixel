@@ -24,6 +24,11 @@ public class MockImageView implements ImageView {
 
   }
 
+  @Override
+  public void blurImage(Image image) {
+
+  }
+
   public String getLog() {
     return log.toString();
   }
