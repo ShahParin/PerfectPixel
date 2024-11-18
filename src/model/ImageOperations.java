@@ -656,21 +656,26 @@ public class ImageOperations {
    */
   private static int findWeightedPeak(int[][] channel) {
     int[] histogram = new int[256];
-    int total = 0;
-    int weightedSum = 0;
 
     for (int[] row : channel) {
       for (int value : row) {
         if (value >= 10 && value <= 245) {
           histogram[value]++;
-          weightedSum += value * histogram[value];
-          total += histogram[value];
         }
       }
     }
 
-    return total == 0 ? 10 : weightedSum / total;
-  }
+    int peakIntensity = 10;
+    int maxCount = 0;
+    for (int i = 10; i <= 245; i++) {
+      if (histogram[i] > maxCount) {
+        maxCount = histogram[i];
+        peakIntensity = i;
+      }
+    }
+
+    return peakIntensity;
+}
 
   /**
    * Adjusts the color channels of an image by applying specified offsets to each channel.
@@ -685,7 +690,6 @@ public class ImageOperations {
                                          int blueOffset) {
     int width = getDimensions(image)[1];
     int height = getDimensions(image)[0];
-//    System.out.println("hbhh");
 
     int[][] redChannel = image.getRedChannel();
     int[][] greenChannel = image.getGreenChannel();

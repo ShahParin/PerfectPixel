@@ -516,6 +516,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     outputImage.setRGB(0, 0, width, height, rgbData, 0, width);
 
     imageDisplaySection.updateImageDisplay(new ImageIcon(outputImage));
+
   }
 
   @Override
