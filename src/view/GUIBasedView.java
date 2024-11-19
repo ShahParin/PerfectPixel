@@ -398,6 +398,7 @@ import view.sections.HistogramSection;
 import view.sections.ImageDisplaySection;
 import view.sections.LevelsAdjustmentSection;
 import view.sections.OperationLogSection;
+import view.sections.SplitOperationSection;
 import view.sections.TransformationsSection;
 
 import static model.ImageUtil.getDimensions;
@@ -406,7 +407,6 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
   private GenericLabel fileOpenDisplay;
   private GenericLabel fileSaveDisplay;
-  private ImageDisplay imagePlaceholder;
   private JScrollPane mainScrollPane;
   private GUIFeatures features;
   private String currentImageName;
@@ -422,6 +422,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   private OperationLogSection operationLogSection;
   private HistogramSection histogramSection;
   private ImageDisplaySection imageDisplaySection;  // New section
+  private SplitOperationSection splitOperationSection;
 
   public GUIBasedView() {
     super("PerfectPixel");
@@ -447,6 +448,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     colorCorrectionSection = new ColorCorrectionSection(this);
     operationLogSection = new OperationLogSection();
     histogramSection = new HistogramSection();
+    splitOperationSection = new SplitOperationSection();
     imageDisplaySection = new ImageDisplaySection();  // Initialize ImageDisplaySection
 
     // Other components
@@ -478,6 +480,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     JPanel topPanel = new JPanel(new BorderLayout());
     topPanel.add(operationLogSection, BorderLayout.WEST);
     topPanel.add(histogramSection, BorderLayout.EAST);
+    topPanel.add(splitOperationSection, BorderLayout.CENTER);
     rightPanel.add(topPanel, BorderLayout.NORTH);
 
     // Bottom section (image display)
