@@ -425,7 +425,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
   public GUIBasedView() {
     super("PerfectPixel");
-    setSize(1200, 800);
+    setSize(1100, 800);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Initialize components and layout
@@ -472,7 +472,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
     // Right panel (image display and additional info)
     JPanel rightPanel = new JPanel(new BorderLayout());
-    rightPanel.setPreferredSize(new Dimension(720, 800));  // 60% width
+    rightPanel.setPreferredSize(new Dimension(750, 800));  // 60% width
 
     // Top section (operation log and histogram)
     JPanel topPanel = new JPanel(new BorderLayout());
