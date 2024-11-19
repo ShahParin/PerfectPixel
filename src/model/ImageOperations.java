@@ -1,13 +1,10 @@
 package model;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static model.ImageUtil.getDimensions;
 import static model.ImageUtil.getNewComponent;
@@ -25,7 +22,7 @@ public class ImageOperations {
    */
   protected static Image sepia(Image image) {
     double[][] sepiaKernel = new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168},
-      {0.272, 0.534, 0.131}};
+            {0.272, 0.534, 0.131}};
     return ImageUtil.transformationHelper(image, sepiaKernel);
   }
 
@@ -125,7 +122,7 @@ public class ImageOperations {
    */
   protected static Image blur(Image image) {
     float[][] kernel = {{1 / 16f, 1 / 8f, 1 / 16f},
-      {1 / 8f, 1 / 4f, 1 / 8f}, {1 / 16f, 1 / 8f, 1 / 16f}};
+            {1 / 8f, 1 / 4f, 1 / 8f}, {1 / 16f, 1 / 8f, 1 / 16f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
@@ -138,10 +135,10 @@ public class ImageOperations {
    */
   protected static Image sharpen(Image image) {
     float[][] kernel = {{-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f},
-      {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
-      {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f},
-      {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
-      {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}};
+            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
+            {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f},
+            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
+            {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
@@ -302,19 +299,20 @@ public class ImageOperations {
    * @return the transformed list.
    */
   private static List<Double> transform(List<Double> sequence) {
-    List<Double> avg = new ArrayList<>();
-    List<Double> diff = new ArrayList<>();
-
-    for (int i = 0; i < sequence.size(); i += 2) {
-      double thisAvg = (sequence.get(i) + sequence.get(i + 1)) / Math.sqrt(2);
-      double thisDiff = (sequence.get(i) - sequence.get(i + 1)) / Math.sqrt(2);
-
-      avg.add(thisAvg);
-      diff.add(thisDiff);
+    int size = sequence.size();
+    List<Double> result = new ArrayList<>();
+    for (int i = 0; i < size; i++) {
+      result.add(0.0);
     }
 
-    List<Double> result = new ArrayList<>(avg);
-    result.addAll(diff);
+    for (int i = 0; i < size / 2; i++) {
+      double first = sequence.get(2 * i);
+      double second = sequence.get(2 * i + 1);
+
+      result.set(i, (first + second) / Math.sqrt(2));
+      result.set(i + size / 2, (first - second) / Math.sqrt(2));
+    }
+
     return result;
   }
 
@@ -325,18 +323,20 @@ public class ImageOperations {
    * @return the inverted list.
    */
   private static List<Double> invert(List<Double> sequence) {
+    int size = sequence.size();
     List<Double> result = new ArrayList<>();
-    int middle = sequence.size() / 2;
+    for (int i = 0; i < size; i++) {
+      result.add(0.0);
+    }
 
-    List<Double> avgSequence = sequence.subList(0, middle);
-    List<Double> diffSequence = sequence.subList(middle, sequence.size());
+    int middleIndex = size / 2;
 
-    for (int i = 0; i < avgSequence.size(); i++) {
-      double thisAvg = (avgSequence.get(i) + diffSequence.get(i)) / Math.sqrt(2);
-      double thisDiff = (avgSequence.get(i) - diffSequence.get(i)) / Math.sqrt(2);
+    for (int i = 0; i < middleIndex; i++) {
+      double avg = sequence.get(i);
+      double diff = sequence.get(i + middleIndex);
 
-      result.add(thisAvg);
-      result.add(thisDiff);
+      result.set(2 * i, (avg + diff) / Math.sqrt(2));
+      result.set(2 * i + 1, (avg - diff) / Math.sqrt(2));
     }
 
     return result;
@@ -391,15 +391,19 @@ public class ImageOperations {
   private static double[][] padArrayToSquare(int[][] original) {
     int rows = original.length;
     int cols = original[0].length;
-    int padSize = 1;
 
-    while (padSize < Math.max(rows, cols)) {
-      padSize *= 2;
+    int maxSize = Math.max(rows, cols);
+    int squareSize = 1;
+    while (squareSize < maxSize) {
+      squareSize *= 2;
     }
 
-    double[][] squareArray = new double[padSize][padSize];
+    double[][] squareArray = new double[squareSize][squareSize];
+
     for (int i = 0; i < rows; i++) {
-      System.arraycopy(convertIntToDouble(original)[i], 0, squareArray[i], 0, cols);
+      for (int j = 0; j < cols; j++) {
+        squareArray[i][j] = original[i][j];
+      }
     }
 
     return squareArray;
@@ -429,29 +433,27 @@ public class ImageOperations {
    * @return the thresholded channel.
    */
   protected static int[][] thresholdChannel(double[][] channel, double percent) {
-    Set<Double> uniqueIntensities = new HashSet<>();
-    for (int i = 0; i < channel.length; i++) {
-      for (int j = 0; j < channel[i].length; j++) {
-        if (channel[i][j] != 0.0) {
-          uniqueIntensities.add(channel[i][j]);
-        }
+    int rows = channel.length;
+    int cols = channel[0].length;
+    int totalElements = rows * cols;
+
+    double[] flattenedArray = new double[totalElements];
+    int index = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        flattenedArray[index] = channel[i][j];
+        index++;
       }
     }
-    double[] sortedIntensities = uniqueIntensities.stream().mapToDouble(Double::doubleValue)
-            .toArray();
-    Arrays.sort(sortedIntensities);
 
-    double thresholdIntensity;
-    int resetCount = (int) (sortedIntensities.length * (percent / 100));
-    if (resetCount < 1) {
-      thresholdIntensity = 0;
-    } else {
-      thresholdIntensity = sortedIntensities[resetCount - 1];
-    }
+    Arrays.sort(flattenedArray);
 
-    for (int i = 0; i < channel.length; i++) {
-      for (int j = 0; j < channel[i].length; j++) {
-        if (Math.abs(channel[i][j]) < thresholdIntensity) {
+    int thresholdIndex = (int) (totalElements * (percent / 100.0));
+    double threshold = thresholdIndex > 0 ? flattenedArray[thresholdIndex - 1] : 0.0;
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (Math.abs(channel[i][j]) < threshold) {
           channel[i][j] = 0.0;
         }
       }
@@ -470,11 +472,11 @@ public class ImageOperations {
    */
   private static void applyTransform(double[][] array, int padSize, boolean isForward,
                                      boolean isRow) {
-    for (int index = 0; index < padSize; index++) {
+    for (int i = 0; i < padSize; i++) {
       double[] elements = new double[padSize];
 
-      for (int inner = 0; inner < padSize; inner++) {
-        elements[inner] = isRow ? array[index][inner] : array[inner][index];
+      for (int j = 0; j < padSize; j++) {
+        elements[j] = isRow ? array[i][j] : array[j][i];
       }
 
       List<Double> elementsList = new ArrayList<>();
@@ -484,15 +486,15 @@ public class ImageOperations {
 
       List<Double> transformedList = isForward ? transform(elementsList) : invert(elementsList);
 
-      for (int inner = 0; inner < padSize; inner++) {
-        elements[inner] = transformedList.get(inner);
+      for (int j = 0; j < padSize; j++) {
+        elements[j] = transformedList.get(j);
       }
 
-      for (int inner = 0; inner < padSize; inner++) {
+      for (int j = 0; j < padSize; j++) {
         if (isRow) {
-          array[index][inner] = elements[inner];
+          array[i][j] = elements[j];
         } else {
-          array[inner][index] = elements[inner];
+          array[j][i] = elements[j];
         }
       }
     }
@@ -675,7 +677,7 @@ public class ImageOperations {
     }
 
     return peakIntensity;
-}
+  }
 
   /**
    * Adjusts the color channels of an image by applying specified offsets to each channel.

@@ -426,7 +426,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
   public GUIBasedView() {
     super("PerfectPixel");
-    setSize(1100, 800);
+    setSize(1300, 800);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Initialize components and layout
@@ -452,8 +452,8 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     imageDisplaySection = new ImageDisplaySection();  // Initialize ImageDisplaySection
 
     // Other components
-    fileOpenDisplay = new GenericLabel("File path will appear here");
-    fileSaveDisplay = new GenericLabel("File path will appear here");
+//    fileOpenDisplay = new GenericLabel("File path will appear here");
+//    fileSaveDisplay = new GenericLabel("File path will appear here");
   }
 
   private void setupLayout() {

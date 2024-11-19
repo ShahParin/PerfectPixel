@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class OperationLogSection extends GenericPanel {
 
-  private JTextArea logArea;
+  private static JTextArea logArea;
 
   public OperationLogSection() {
     super(new BorderLayout());
@@ -17,7 +17,7 @@ public class OperationLogSection extends GenericPanel {
     logArea.setEditable(false);
     JScrollPane logScrollPane = new JScrollPane(logArea);
     add(logScrollPane, BorderLayout.CENTER);
-    setPreferredSize(new Dimension(400, 200));
+    setPreferredSize(new Dimension(350, 280));
   }
 
   public void appendLog(String message) {
