@@ -390,6 +390,7 @@ import view.components.GenericLabel;
 import view.components.ImageDisplay;
 import view.sections.ColorChannelsSection;
 import view.sections.ColorCorrectionSection;
+import view.sections.CompressionSection;
 import view.sections.FileIOSection;
 import view.sections.FiltersSection;
 import view.sections.FlippingSection;
@@ -415,6 +416,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   private FlippingSection flippingSection;
   private TransformationsSection transformationsSection;
   private ColorChannelsSection colorChannelsSection;
+  private CompressionSection compressionSection;
   private LevelsAdjustmentSection levelsAdjustmentSection;
   private ColorCorrectionSection colorCorrectionSection;
   private OperationLogSection operationLogSection;
@@ -440,6 +442,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     flippingSection = new FlippingSection(this);
     transformationsSection = new TransformationsSection(this);
     colorChannelsSection = new ColorChannelsSection(this);
+    compressionSection = new CompressionSection(this);
     levelsAdjustmentSection = new LevelsAdjustmentSection(this);
     colorCorrectionSection = new ColorCorrectionSection(this);
     operationLogSection = new OperationLogSection();
@@ -457,12 +460,13 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     // Left panel (commands and operations)
     JPanel leftPanel = new JPanel();
     leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-    leftPanel.setPreferredSize(new Dimension(480, 800));  // 40% width
+    leftPanel.setPreferredSize(new Dimension(350, 800));  // 40% width
     leftPanel.add(fileIOSection);
     leftPanel.add(filtersSection);
     leftPanel.add(flippingSection);
     leftPanel.add(transformationsSection);
     leftPanel.add(colorChannelsSection);
+    leftPanel.add(compressionSection);
     leftPanel.add(levelsAdjustmentSection);
     leftPanel.add(colorCorrectionSection);
 
@@ -480,7 +484,6 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     rightPanel.add(imageDisplaySection, BorderLayout.CENTER);  // Add ImageDisplaySection here
     // Main scroll pane
     mainScrollPane = new JScrollPane(rightPanel);
-
 
     // Add panels to the frame
     add(leftPanel, BorderLayout.WEST);
@@ -563,6 +566,9 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
         break;
       case "BLUE_COMPONENT":
         handleBlueComponent();
+        break;
+      case "COMPRESS":
+        handleCompress();
         break;
       case "LEVELS_ADJUST":
         handleLevelsAdjust();
@@ -766,6 +772,25 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
         printStatements("Blue component extracted.");
       } catch (Exception ex) {
         printStatements("Error extracting blue component: " + ex.getMessage());
+      }
+    } else {
+      printStatements("No image loaded or features not set.");
+    }
+  }
+
+  private void handleCompress() {
+    if (features != null && currentImageName != null) {
+      try {
+        double percent = compressionSection.getPercent();
+
+        String compressedImageName = currentImageName + "_compressed";
+        features.compress(currentImageName, compressedImageName, percent);
+
+        currentImageName = compressedImageName;
+        refreshImagePlaceholder();
+        printStatements("Image compressed successfully.");
+      } catch (Exception ex) {
+        printStatements("Error during compression: " + ex.getMessage());
       }
     } else {
       printStatements("No image loaded or features not set.");

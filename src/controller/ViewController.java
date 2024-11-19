@@ -96,6 +96,13 @@ public class ViewController implements GUIFeatures {
   }
 
   @Override
+  public void compress(String imageName, String newImageName, double percent) throws IOException {
+    Command compressCommand = new CompressCommand(imageModel, percent, imageName, newImageName);
+    compressCommand.execute();
+    view.printStatements("Image compressed: " + newImageName);
+  }
+
+  @Override
   public void levelsAdjust(String imageName, String newImageName, int black,
                            int mid, int white) throws IOException {
     Command levelsAdjustCommand = new LevelsAdjustCommand(imageModel, black, mid, white

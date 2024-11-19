@@ -27,6 +27,8 @@ public interface GUIFeatures {
 
   void blueComponent(String imageName, String newImageName) throws IOException;
 
+  void compress(String imageName, String newImageName, double percent) throws IOException;
+
   void levelsAdjust(String imageName, String newImageName, int black, int mid, int white) throws IOException;
 
   void colorCorrect(String imageName, String newImageName) throws IOException;
