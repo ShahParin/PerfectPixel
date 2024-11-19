@@ -491,10 +491,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     this.features = features;
   }
 
-  //  @Override
-  public void refreshImagePlaceholder() {
-    Image image = features.getImage(currentImageName);
-
+  private BufferedImage imageToBufferedImage(Image image) {
     int height = getDimensions(image)[0];
     int width = getDimensions(image)[1];
 
@@ -515,8 +512,19 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     outputImage.setRGB(0, 0, width, height, rgbData, 0, width);
 
-    imageDisplaySection.updateImageDisplay(new ImageIcon(outputImage));
+    return outputImage;
+  }
 
+  public void refreshImagePlaceholder() {
+    Image image = features.getImage(currentImageName);
+
+    imageDisplaySection.updateImageDisplay(new ImageIcon(imageToBufferedImage(image)));
+  }
+
+  public void refreshHistogram() {
+    Image histogramImage = features.getHistogram(currentImageName);
+
+    histogramSection.updateHistogramDisplay(new ImageIcon(imageToBufferedImage(histogramImage)));
   }
 
   @Override

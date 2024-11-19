@@ -32,4 +32,6 @@ public interface GUIFeatures {
   void colorCorrect(String imageName, String newImageName) throws IOException;
 
   Image getImage(String imageName);
+
+  Image getHistogram(String imageName);
 }
