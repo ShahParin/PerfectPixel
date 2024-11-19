@@ -115,4 +115,11 @@ public class ViewController implements GUIFeatures {
   public Image getImage(String imageName) {
     return imageModel.getImage(imageName);
   }
+
+  @Override
+  public Image getHistogram(String imageName) {
+    String histImageName = imageName+"_histogram";
+    imageModel.applyHistogramVisualization(imageName, histImageName);
+    return imageModel.getImage(histImageName);
+  }
 }

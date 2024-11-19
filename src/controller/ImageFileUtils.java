@@ -29,7 +29,6 @@ public class ImageFileUtils {
    */
   protected static Image readPPM(String filename) throws FileNotFoundException {
     Scanner sc = new Scanner(new FileInputStream(filename));
-    System.out.println("filename: " + filename);
 
     StringBuilder builder = new StringBuilder();
     while (sc.hasNextLine()) {
@@ -106,8 +105,6 @@ public class ImageFileUtils {
    */
   protected static Image readOther(String filename) throws IOException {
     File inputFile = new File(filename);
-    System.out.println("filename: " + filename);
-
     BufferedImage image = ImageIO.read(inputFile);
 
     int height = image.getHeight();

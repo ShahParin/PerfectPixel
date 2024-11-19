@@ -7,8 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ImageDisplaySection extends GenericPanel {
-
-  private ImageDisplay imageDisplay;
+  private static ImageDisplay imageDisplay;
 
   public ImageDisplaySection() {
     super(null);

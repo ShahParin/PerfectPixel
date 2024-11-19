@@ -519,6 +519,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     Image image = features.getImage(currentImageName);
 
     imageDisplaySection.updateImageDisplay(new ImageIcon(imageToBufferedImage(image)));
+    refreshHistogram();
   }
 
   public void refreshHistogram() {
