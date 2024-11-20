@@ -7,21 +7,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class TransformationsSection extends GenericPanel {
-  private GenericButton grayscaleButton;
-  private GenericButton sepiaButton;
 
+/**
+ * A section that provides buttons for image transformations, such as Grayscale and Sepia.
+ * Each button is linked to a specific transformation action.
+ */
+public class TransformationsSection extends GenericPanel {
+
+  /**
+   * Constructs the TransformationsSection.
+   * Initializes the buttons for grayscale and sepia transformations and sets up the layout.
+   *
+   * @param listener The ActionListener for handling button actions.
+   */
   public TransformationsSection(ActionListener listener) {
     super(null);
     setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     setBorder(BorderFactory.createTitledBorder("Transformations"));
 
 
-    // Add buttons for transformations
-    grayscaleButton = new GenericButton("Grayscale", "GRAYSCALE", listener);
-    sepiaButton = new GenericButton("Sepia", "SEPIA", listener);
+    GenericButton grayscaleButton = new GenericButton("Grayscale",
+            "GRAYSCALE", listener);
+    GenericButton sepiaButton = new GenericButton("Sepia",
+            "SEPIA", listener);
 
-//    add(new JLabel("Transformations"));
 
     add(grayscaleButton);
     add(Box.createRigidArea(new Dimension(25, 0)));

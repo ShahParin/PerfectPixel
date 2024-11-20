@@ -8,9 +8,20 @@ import javax.swing.border.TitledBorder;
 
 import java.awt.*;
 
+/**
+ * A panel that displays an image in a scrollable area, with the ability to update
+ * the displayed image and title.
+ * This section is used to show images in the user interface with a border that
+ * can dynamically change its title.
+ */
 public class ImageDisplaySection extends GenericPanel {
   private static ImageDisplay imageDisplay;
 
+  /**
+   * Constructs the ImageDisplaySection.
+   * Initializes the image display and sets up the layout for displaying the
+   * image in a scrollable area.
+   */
   public ImageDisplaySection() {
     super(null);
     imageDisplay = new ImageDisplay();
@@ -28,6 +39,12 @@ public class ImageDisplaySection extends GenericPanel {
     add(scrollPane, BorderLayout.CENTER);
   }
 
+  /**
+   * Updates the image displayed in the panel and changes the title of the section's border.
+   *
+   * @param imageIcon The new image to display.
+   * @param newTitle The new title to display in the section's border.
+   */
   public void updateImageDisplay(ImageIcon imageIcon, String newTitle) {
     imageDisplay.updateImage(imageIcon);
     setBorderTitle(newTitle);

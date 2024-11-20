@@ -6,6 +6,11 @@ import java.util.Objects;
 import controller.GUIFeatures;
 import view.ImageView;
 
+
+/**
+ * A mock implementation of the ImageView interface to simulate GUI-based image operations.
+ * This class is used for testing and logs actions performed on images.
+ */
 public class MockGUIBasedView implements ImageView {
 
   private GUIFeatures features;
@@ -14,12 +19,21 @@ public class MockGUIBasedView implements ImageView {
   private String saveSplitOperation;
   private double saveSplitPercent;
 
+
+  /**
+   * Constructs a MockGUIBasedView instance.
+   * Initializes the operation log and sets the saveSplitOperation to an empty string.
+   */
   public MockGUIBasedView() {
     operationLog = new StringBuilder();
     saveSplitOperation = "";
   }
 
-  //  @Override
+  /**
+   * Sets the GUIFeatures object used to interact with image processing methods.
+   *
+   * @param features the GUIFeatures instance to set
+   */
   public void setFeatures(GUIFeatures features) {
     this.features = features;
   }
@@ -29,7 +43,10 @@ public class MockGUIBasedView implements ImageView {
     operationLog.append("MockGUIBasedView: ").append(message).append("\n");
   }
 
-  //  @Override
+  /**
+   * Refreshes the image placeholder if a valid image is loaded.
+   * Also triggers the refresh of the histogram.
+   */
   public void refreshImagePlaceholder() {
     if (features != null && currentImageName != null) {
       operationLog.append("MockGUIBasedView: Image refreshed for ").append(currentImageName)
@@ -40,7 +57,9 @@ public class MockGUIBasedView implements ImageView {
     }
   }
 
-  //  @Override
+  /**
+   * Refreshes the histogram for the current image if one is loaded.
+   */
   public void refreshHistogram() {
     if (features != null && currentImageName != null) {
       operationLog.append("MockGUIBasedView: Histogram refreshed for ").append(currentImageName)
@@ -50,6 +69,12 @@ public class MockGUIBasedView implements ImageView {
     }
   }
 
+  /**
+   * Simulates an action on the image based on the given command.
+   * Logs the result of the action and updates the current image.
+   *
+   * @param command the action to simulate
+   */
   public void simulateAction(String command) {
     try {
       switch (command) {
@@ -195,6 +220,12 @@ public class MockGUIBasedView implements ImageView {
 
   }
 
+  /**
+   * Simulates an image compression action with a given compression percentage.
+   *
+   * @param command the action to simulate
+   * @param percent the compression percentage
+   */
   public void simulateActionCompress(String command, double percent) {
     try {
       if (command.equals("COMPRESS")) {
@@ -208,6 +239,14 @@ public class MockGUIBasedView implements ImageView {
     }
   }
 
+  /**
+   * Simulates a levels adjustment action for the current image.
+   *
+   * @param command the action to simulate
+   * @param b the brightness value
+   * @param m the midpoint value
+   * @param w the white value
+   */
   public void simulateActionLevelsAdjust(String command, int b, int m, int w) {
     try {
       if (command.equals("LEVELS_ADJUST")) {
@@ -222,6 +261,15 @@ public class MockGUIBasedView implements ImageView {
     }
   }
 
+  /**
+   * Simulates an image operation (such as blur, sharpen, sepia, greyscale, or color correction)
+   * with a specified split operation percent, and logs the operation.
+   *
+   * @param command The name of the image operation to perform. Valid commands include:
+   *                "BLUR", "SHARPEN", "SEPIA", "GREYSCALE", "COLOR_CORRECT".
+   * @param percent The percentage by which the operation is applied (e.g., 50 for 50% blur).
+   * @throws IOException If there is an error performing the operation.
+   */
   public void simulateSplitOperations(String command, double percent) {
     try {
       switch (command) {
@@ -271,6 +319,16 @@ public class MockGUIBasedView implements ImageView {
     }
   }
 
+  /**
+   * Simulates an image level adjustment operation with a split operation and logs the operation.
+   *
+   * @param command The name of the image operation to perform. Only "LEVELS_ADJUST" is supported.
+   * @param b The black point adjustment value.
+   * @param m The midtone adjustment value.
+   * @param w The white point adjustment value.
+   * @param percent The percentage by which the operation is applied (e.g., 50 for 50% adjustment).
+   * @throws IOException If there is an error performing the operation.
+   */
   public void simulateOperationSplitLevelsAdjust(String command, int b, int m, int w,
                                                  double percent) {
     try {
@@ -287,11 +345,22 @@ public class MockGUIBasedView implements ImageView {
     }
   }
 
+  /**
+   * Sets the split operation command and percentage for future simulations.
+   *
+   * @param command the split operation command
+   * @param percent the percentage for the operation
+   */
   public void setSaveSplitOperation(String command, double percent) {
     this.saveSplitOperation = command;
     this.saveSplitPercent = percent;
   }
 
+  /**
+   * Returns the operation log as a string.
+   *
+   * @return the operation log
+   */
   public String getOperationLog() {
     return String.valueOf(operationLog);
   }

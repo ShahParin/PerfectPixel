@@ -14,6 +14,11 @@ public class MockImageView implements ImageView {
     log.append(message).append("\n");
   }
 
+  /**
+   * Returns the operation log as a string.
+   *
+   * @return the logs
+   */
   public String getLog() {
     return log.toString();
   }

@@ -2,7 +2,6 @@ import java.io.File;
 
 import controller.ImageController;
 import controller.ImageService;
-import controller.TextBasedController;
 import controller.TextBasedControllerV3;
 import controller.ViewController;
 import model.ImageModelImplV2;
@@ -46,9 +45,11 @@ public class Main {
     }
 
     ImageView view = new ConsoleBasedView();
-    ImageModelV2 model = new ImageModelImplV2();
+    ImageModelV3 model = new ImageModelImplV3();
+
+    ImageModelV2 model1 = new ImageModelImplV2();
     ImageService imageService = new ImageService(model);
-    ImageController controller = new TextBasedController(model, view, imageService);
+    ImageController controller = new TextBasedControllerV3(model,model1, view, imageService);
 
     String scriptPath = System.getProperty("user.dir") + File.separator + scriptFilePath;
     File scriptFile = new File(scriptPath);

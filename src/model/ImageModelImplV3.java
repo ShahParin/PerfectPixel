@@ -1,10 +1,32 @@
 package model;
 
+/**
+ * Implementation of the ImageModelV3 interface, extending the functionality of ImageModelImplV2.
+ * This class provides methods for manipulating images using partial image manipulations with masks
+ * and various image operations.
+ */
 public class ImageModelImplV3 extends ImageModelImplV2 implements ImageModelV3 {
 
+  /**
+   * Constructs an ImageModelImplV3 instance, initializing the parent class.
+   */
   public ImageModelImplV3() {
     super();
   }
+
+  /**
+   * Applies a specified image manipulation operation (e.g., blur, sharpen, sepia) to an image,
+   * while using a mask image to selectively apply the operation to certain pixels of the original
+   * image.
+   * The result is saved as a new image with the provided name.
+   *
+   * @param operationName the name of the operation to apply (e.g., "blur", "sharpen", "sepia").
+   * @param imageName the name of the original image to apply the operation to.
+   * @param maskImageName the name of the mask image that determines which pixels to manipulate.
+   * @param newImageName the name to save the new manipulated image as.
+   * @throws IllegalArgumentException if the image or mask cannot be found,
+   *                                  or if the mask and original image dimensions do not match.
+   */
   @Override
   public void applyPartialImageManipulation(String operationName, String imageName, String maskImageName, String newImageName) {
     // Retrieve the original image and mask image

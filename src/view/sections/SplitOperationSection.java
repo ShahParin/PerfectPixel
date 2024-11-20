@@ -8,6 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * A section for handling and displaying split operations, including an input field,
+ * a dropdown for selecting operations, and an "Apply" button.
+ * The section also supports levels adjustment (black, mid, white) for certain operations.
+ */
 public class SplitOperationSection extends GenericPanel {
   private final GenericInputField inputField;
   private final GenericDropdown dropdown;
@@ -16,8 +21,14 @@ public class SplitOperationSection extends GenericPanel {
   private GenericInputField midField;
   private GenericInputField whiteField;
   private final GenericPanel levelsPanel; // To manage levels adjustment fields
-  private final GenericPanel mainPanel;
 
+  /**
+   * Constructs the SplitOperationSection.
+   * Initializes the components such as input fields, dropdown, and apply button.
+   * Also sets up listeners and layout.
+   *
+   * @param listener The ActionListener for handling apply button actions.
+   */
   public SplitOperationSection(ActionListener listener) {
     super(new BorderLayout());
     setBorder(BorderFactory.createTitledBorder("Split Operation"));
@@ -31,7 +42,8 @@ public class SplitOperationSection extends GenericPanel {
     setInputFieldToDoubleOnly(inputField);
 
     dropdown = new GenericDropdown(
-            new String[]{"Select a split operation...", "blur", "sharpen", "sepia", "greyscale", "color correction", "levels adjustment"},
+            new String[]{"Select a split operation...", "blur", "sharpen", "sepia", "greyscale",
+                    "color correction", "levels adjustment"},
             this::onDropdownSelection
     );
 
@@ -51,7 +63,7 @@ public class SplitOperationSection extends GenericPanel {
     buttonPanel.add(applyButton);
 
     // Main panel to stack components vertically
-    mainPanel = new GenericPanel(new BoxLayout(this, BoxLayout.Y_AXIS));
+    GenericPanel mainPanel = new GenericPanel(new BoxLayout(this, BoxLayout.Y_AXIS));
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
     mainPanel.add(inputPanel);
     mainPanel.add(levelsPanel);
@@ -137,9 +149,9 @@ public class SplitOperationSection extends GenericPanel {
   }
 
   /**
-   * Gets the selected operation.
+   * Gets the selected operation from the dropdown.
    *
-   * @return The operation name or null if invalid.
+   * @return The selected operation name, or null if no valid operation is selected.
    */
   public String getSelectedOperation() {
     String selected = (String) dropdown.getSelectedItem();
@@ -147,10 +159,10 @@ public class SplitOperationSection extends GenericPanel {
   }
 
   /**
-   * Gets the input value.
+   * Gets the input value from the input field.
    *
    * @return The input value as a double.
-   * @throws IllegalArgumentException If the input is invalid.
+   * @throws IllegalArgumentException If the input is empty or not a valid double value.
    */
   public double getInputValue() throws IllegalArgumentException {
     String text = inputField.getText();
@@ -165,10 +177,10 @@ public class SplitOperationSection extends GenericPanel {
   }
 
   /**
-   * Gets the black, mid, and white values for levels adjustment.
+   * Gets the values for the levels adjustment (black, mid, white).
    *
    * @return An array of integer values [black, mid, white].
-   * @throws IllegalArgumentException If any of the inputs are invalid.
+   * @throws IllegalArgumentException If any of the fields are empty or not valid integers.
    */
   public int[] getLevelsAdjustmentValues() throws IllegalArgumentException {
     if (blackField == null || midField == null || whiteField == null) {

@@ -8,12 +8,24 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * A modal dialog that displays an image in a scrollable viewer, with options to save or
+ * close the image.
+ * This dialog is intended for viewing images with the ability to apply operations and
+ * close the dialog.
+ */
 public class ImageDialogSection extends JDialog {
   private final GenericButton saveButton;
   private final GenericButton closeButton;
   private final ImageDisplay imageDisplay;
   private final ActionListener listener;
 
+  /**
+   * Constructs the ImageDialogSection dialog.
+   *
+   * @param parent The parent frame that this dialog is centered relative to.
+   * @param listener The ActionListener that handles actions for save and close buttons.
+   */
   public ImageDialogSection(JFrame parent, ActionListener listener) {
     super(parent, "Image Viewer", true); // Create a modal dialog
     this.listener = listener;
@@ -73,6 +85,11 @@ public class ImageDialogSection extends JDialog {
     }
   }
 
+  /**
+   * Updates the image display with a new image icon.
+   *
+   * @param imageIcon The ImageIcon to display in the dialog.
+   */
   public void updateImageDisplay(ImageIcon imageIcon) {
     imageDisplay.updateImage(imageIcon);
   }

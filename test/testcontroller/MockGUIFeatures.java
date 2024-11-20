@@ -7,9 +7,15 @@ import java.util.Map;
 import controller.GUIFeatures;
 import model.Image;
 
+/**
+ * This class is created for implementing mock GUI Features for mocking GUI.
+ */
 public class MockGUIFeatures implements GUIFeatures {
   private final StringBuilder log;
 
+  /**
+   * Constructs a new instance of MockGUIFeatures.
+   */
   public MockGUIFeatures() {
     log = new StringBuilder();
   }
@@ -165,8 +171,15 @@ public class MockGUIFeatures implements GUIFeatures {
             .append(" with percent: ").append(inputValue).append("\n");
   }
 
+  /**
+   * Returns the accumulated log as a string.
+   *
+   * @return A string representation of the log, which is the contents of the log accumulated
+   *         in the StringBuilder.
+   */
   public String getLog() {
     return log.toString();
   }
+
 }
 

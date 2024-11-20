@@ -4,10 +4,19 @@ import view.components.GenericPanel;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A section for displaying an operation log in the user interface.
+ * This section contains a scrollable text area where log messages can be appended.
+ */
 public class OperationLogSection extends GenericPanel {
 
   private static JTextArea logArea;
 
+  /**
+   * Constructs the OperationLogSection.
+   * Initializes the log area and sets up the layout with a scrollable area for
+   * displaying log messages.
+   */
   public OperationLogSection() {
     super(new BorderLayout());
     setBorder(BorderFactory.createTitledBorder("Operation Log"));
@@ -18,9 +27,14 @@ public class OperationLogSection extends GenericPanel {
     setPreferredSize(new Dimension(350, 280));
   }
 
+  /**
+   * Appends a log message to the log area.
+   * The log message replaces the previous content in the log area.
+   *
+   * @param message The log message to be displayed.
+   */
   public void appendLog(String message) {
     logArea.setText(message);
-//    logArea.setFont(logArea.getFont().deriveFont(18f));
     logArea.setFont(new Font("Roboto", Font.ITALIC, 16));
 
   }

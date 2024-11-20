@@ -5,48 +5,59 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+/**
+ * A custom JTextField with placeholder text functionality.
+ * This class displays placeholder text in light gray when the field is empty and focuses
+ * on user interaction to clear the placeholder and enable text input.
+ */
 public class GenericInputField extends JTextField {
 
-  private String placeholder;
-
+  /**
+   * Constructs a GenericInputField with the specified placeholder text.
+   *
+   * @param placeholder the placeholder text to be displayed when the input field is empty.
+   */
   public GenericInputField(String placeholder) {
     super(placeholder);
-    this.placeholder = placeholder;
 
-    // Set the text color to light gray to indicate placeholder
     setForeground(Color.LIGHT_GRAY);
 
-    // Add focus listeners for placeholder behavior
     addFocusListener(new FocusAdapter() {
       @Override
       public void focusGained(FocusEvent e) {
-        // Remove placeholder text when the field is focused
         if (getText().equals(placeholder)) {
           setText("");
-          setForeground(Color.BLACK);  // Change text color to black when typing
+          setForeground(Color.BLACK);
         }
       }
 
       @Override
       public void focusLost(FocusEvent e) {
-        // Reset placeholder text if the field is empty
         if (getText().isEmpty()) {
           setText(placeholder);
-          setForeground(Color.LIGHT_GRAY);  // Change text color back to light gray
+          setForeground(Color.LIGHT_GRAY);
         }
       }
     });
   }
 
+  /**
+   * Returns the preferred size for the input field.
+   *
+   * @return the preferred size as a Dimension object.
+   */
   @Override
   public Dimension getPreferredSize() {
-    // Limit the size of the input field
     return new Dimension(50, 25); // Width: 200px, Height: 30px
   }
 
+  /**
+   * Returns the maximum size for the input field.
+   *
+   * @return the maximum size as a Dimension object, which is the same as the preferred size.
+   */
   @Override
   public Dimension getMaximumSize() {
-    // Restrict the maximum size further if required
     return getPreferredSize();
   }
 }

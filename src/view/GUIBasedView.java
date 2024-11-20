@@ -30,13 +30,17 @@ import view.sections.TransformationsSection;
 
 import static model.ImageUtil.getDimensions;
 
+/**
+ * GUIBasedView class provides the graphical user interface (GUI) for the PerfectPixel
+ * image editing application.
+ * Implements the ImageView interface to update the UI based on the image operations.
+ */
 public class GUIBasedView extends JFrame implements ImageView, ActionListener {
-  private JScrollPane mainScrollPane;
   private GUIFeatures features;
   private String currentImageName;
   private String tempImageName;
   private boolean levelAdjustParam;
-  private ArrayList<String> savedImageNames;
+  private final ArrayList<String> savedImageNames;
 
   private FileIOSection fileIOSection;
   private FiltersSection filtersSection;
@@ -51,6 +55,10 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener {
   private ImageDisplaySection imageDisplaySection;
   private SplitOperationSection splitOperationSection;
 
+  /**
+   * Constructor for initializing the GUIBasedView.
+   * Sets up the frame, initializes components, and sets the layout.
+   */
   public GUIBasedView() {
     super("PerfectPixel");
 
@@ -111,13 +119,18 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener {
     // Bottom section (image display)
     rightPanel.add(imageDisplaySection, BorderLayout.CENTER);
     // Main scroll pane
-    mainScrollPane = new JScrollPane(rightPanel);
+    JScrollPane mainScrollPane = new JScrollPane(rightPanel);
 
     // Add panels to the frame
     add(leftPanel, BorderLayout.WEST);
     add(mainScrollPane, BorderLayout.CENTER);
   }
 
+  /**
+   * Sets the controller for managing the image features.
+   *
+   * @param features The GUIFeatures controller to manage image operations.
+   */
   public void setFeatures(GUIFeatures features) {
     this.features = features;
   }
@@ -146,7 +159,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener {
     return outputImage;
   }
 
-  public void refreshImagePlaceholder() {
+  private void refreshImagePlaceholder() {
     Image image = features.getImage(currentImageName);
     String savedCheck;
 
@@ -161,7 +174,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener {
     refreshHistogram();
   }
 
-  public void refreshHistogram() {
+  private void refreshHistogram() {
     Image histogramImage = features.getHistogram(currentImageName);
 
     histogramSection.updateHistogramDisplay(new ImageIcon(imageToBufferedImage(histogramImage)));

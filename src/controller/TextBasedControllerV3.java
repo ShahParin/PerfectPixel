@@ -6,8 +6,6 @@ import controller.commands.BlueComponentCommand;
 import controller.commands.BlueComponentMaskedCommand;
 import controller.commands.BlurCommand;
 import controller.commands.BlurMaskedCommand;
-import controller.commands.Command;
-import controller.commands.CommandFactory;
 import controller.commands.GreenComponentCommand;
 import controller.commands.GreenComponentMaskedCommand;
 import controller.commands.IntensityComponentCommand;
@@ -26,21 +24,23 @@ import model.ImageModelV2;
 import model.ImageModelV3;
 import view.ImageView;
 
+/**
+ * A controller version compatible to imageModelV3.
+ */
 public class TextBasedControllerV3 extends TextBasedController{
-//  private final ImageModelV3 imageModel;
-  private final ImageModelV3 imageModel3;
-//  private final ImageView view;
-//  private final ImageService imageService;
+  private final ImageModelV3 imageModelV3;
+
   /**
    * Constructor to initialize a TextBasedController objects.
    *
-   * @param imageModel   the image model used to store and process images.
+   * @param imageModelV2   the image model used to store and process images.
    * @param view         the view used to display information and results to the user.
    * @param imageService the service used to manage image loading and saving operations.
    */
-  public TextBasedControllerV3(ImageModelV3 imageModel3, ImageModelV2 imageModel, ImageView view, ImageService imageService ) {
-    super(imageModel, view, imageService);
-    this.imageModel3 = imageModel3;
+
+  public TextBasedControllerV3(ImageModelV3 imageModelV3, ImageModelV2 imageModelV2, ImageView view, ImageService imageService ) {
+    super(imageModelV2, view, imageService);
+    this.imageModelV3 = imageModelV3;
     this.initializeCommands();
 
   }
@@ -54,7 +54,7 @@ public class TextBasedControllerV3 extends TextBasedController{
          double splitPercentage = Double.parseDouble(args[4]);
          return new BlurCommand(imageModel, args[1], args[2], splitPercentage);
        } else if (args.length == 4) {
-         return new BlurMaskedCommand(imageModel3,args[0],args[1],args[2],args[3]);
+         return new BlurMaskedCommand(imageModelV3,args[0],args[1],args[2],args[3]);
        } else {
          throw new IllegalArgumentException("Invalid arguments for blur command.");
        }
@@ -67,7 +67,7 @@ public class TextBasedControllerV3 extends TextBasedController{
          double splitPercentage = Double.parseDouble(args[4]);
          return new SharpenCommand(imageModel, args[1], args[2], splitPercentage);
        } else if (args.length == 4) {
-         return new SharpenMaskedCommand(imageModel3, args[0], args[1], args[2], args[3]);
+         return new SharpenMaskedCommand(imageModelV3, args[0], args[1], args[2], args[3]);
        } else {
          throw new IllegalArgumentException("Invalid arguments for sharpen command.");
        }
@@ -81,7 +81,7 @@ public class TextBasedControllerV3 extends TextBasedController{
          double splitPercentage = Double.parseDouble(args[4]);
          return new SepiaCommand(imageModel, args[1], args[2], splitPercentage);
        } else if (args.length == 4) {
-         return new SepiaMaskedCommand(imageModel3, args[0], args[1], args[2], args[3]);
+         return new SepiaMaskedCommand(imageModelV3, args[0], args[1], args[2], args[3]);
        } else {
          throw new IllegalArgumentException("Invalid arguments for sepia command.");
        }
@@ -95,7 +95,7 @@ public class TextBasedControllerV3 extends TextBasedController{
          double splitPercentage = Double.parseDouble(args[4]);
          return new LumaComponentCommand(imageModel, args[1], args[2], splitPercentage);
        } else if (args.length == 4) {
-         return new LumaMaskedCommand(imageModel3, args[0], args[1], args[2], args[3]);
+         return new LumaMaskedCommand(imageModelV3, args[0], args[1], args[2], args[3]);
        } else {
          throw new IllegalArgumentException("Invalid arguments for lumaComponent command.");
        }
@@ -109,7 +109,7 @@ public class TextBasedControllerV3 extends TextBasedController{
          double splitPercentage = Double.parseDouble(args[4]);
          return new IntensityComponentCommand(imageModel, args[1], args[2], splitPercentage);
        } else if (args.length == 4) {
-         return new IntensityMaskedCommand(imageModel3, args[0], args[1], args[2], args[3]);
+         return new IntensityMaskedCommand(imageModelV3, args[0], args[1], args[2], args[3]);
        } else {
          throw new IllegalArgumentException("Invalid arguments for intensityComponent command.");
        }
@@ -123,7 +123,7 @@ public class TextBasedControllerV3 extends TextBasedController{
          double splitPercentage = Double.parseDouble(args[4]);
          return new ValueComponentCommand(imageModel, args[1], args[2], splitPercentage);
        } else if (args.length == 4) {
-         return new ValueMaskedCommand(imageModel3, args[0], args[1], args[2], args[3]);
+         return new ValueMaskedCommand(imageModelV3, args[0], args[1], args[2], args[3]);
        } else {
          throw new IllegalArgumentException("Invalid arguments for valueComponent command.");
        }
@@ -134,7 +134,7 @@ public class TextBasedControllerV3 extends TextBasedController{
        if (args.length == 3) {
          return new RedComponentCommand(imageModel, args[1], args[2]);
        } else if (args.length == 4) {
-         return new RedComponentMaskedCommand(imageModel3, args[0], args[1], args[2], args[3]);
+         return new RedComponentMaskedCommand(imageModelV3, args[0], args[1], args[2], args[3]);
        } else {
          throw new IllegalArgumentException("Invalid arguments for redComponent command.");
        }
@@ -145,7 +145,7 @@ public class TextBasedControllerV3 extends TextBasedController{
        if (args.length == 3) {
          return new GreenComponentCommand(imageModel, args[1], args[2]);
        }  else if (args.length == 4) {
-         return new GreenComponentMaskedCommand(imageModel3, args[0], args[1], args[2], args[3]);
+         return new GreenComponentMaskedCommand(imageModelV3, args[0], args[1], args[2], args[3]);
        } else {
          throw new IllegalArgumentException("Invalid arguments for greenComponent command.");
        }
@@ -156,7 +156,7 @@ public class TextBasedControllerV3 extends TextBasedController{
        if (args.length == 3) {
          return new BlueComponentCommand(imageModel, args[1], args[2]);
        } else if (args.length == 4) {
-         return new BlueComponentMaskedCommand(imageModel3, args[0], args[1], args[2], args[3]);
+         return new BlueComponentMaskedCommand(imageModelV3, args[0], args[1], args[2], args[3]);
        } else {
          throw new IllegalArgumentException("Invalid arguments for blueComponent command.");
        }
