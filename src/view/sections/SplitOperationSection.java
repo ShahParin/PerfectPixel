@@ -15,6 +15,8 @@ public class SplitOperationSection extends GenericPanel {
   private GenericInputField blackField;
   private GenericInputField midField;
   private GenericInputField whiteField;
+  private final GenericPanel levelsPanel; // To manage levels adjustment fields
+  private final GenericPanel mainPanel;
 
   public SplitOperationSection(ActionListener listener) {
     super(new BorderLayout());
@@ -25,37 +27,39 @@ public class SplitOperationSection extends GenericPanel {
     GenericLabel inputLabel = new GenericLabel("Input:");
     GenericLabel dropdownLabel = new GenericLabel("Options:");
 
-    // Input field that accepts only double values
     inputField = new GenericInputField("Enter a double value...");
     setInputFieldToDoubleOnly(inputField);
 
-    // Dropdown with the desired options
     dropdown = new GenericDropdown(
             new String[]{"Select a split operation...", "blur", "sharpen", "sepia", "greyscale", "color correction", "levels adjustment"},
             this::onDropdownSelection
     );
 
-    // Apply button that triggers the ActionListener passed into the constructor
     applyButton = new GenericButton("Apply", "APPLY_SPLIT", listener);
-    applyButton.setEnabled(false); // Disabled until valid dropdown selection
+    applyButton.setEnabled(false);
 
-    // Input panel
     GenericPanel inputPanel = new GenericPanel(new GridLayout(2, 2, 10, 10));
     inputPanel.add(inputLabel);
     inputPanel.add(inputField);
     inputPanel.add(dropdownLabel);
     inputPanel.add(dropdown);
 
-    // Button panel
+    levelsPanel = new GenericPanel(new GridLayout(3, 2, 10, 10));
+    levelsPanel.setVisible(false); // Hidden initially
+
     GenericPanel buttonPanel = new GenericPanel(new FlowLayout(FlowLayout.CENTER));
     buttonPanel.add(applyButton);
 
-    // Add components to SplitOperationSection
-    add(inputPanel, BorderLayout.NORTH);
-    add(buttonPanel, BorderLayout.CENTER);
+    // Main panel to stack components vertically
+    mainPanel = new GenericPanel(new BoxLayout(this, BoxLayout.Y_AXIS));
+    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    mainPanel.add(inputPanel);
+    mainPanel.add(levelsPanel);
+    mainPanel.add(buttonPanel);
 
-    // Ensure dropdown default selection is set after all components are initialized
-    dropdown.setSelectedIndex(0); // Set default option
+    add(mainPanel, BorderLayout.CENTER);
+
+    dropdown.setSelectedIndex(0);
   }
 
   /**
@@ -94,7 +98,8 @@ public class SplitOperationSection extends GenericPanel {
    * Show the input fields for levels adjustment.
    */
   private void showLevelsAdjustmentFields() {
-    if (blackField == null) {
+    if (!levelsPanel.isVisible()) {
+      levelsPanel.removeAll();
       blackField = new GenericInputField("black");
       setInputFieldToDoubleOnly(blackField);
       blackField.setPreferredSize(new Dimension(50, 30));
@@ -104,14 +109,15 @@ public class SplitOperationSection extends GenericPanel {
       whiteField = new GenericInputField("white");
       setInputFieldToDoubleOnly(whiteField);
       whiteField.setPreferredSize(new Dimension(50, 30));
-      GenericPanel levelsPanel = new GenericPanel(new GridLayout(3, 2, 10, 10));
+
       levelsPanel.add(new GenericLabel("Black:"));
       levelsPanel.add(blackField);
       levelsPanel.add(new GenericLabel("Mid:"));
       levelsPanel.add(midField);
       levelsPanel.add(new GenericLabel("White:"));
       levelsPanel.add(whiteField);
-      add(levelsPanel, BorderLayout.SOUTH);
+
+      levelsPanel.setVisible(true);
       revalidate();
       repaint();
     }
@@ -121,14 +127,13 @@ public class SplitOperationSection extends GenericPanel {
    * Hide the input fields for levels adjustment.
    */
   private void hideLevelsAdjustmentFields() {
-    if (blackField != null) {
-      remove(blackField.getParent());
-      blackField = null;
-      midField = null;
-      whiteField = null;
-      revalidate();
-      repaint();
-    }
+    levelsPanel.setVisible(false);
+    levelsPanel.removeAll();
+    blackField = null;
+    midField = null;
+    whiteField = null;
+    revalidate();
+    repaint();
   }
 
   /**

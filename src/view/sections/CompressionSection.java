@@ -1,5 +1,6 @@
 package view.sections;
 
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class CompressionSection extends GenericPanel {
     applyButton = new GenericButton("Apply", "COMPRESS", listener);
 
     add(inputField);
+    add(Box.createRigidArea(new Dimension(25, 0)));
     add(applyButton);
   }
 

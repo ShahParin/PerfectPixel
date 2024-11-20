@@ -114,6 +114,36 @@ public class MockGUIFeatures implements GUIFeatures {
     return null;
   }
 
+  @Override
+  public void blurSplitOperation(String imageName, String newImageName, double percent) throws IOException {
+
+  }
+
+  @Override
+  public void levelsAdjustmentSplitOperation(String currentImageName, String outputImageName, double black, double mid, double white, double percent) throws IOException {
+
+  }
+
+  @Override
+  public void sharpenSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
+
+  }
+
+  @Override
+  public void sepiaSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
+
+  }
+
+  @Override
+  public void greyscaleSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
+
+  }
+
+  @Override
+  public void colorCorrectionSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
+
+  }
+
 
   public String getLog() {
     return log.toString();

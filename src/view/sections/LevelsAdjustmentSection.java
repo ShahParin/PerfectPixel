@@ -1,5 +1,6 @@
 package view.sections;
 
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ public class LevelsAdjustmentSection extends GenericPanel {
   public LevelsAdjustmentSection(ActionListener listener) {
     super(null);
 
-    setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+    setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     setBorder(BorderFactory.createTitledBorder("Levels Adjustment"));
 
     blackInputField = new GenericInputField("Black");
@@ -25,9 +26,16 @@ public class LevelsAdjustmentSection extends GenericPanel {
     whiteInputField = new GenericInputField("White");
     applyButton = new GenericButton("Apply", "LEVELS_ADJUST", listener);
 
+
     add(blackInputField);
+    add(Box.createRigidArea(new Dimension(25, 0)));
+
     add(midInputField);
+    add(Box.createRigidArea(new Dimension(25, 0)));
+
     add(whiteInputField);
+    add(Box.createRigidArea(new Dimension(25, 0)));
+
     add(applyButton);
   }
 

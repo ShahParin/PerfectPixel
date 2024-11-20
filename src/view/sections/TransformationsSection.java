@@ -22,9 +22,10 @@ public class TransformationsSection extends GenericPanel {
     sepiaButton = new GenericButton("Sepia", "SEPIA", listener);
 
 //    add(new JLabel("Transformations"));
-    add(Box.createRigidArea(new Dimension(25, 0)));
 
     add(grayscaleButton);
+    add(Box.createRigidArea(new Dimension(25, 0)));
+
     add(sepiaButton);
   }
 }
