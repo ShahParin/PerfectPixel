@@ -38,10 +38,10 @@ import view.ImageView;
  * It can read commands either from a script file or as individual inputs.
  */
 public class TextBasedController implements ImageController {
-  private final ImageModelV2 imageModel;
-  private final ImageView view;
-  private final Map<String, CommandFactory> commandMap;
-  private final ImageService imageService;
+  protected final ImageModelV2 imageModel;
+  protected final ImageView view;
+  protected final Map<String, CommandFactory> commandMap;
+  protected final ImageService imageService;
 
   /**
    * Constructor to initialize a TextBasedController objects.
@@ -55,7 +55,7 @@ public class TextBasedController implements ImageController {
     this.view = view;
     this.imageService = imageService;
     this.commandMap = new HashMap<>();
-    initializeCommands();
+//    initializeCommands();
   }
 
   /**
@@ -63,7 +63,8 @@ public class TextBasedController implements ImageController {
    * Each command is associated with a string keyword and a factory method that creates
    * the command instance with the provided arguments.
    */
-  private void initializeCommands() {
+  void initializeCommands() {
+    System.out.println("init t1");
     commandMap.put("load", args -> new LoadCommand(imageService, args[1], args[2]));
 
     commandMap.put("save", args -> new SaveCommand(imageService, args[1], args[2]));
@@ -175,6 +176,7 @@ public class TextBasedController implements ImageController {
         double splitPercentage = Double.parseDouble(args[4]);
         return new BlurCommand(imageModel, args[1], args[2], splitPercentage);
       } else {
+        System.out.println("hello from tv1");
         throw new IllegalArgumentException("Invalid arguments for blur command.");
       }
     });
@@ -306,4 +308,6 @@ public class TextBasedController implements ImageController {
       }
     }
   }
+
+
 }
