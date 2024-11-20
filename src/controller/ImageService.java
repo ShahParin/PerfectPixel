@@ -37,7 +37,6 @@ public class ImageService {
       Image image;
       if (path.toLowerCase().endsWith("ppm")) {
         image = readPPM(path);
-        System.out.println("path"+path);
       } else if (path.toLowerCase().endsWith("png") || path.toLowerCase().endsWith(("jpeg")) ||
               path.toLowerCase().endsWith("jpg")) {
         image = readOther(path);

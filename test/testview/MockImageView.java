@@ -14,21 +14,6 @@ public class MockImageView implements ImageView {
     log.append(message).append("\n");
   }
 
-  @Override
-  public void LoadFile(Image image) {
-
-  }
-
-  @Override
-  public void SaveFile(String filename) {
-
-  }
-
-  @Override
-  public void blurImage(Image image) {
-
-  }
-
   public String getLog() {
     return log.toString();
   }

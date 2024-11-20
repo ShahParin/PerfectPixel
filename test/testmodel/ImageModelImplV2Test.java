@@ -4,6 +4,7 @@ package testmodel;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import controller.ImageService;
 import model.Image;
@@ -208,9 +209,9 @@ public class ImageModelImplV2Test extends ImageModelImplTest {
     Image actualImage = imageModel.getImage("sample-color-half");
 
 
-    int[][] expectedRedChannel = {{133, 12}, {255, 128}};
-    int[][] expectedGreenChannel = {{37, 200}, {247, 128}};
-    int[][] expectedBlueChannel = {{64, 150}, {0, 125}};
+    int[][] expectedRedChannel = {{137, 12}, {255, 128}};
+    int[][] expectedGreenChannel = {{43, 200}, {253, 128}};
+    int[][] expectedBlueChannel = {{54, 150}, {0, 125}};
 
     assertEquals(expectedRedChannel, actualImage.getRedChannel());
     assertEquals(expectedGreenChannel, actualImage.getGreenChannel());

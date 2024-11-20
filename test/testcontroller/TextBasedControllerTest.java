@@ -396,4 +396,7 @@ public class TextBasedControllerTest {
                     + "intensityImage with percentage: 90.0\n";
     assertEquals(expectedModelLog, mockModel.getLog());
   }
+
+  public static class DummyGUIFeatures {
+  }
 }

@@ -20,13 +20,11 @@ public class SepiaCommand implements Command {
    * @param newImageName the name of the new image.
    */
   public SepiaCommand(ImageModelV2 imageModel, String imageName, String newImageName) {
-    System.out.println("5constructor");
     this.imageModel = imageModel;
     this.imageName = imageName;
     this.newImageName = newImageName;
     this.percent = null;
   }
-
 
   /**
    * Constructor to initialize the class object for split command.
