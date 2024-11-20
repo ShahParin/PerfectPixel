@@ -825,9 +825,17 @@ public class ImageOperations {
     int width = getDimensions(original)[1];
     int height = getDimensions(original)[0];
 
+    int[][] redChannel = original.getRedChannel();
+    int[][] greenChannel = original.getGreenChannel();
+    int[][] blueChannel = original.getBlueChannel();
+
     int splitLine = (int) (width * (percentage / 100));
 
     Image modifiedImage = operation.applyEffect(original);
+
+    int[][] modifiedRedChannel = modifiedImage.getRedChannel();
+    int[][] modifiedGreenChannel = modifiedImage.getGreenChannel();
+    int[][] modifiedBlueChannel = modifiedImage.getBlueChannel();
 
     int[][] newRedChannel = new int[height][width];
     int[][] newGreenChannel = new int[height][width];
@@ -836,13 +844,13 @@ public class ImageOperations {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         if (j < splitLine) {
-          newRedChannel[i][j] = modifiedImage.getRedChannel()[i][j];
-          newGreenChannel[i][j] = modifiedImage.getGreenChannel()[i][j];
-          newBlueChannel[i][j] = modifiedImage.getBlueChannel()[i][j];
+          newRedChannel[i][j] = modifiedRedChannel[i][j];
+          newGreenChannel[i][j] = modifiedGreenChannel[i][j];
+          newBlueChannel[i][j] = modifiedBlueChannel[i][j];
         } else {
-          newRedChannel[i][j] = original.getRedChannel()[i][j];
-          newGreenChannel[i][j] = original.getGreenChannel()[i][j];
-          newBlueChannel[i][j] = original.getBlueChannel()[i][j];
+          newRedChannel[i][j] = redChannel[i][j];
+          newGreenChannel[i][j] = greenChannel[i][j];
+          newBlueChannel[i][j] = blueChannel[i][j];
         }
       }
     }
@@ -861,7 +869,15 @@ public class ImageOperations {
     int height = getDimensions(original)[0];
     int splitLine = (int) (width * (percentage / 100));
 
+    int[][] redChannel = original.getRedChannel();
+    int[][] greenChannel = original.getGreenChannel();
+    int[][] blueChannel = original.getBlueChannel();
+
     Image modifiedImage = operation.applyEffect(original, b, m, w);
+
+    int[][] modifiedRedChannel = modifiedImage.getRedChannel();
+    int[][] modifiedGreenChannel = modifiedImage.getGreenChannel();
+    int[][] modifiedBlueChannel = modifiedImage.getBlueChannel();
 
     int[][] newRedChannel = new int[height][width];
     int[][] newGreenChannel = new int[height][width];
@@ -870,13 +886,13 @@ public class ImageOperations {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         if (j < splitLine) {
-          newRedChannel[i][j] = modifiedImage.getRedChannel()[i][j];
-          newGreenChannel[i][j] = modifiedImage.getGreenChannel()[i][j];
-          newBlueChannel[i][j] = modifiedImage.getBlueChannel()[i][j];
+          newRedChannel[i][j] = modifiedRedChannel[i][j];
+          newGreenChannel[i][j] = modifiedGreenChannel[i][j];
+          newBlueChannel[i][j] = modifiedBlueChannel[i][j];
         } else {
-          newRedChannel[i][j] = original.getRedChannel()[i][j];
-          newGreenChannel[i][j] = original.getGreenChannel()[i][j];
-          newBlueChannel[i][j] = original.getBlueChannel()[i][j];
+          newRedChannel[i][j] = redChannel[i][j];
+          newGreenChannel[i][j] = greenChannel[i][j];
+          newBlueChannel[i][j] = blueChannel[i][j];
         }
       }
     }

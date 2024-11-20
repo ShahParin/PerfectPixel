@@ -36,4 +36,18 @@ public interface GUIFeatures {
   Image getImage(String imageName);
 
   Image getHistogram(String imageName);
+
+  void blurSplitOperation(String imageName, String newImageName, double percent) throws IOException;
+
+  void levelsAdjustmentSplitOperation(String currentImageName, String outputImageName, double black, double mid, double white,double percent) throws IOException;
+
+  void sharpenSplitOperation(String currentImageName, String outputImageName, double inputValue)throws IOException;
+
+  void sepiaSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;
+
+  void greyscaleSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;
+
+  void colorCorrectionSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;
 }
+
+

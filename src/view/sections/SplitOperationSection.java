@@ -1,16 +1,14 @@
 package view.sections;
 
 import view.components.*;
-import view.components.Dialog;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class SplitOperationSection extends GenericPanel {
-
   private final GenericInputField inputField;
   private final GenericDropdown dropdown;
   private final GenericButton applyButton;
@@ -18,10 +16,10 @@ public class SplitOperationSection extends GenericPanel {
   private GenericInputField midField;
   private GenericInputField whiteField;
 
-  public SplitOperationSection() {
+  public SplitOperationSection(ActionListener listener) {
     super(new BorderLayout());
     setBorder(BorderFactory.createTitledBorder("Split Operation"));
-    setPreferredSize(new Dimension(200, 280)); // Increased height to accommodate the extra fields
+    setPreferredSize(new Dimension(200, 280));
 
     // Create components
     GenericLabel inputLabel = new GenericLabel("Input:");
@@ -37,29 +35,28 @@ public class SplitOperationSection extends GenericPanel {
             this::onDropdownSelection
     );
 
-    // Apply button initially disabled
-    applyButton = new GenericButton("Apply", "apply", this::onApplyButtonClicked);
+    // Apply button that triggers the ActionListener passed into the constructor
+    applyButton = new GenericButton("Apply", "APPLY_SPLIT", listener);
     applyButton.setEnabled(false); // Disabled until valid dropdown selection
 
-    // Create an input panel
-    GenericPanel inputPanel = new GenericPanel(new GridLayout(2, 2, 10, 10)); // 2 rows, 2 columns with spacing
+    // Input panel
+    GenericPanel inputPanel = new GenericPanel(new GridLayout(2, 2, 10, 10));
     inputPanel.add(inputLabel);
     inputPanel.add(inputField);
     inputPanel.add(dropdownLabel);
     inputPanel.add(dropdown);
 
-    // Create a button panel
+    // Button panel
     GenericPanel buttonPanel = new GenericPanel(new FlowLayout(FlowLayout.CENTER));
     buttonPanel.add(applyButton);
 
-    // Add components to the SplitOperationSection
+    // Add components to SplitOperationSection
     add(inputPanel, BorderLayout.NORTH);
     add(buttonPanel, BorderLayout.CENTER);
 
-    // Ensure dropdown default selection is set AFTER all components are initialized
+    // Ensure dropdown default selection is set after all components are initialized
     dropdown.setSelectedIndex(0); // Set default option
   }
-
 
   /**
    * Configure the input field to accept only double values.
@@ -70,11 +67,9 @@ public class SplitOperationSection extends GenericPanel {
       public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();
         String text = field.getText();
-        // Allow digits, one decimal point, and backspace
         if (!Character.isDigit(c) && c != '.' && c != KeyEvent.VK_BACK_SPACE) {
           e.consume();
         }
-        // Prevent multiple decimal points
         if (c == '.' && text.contains(".")) {
           e.consume();
         }
@@ -87,10 +82,7 @@ public class SplitOperationSection extends GenericPanel {
    */
   private void onDropdownSelection(ActionEvent e) {
     String selectedOption = (String) dropdown.getSelectedItem();
-
-    // Enable the apply button only if a valid option is selected
     applyButton.setEnabled(!selectedOption.equals("Select a split operation..."));
-
     if (selectedOption.equals("levels adjustment")) {
       showLevelsAdjustmentFields();
     } else {
@@ -106,15 +98,12 @@ public class SplitOperationSection extends GenericPanel {
       blackField = new GenericInputField("black");
       setInputFieldToDoubleOnly(blackField);
       blackField.setPreferredSize(new Dimension(50, 30));
-
       midField = new GenericInputField("mid");
       setInputFieldToDoubleOnly(midField);
       midField.setPreferredSize(new Dimension(50, 30));
-
       whiteField = new GenericInputField("white");
       setInputFieldToDoubleOnly(whiteField);
       whiteField.setPreferredSize(new Dimension(50, 30));
-
       GenericPanel levelsPanel = new GenericPanel(new GridLayout(3, 2, 10, 10));
       levelsPanel.add(new GenericLabel("Black:"));
       levelsPanel.add(blackField);
@@ -122,7 +111,6 @@ public class SplitOperationSection extends GenericPanel {
       levelsPanel.add(midField);
       levelsPanel.add(new GenericLabel("White:"));
       levelsPanel.add(whiteField);
-
       add(levelsPanel, BorderLayout.SOUTH);
       revalidate();
       repaint();
@@ -138,76 +126,59 @@ public class SplitOperationSection extends GenericPanel {
       blackField = null;
       midField = null;
       whiteField = null;
-
       revalidate();
       repaint();
     }
   }
 
   /**
-   * Handler for apply button click.
+   * Gets the selected operation.
+   *
+   * @return The operation name or null if invalid.
    */
-  private void onApplyButtonClicked(ActionEvent e) {
+  public String getSelectedOperation() {
+    String selected = (String) dropdown.getSelectedItem();
+    return "Select a split operation...".equals(selected) ? null : selected;
+  }
+
+  /**
+   * Gets the input value.
+   *
+   * @return The input value as a double.
+   * @throws IllegalArgumentException If the input is invalid.
+   */
+  public double getInputValue() throws IllegalArgumentException {
+    String text = inputField.getText();
+    if (text.isEmpty() || "Enter a double value...".equals(text)) {
+      throw new IllegalArgumentException("Input field is empty.");
+    }
     try {
-      String inputText = inputField.getText();
-      String selectedOption = (String) dropdown.getSelectedItem();
-      JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-
-      // Validate input field
-      if (inputText.equals("Enter a double value...") || inputText.isEmpty()) {
-        Dialog.showMessage(parentFrame, "Input field is empty. Please enter a value.");
-        return;
-      }
-
-      if (!isValidDouble(inputText)) {
-        Dialog.showMessage(parentFrame, "Invalid input. Please enter a valid double value.");
-        return;
-      }
-
-      if (selectedOption.equals("Select a split operation...")) {
-        Dialog.showMessage(parentFrame, "Please select a valid option from the dropdown.");
-        return;
-      }
-
-      if (selectedOption.equals("levels adjustment")) {
-        // Validate integer inputs for black, mid, and white
-        if (!isValidInteger(blackField.getText()) || !isValidInteger(midField.getText()) || !isValidInteger(whiteField.getText())) {
-          Dialog.showMessage(parentFrame, "Please enter valid integer values for black, mid, and white.");
-          return;
-        }
-      }
-
-      // Success message
-      Dialog.showMessage(parentFrame, "Apply button clicked with input: " + inputText +
-              " and dropdown selection: " + selectedOption);
-
-    } catch (Exception ex) {
-      // General exception handling
-      Dialog.showMessage(null, "An unexpected error occurred: " + ex.getMessage());
+      return Double.parseDouble(text);
+    } catch (NumberFormatException ex) {
+      throw new IllegalArgumentException("Invalid input. Enter a valid double value.");
     }
   }
 
   /**
-   * Validate if the input is a valid double.
+   * Gets the black, mid, and white values for levels adjustment.
+   *
+   * @return An array of integer values [black, mid, white].
+   * @throws IllegalArgumentException If any of the inputs are invalid.
    */
-  private boolean isValidDouble(String input) {
+  public int[] getLevelsAdjustmentValues() throws IllegalArgumentException {
+    if (blackField == null || midField == null || whiteField == null) {
+      throw new IllegalArgumentException("Levels adjustment fields are not visible.");
+    }
+
     try {
-      Double.parseDouble(input);
-      return true;
-    } catch (NumberFormatException e) {
-      return false;
+      int black = Integer.parseInt(blackField.getText());
+      int mid = Integer.parseInt(midField.getText());
+      int white = Integer.parseInt(whiteField.getText());
+      return new int[]{black, mid, white};
+    } catch (NumberFormatException ex) {
+      throw new IllegalArgumentException("Invalid input in levels adjustment fields. Enter valid "
+              +               "integer values.");
     }
   }
 
-  /**
-   * Validate if the input is a valid integer.
-   */
-  private boolean isValidInteger(String input) {
-    try {
-      Integer.parseInt(input);
-      return true;
-    } catch (NumberFormatException e) {
-      return false;
-    }
-  }
 }

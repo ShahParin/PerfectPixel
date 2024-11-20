@@ -129,4 +129,47 @@ public class ViewController implements GUIFeatures {
     imageModel.applyHistogramVisualization(imageName, histImageName);
     return imageModel.getImage(histImageName);
   }
+
+  @Override
+  public void blurSplitOperation(String imageName, String newImageName, double percent ) throws IOException {
+    Command blurSplitCommand = new BlurCommand(imageModel, imageName, newImageName, percent);
+    blurSplitCommand.execute();
+    view.printStatements("Image blurred: " + newImageName);
+//    imageModel.blurImageSplit(imageName, imageName,percent);
+  }
+
+  @Override
+  public void levelsAdjustmentSplitOperation(String currentImageName, String outputImageName, double black, double mid, double white,double percent) throws IOException {
+    Command levelsAdjustCommand = new LevelsAdjustCommand(imageModel, (int) black, (int) mid, (int) white,currentImageName,outputImageName,percent);
+    levelsAdjustCommand.execute();
+    view.printStatements("Levels adjusted: " + currentImageName);
+  }
+
+  @Override
+  public void sharpenSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
+    Command sharpenSplitCommand = new SharpenCommand(imageModel, currentImageName, outputImageName, inputValue);
+    sharpenSplitCommand.execute();
+    view.printStatements("Image sharpened: " + currentImageName);
+  }
+
+  @Override
+  public void sepiaSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
+    Command sepiaSplitCommand = new SepiaCommand(imageModel, currentImageName, outputImageName, inputValue);
+    sepiaSplitCommand.execute();
+    view.printStatements("Image sepia extracted: " + currentImageName);
+  }
+
+  @Override
+  public void greyscaleSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
+    Command greyscaleSplitCommand = new LumaComponentCommand(imageModel, currentImageName, outputImageName, inputValue);
+    greyscaleSplitCommand.execute();
+    view.printStatements("Greyscale extracted: " + currentImageName);
+  }
+
+  @Override
+  public void colorCorrectionSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
+    Command colorCorrectionSplitCommand = new ColorCorrectCommand(imageModel, currentImageName, outputImageName, inputValue);
+    colorCorrectionSplitCommand.execute();
+    view.printStatements("Color correction extracted: " + currentImageName);
+  }
 }

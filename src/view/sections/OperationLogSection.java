@@ -12,15 +12,16 @@ public class OperationLogSection extends GenericPanel {
     super(new BorderLayout());
     setBorder(BorderFactory.createTitledBorder("Operation Log"));
 
-
     logArea = new JTextArea();
-    logArea.setEditable(false);
     JScrollPane logScrollPane = new JScrollPane(logArea);
     add(logScrollPane, BorderLayout.CENTER);
     setPreferredSize(new Dimension(350, 280));
   }
 
   public void appendLog(String message) {
-    logArea.append(message + "\n");
+    logArea.setText(message);
+//    logArea.setFont(logArea.getFont().deriveFont(18f));
+    logArea.setFont(new Font("Roboto", Font.ITALIC, 16));
+
   }
 }

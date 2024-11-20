@@ -387,7 +387,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import controller.GUIFeatures;
 import model.Image;
 import view.components.GenericLabel;
-import view.components.ImageDisplay;
 import view.sections.ColorChannelsSection;
 import view.sections.ColorCorrectionSection;
 import view.sections.CompressionSection;
@@ -395,6 +394,7 @@ import view.sections.FileIOSection;
 import view.sections.FiltersSection;
 import view.sections.FlippingSection;
 import view.sections.HistogramSection;
+import view.sections.ImageDialogSection;
 import view.sections.ImageDisplaySection;
 import view.sections.LevelsAdjustmentSection;
 import view.sections.OperationLogSection;
@@ -410,6 +410,8 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   private JScrollPane mainScrollPane;
   private GUIFeatures features;
   private String currentImageName;
+  private String tempImageName;
+  private boolean levelAdjustParam = false;
 
   private FileIOSection fileIOSection;
   private FiltersSection filtersSection;
@@ -423,6 +425,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   private HistogramSection histogramSection;
   private ImageDisplaySection imageDisplaySection;  // New section
   private SplitOperationSection splitOperationSection;
+  private ImageDialogSection imageDialogSection;
 
   public GUIBasedView() {
     super("PerfectPixel");
@@ -448,8 +451,9 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     colorCorrectionSection = new ColorCorrectionSection(this);
     operationLogSection = new OperationLogSection();
     histogramSection = new HistogramSection();
-    splitOperationSection = new SplitOperationSection();
+    splitOperationSection = new SplitOperationSection(this);
     imageDisplaySection = new ImageDisplaySection();  // Initialize ImageDisplaySection
+    imageDialogSection = new ImageDialogSection(this, this);
 
     // Other components
 //    fileOpenDisplay = new GenericLabel("File path will appear here");
@@ -523,10 +527,15 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
   public void refreshImagePlaceholder() {
     Image image = features.getImage(currentImageName);
-
     imageDisplaySection.updateImageDisplay(new ImageIcon(imageToBufferedImage(image)));
     refreshHistogram();
   }
+
+//  public void refreshImageDialogPlaceholder() {
+//    System.out.println("jss");
+//    Image image = features.getImage(tempImageName);
+//    imageDialogSection.updateImageDisplay(new ImageIcon(imageToBufferedImage(image)));
+//  }
 
   public void refreshHistogram() {
     Image histogramImage = features.getHistogram(currentImageName);
@@ -579,22 +588,178 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
       case "COLOR_CORRECT":
         handleColorCorrect();
         break;
+      case "APPLY_SPLIT":
+        handleSplitOperation();
+        break;
+      case "APPLY_SAVE_SPLIT":
+        handleSaveSplit();
+        break;
+      case "APPLY_CLOSE_SPLIT":
+        handleCloseSplit();
+        break;
       default:
         printStatements("Unknown command: " + e.getActionCommand());
     }
   }
 
+  private void handleSaveSplit() {
+    if (currentImageName != null && tempImageName != null) {
+      try {
+        String selectedOption = splitOperationSection.getSelectedOperation();
+        if (selectedOption == null) {
+          printStatements("No operation selected.");
+          return;
+        }
+        System.out.println("Selected operation: " + selectedOption);
+        if (selectedOption.equals("blur")) {
+          handleBlurImage();
+          System.out.println("Blur operation performing after split");
+        }
+        if (selectedOption.equals("sharpen")) {
+          handleSharpenImage();
+          System.out.println("Sharpen operation performing after split");
+        }
+        if (selectedOption.equals("sepia")) {
+          handleSepia();
+          System.out.println("Sepia operation performing after split");
+        }
+        if (selectedOption.equals("greyscale")) {
+          handleGreyscale();
+          System.out.println("Greyscale operation performing after split");
+        }
+        if (selectedOption.equals("color correction")) {
+          handleColorCorrect();
+          System.out.println("Color correction operation performing after split");
+        }
+        if (selectedOption.equals("levels adjustment")) {
+          levelAdjustParam=true;
+          handleLevelsAdjust();
+          System.out.println("Levels adjustment operation performing after split");
+        }
+        printStatements("Image Updated successfully.");
+      } catch (Exception ex) {
+        printStatements("Error during save split operation: " + ex.getMessage());
+
+      }
+    } else {
+      printStatements("No image loaded or features not set");
+    }
+
+  }
+
+  private void handleCloseSplit() {
+    if (currentImageName != null && tempImageName != null) {
+      try {
+//        handleBlurImage();
+        printStatements("Split Operation Preview Closed.");
+      } catch (Exception ex) {
+        printStatements("Error during close split operation: " + ex.getMessage());
+
+      }
+    } else {
+      printStatements("No image loaded or features not set");
+    }
+
+  }
+
+  private void handleSplitOperation() {
+    try {
+      // Fetch the selected operation and input value from SplitOperationSection
+      String selectedOption = splitOperationSection.getSelectedOperation();
+      if (selectedOption == null) {
+        printStatements("No operation selected.");
+        return;
+      }
+      double inputValue = splitOperationSection.getInputValue();
+
+      if (selectedOption.equals("levels adjustment")) {
+        int[] levelsValues = splitOperationSection.getLevelsAdjustmentValues();
+        int black = levelsValues[0];
+        int mid = levelsValues[1];
+        int white = levelsValues[2];
+
+        if (features != null && currentImageName != null) {
+          String outputImageName = currentImageName + "_levels_adjusted";
+          features.levelsAdjustmentSplitOperation(currentImageName, outputImageName, black, mid, white, inputValue);
+
+          tempImageName = outputImageName;
+
+          // Fetch the updated image as an ImageIcon
+          Image updatedImage = features.getImage(tempImageName);
+
+          if (updatedImage != null) {
+            // Display the updated image in the dialog
+            ImageDialogSection.showImageDialog(this, new ImageIcon(imageToBufferedImage(updatedImage)), this);
+          } else {
+            printStatements("Unable to fetch updated image: " + outputImageName);
+          }
+
+          printStatements("Levels adjustment applied: black=" + black + ", mid=" + mid + ", white=" + white);
+        } else {
+          printStatements("No image loaded or features not set.");
+        }
+      } else {
+        // Handle other operations
+        if (features != null && currentImageName != null) {
+          String outputImageName = currentImageName + "_split";
+
+          switch (selectedOption) {
+            case "blur":
+              features.blurSplitOperation(currentImageName, outputImageName, inputValue);
+              break;
+            case "sharpen":
+              features.sharpenSplitOperation(currentImageName, outputImageName, inputValue);
+              break;
+            case "sepia":
+              features.sepiaSplitOperation(currentImageName, outputImageName,inputValue);
+              break;
+            case "greyscale":
+              features.greyscaleSplitOperation(currentImageName, outputImageName,inputValue);
+              break;
+            case "color correction":
+              features.colorCorrectionSplitOperation(currentImageName, outputImageName, inputValue);
+              break;
+            default:
+              printStatements("Operation not implemented: " + selectedOption);
+              return;
+          }
+
+          tempImageName = outputImageName;
+
+          // Fetch the updated image as an ImageIcon
+          Image updatedImage = features.getImage(tempImageName);
+
+          if (updatedImage != null) {
+            // Display the updated image in the dialog
+            ImageDialogSection.showImageDialog(this, new ImageIcon(imageToBufferedImage(updatedImage)), this);
+          } else {
+            printStatements("Unable to fetch updated image: " + outputImageName);
+          }
+
+          printStatements("Split operation applied: " + selectedOption);
+        } else {
+          printStatements("No image loaded or features not set.");
+        }
+      }
+    } catch (IllegalArgumentException ex) {
+      printStatements("Input Error: " + ex.getMessage());
+    } catch (Exception ex) {
+      printStatements("Unexpected error: " + ex.getMessage());
+    }
+  }
+
   private void handleLoadImage() {
     JFileChooser fileChooser = new JFileChooser(".");
-    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
     fileChooser.setFileFilter(filter);
 
     int returnValue = fileChooser.showOpenDialog(this);
     if (returnValue == JFileChooser.APPROVE_OPTION) {
       File file = fileChooser.getSelectedFile();
-      fileOpenDisplay.setText("Loading: " + file.getAbsolutePath());
+      System.out.println("file" + file);
+//      fileOpenDisplay.setText("Loading: " + file.getAbsolutePath());
       currentImageName = file.getName().replace(".", "_");
+      System.out.println("hhh" + currentImageName);
 
       if (features != null) {
         try {
@@ -612,14 +777,13 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
   private void handleSaveImage() {
     JFileChooser fileChooser = new JFileChooser(".");
-    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
     fileChooser.setFileFilter(filter);
 
     int returnValue = fileChooser.showSaveDialog(this);
     if (returnValue == JFileChooser.APPROVE_OPTION) {
       File file = fileChooser.getSelectedFile();
-      fileSaveDisplay.setText("Saving to: " + file.getAbsolutePath());
+//      fileSaveDisplay.setText("Saving to: " + file.getAbsolutePath());
 
       if (features != null && currentImageName != null) {
         try {
@@ -803,16 +967,31 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   private void handleLevelsAdjust() {
     if (features != null && currentImageName != null) {
       try {
-        int black = levelsAdjustmentSection.getBlack();
-        int midTones = levelsAdjustmentSection.getMidTone();
-        int white = levelsAdjustmentSection.getWhite();
+        if (levelAdjustParam){
+          int[] levelsValues = splitOperationSection.getLevelsAdjustmentValues();
+          int black = levelsValues[0];
+          int mid = levelsValues[1];
+          int white = levelsValues[2];
 
-        String adjustedImageName = currentImageName + "_levelsAdjusted";
-        features.levelsAdjust(currentImageName, adjustedImageName, black, midTones, white);
+          String adjustedImageName = currentImageName + "_levelsAdjusted";
+          features.levelsAdjust(currentImageName, adjustedImageName, black, mid, white);
 
-        currentImageName = adjustedImageName;
+          currentImageName = adjustedImageName;
+        }
+        else {
+          int black = levelsAdjustmentSection.getBlack();
+          int midTones = levelsAdjustmentSection.getMidTone();
+          int white = levelsAdjustmentSection.getWhite();
+
+          String adjustedImageName = currentImageName + "_levelsAdjusted";
+          features.levelsAdjust(currentImageName, adjustedImageName, black, midTones, white);
+
+          currentImageName = adjustedImageName;
+        }
+
         refreshImagePlaceholder();
         printStatements("Levels adjusted successfully.");
+
       } catch (NumberFormatException ex) {
         printStatements("Invalid input for levels adjustment. Please enter numeric values.");
       } catch (Exception ex) {
@@ -839,7 +1018,6 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     }
   }
 
-
   @Override
   public void itemStateChanged(ItemEvent e) {
     // Handle item state changes if needed
@@ -847,7 +1025,8 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
   @Override
   public void printStatements(String message) {
-    JOptionPane.showMessageDialog(this, message);
+//    JOptionPane.showMessageDialog(this, message);
+    operationLogSection.appendLog(message);
   }
 
   //  @Override

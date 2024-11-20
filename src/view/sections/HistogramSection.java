@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class HistogramSection extends GenericPanel {
   private static ImageDisplay histogram;
-
+//
 //  public HistogramSection() {
 //    super(new BorderLayout());
 //    histogram = new ImageDisplay();
