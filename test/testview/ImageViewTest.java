@@ -46,11 +46,17 @@ public class ImageViewTest {
     mockViewGUI.simulateAction("BLUR");
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
-            + "blur called with imageName: mockImage and newImageName: mockImage_blur\n"
-            + "getImage called with imageName: mockImage_blur\n";
+            + "blur called with imageName: mockImage and newImageName: mockImage_blur\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_blur\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_blur\n" +
+            "Mock image blurred.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -61,11 +67,17 @@ public class ImageViewTest {
     mockViewGUI.simulateAction("SHARPEN");
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
-            + "sharpen called with imageName: mockImage and newImageName: mockImage_sharpen\n"
-            + "getImage called with imageName: mockImage_sharpen\n";
+            + "sharpen called with imageName: mockImage and newImageName: mockImage_sharpen\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_sharpen\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_sharpen\n" +
+            "Mock image sharpened.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -76,11 +88,17 @@ public class ImageViewTest {
     mockViewGUI.simulateAction("HORIZONTAL_FLIP");
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
-            + "horizontalFlip called with imageName: mockImage and newImageName: mockImage_hflip\n"
-            + "getImage called with imageName: mockImage_hflip\n";
+            + "horizontalFlip called with imageName: mockImage and newImageName: mockImage_hflip\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_hflip\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_hflip\n" +
+            "Mock image flipped horizontally.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -91,11 +109,17 @@ public class ImageViewTest {
     mockViewGUI.simulateAction("VERTICAL_FLIP");
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
-            + "verticalFlip called with imageName: mockImage and newImageName: mockImage_vflip\n"
-            + "getImage called with imageName: mockImage_vflip\n";
+            + "verticalFlip called with imageName: mockImage and newImageName: mockImage_vflip\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_vflip\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_vflip\n" +
+            "Mock image flipped vertically.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -106,11 +130,17 @@ public class ImageViewTest {
     mockViewGUI.simulateAction("GRAYSCALE");
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
-            + "greyscale called with imageName: mockImage and newImageName: mockImage_greyscale\n"
-            + "getImage called with imageName: mockImage_greyscale\n";
+            + "greyscale called with imageName: mockImage and newImageName: mockImage_greyscale\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_greyscale\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_greyscale\n" +
+            "Mock image converted to greyscale.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -121,11 +151,17 @@ public class ImageViewTest {
     mockViewGUI.simulateAction("SEPIA");
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
-            + "sepia called with imageName: mockImage and newImageName: mockImage_sepia\n"
-            + "getImage called with imageName: mockImage_sepia\n";
+            + "sepia called with imageName: mockImage and newImageName: mockImage_sepia\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_sepia\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_sepia\n" +
+            "Mock image converted to sepia.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -136,11 +172,18 @@ public class ImageViewTest {
     mockViewGUI.simulateAction("RED_COMPONENT");
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
-            + "redComponent called with imageName: mockImage and newImageName: mockImage_redComponent\n"
-            + "getImage called with imageName: mockImage_redComponent\n";
+            + "redComponent called with imageName: mockImage and newImageName: "
+            + "mockImage_redComponent\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_redComponent\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_redComponent\n" +
+            "Extracted red component from mock image.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -151,11 +194,18 @@ public class ImageViewTest {
     mockViewGUI.simulateAction("GREEN_COMPONENT");
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
-            + "greenComponent called with imageName: mockImage and newImageName: mockImage_greenComponent\n"
-            + "getImage called with imageName: mockImage_greenComponent\n";
+            + "greenComponent called with imageName: mockImage and newImageName: "
+            + "mockImage_greenComponent\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_greenComponent\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_greenComponent\n" +
+            "Extracted green component from mock image.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -166,11 +216,18 @@ public class ImageViewTest {
     mockViewGUI.simulateAction("BLUE_COMPONENT");
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
-            + "blueComponent called with imageName: mockImage and newImageName: mockImage_blueComponent\n"
-            + "getImage called with imageName: mockImage_blueComponent\n";
+            + "blueComponent called with imageName: mockImage and newImageName: "
+            + "mockImage_blueComponent\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_blueComponent\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_blueComponent\n" +
+            "Extracted blue component from mock image.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -181,12 +238,18 @@ public class ImageViewTest {
     mockViewGUI.simulateActionCompress("COMPRESS", 37.543);
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
             + "compress called with imageName: mockImage and newImageName: mockImage_compress "
-            + "with percent: 37.543\n"
-            + "getImage called with imageName: mockImage_compress\n";
+            + "with percent: 37.543\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_compress\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_compress\n" +
+            "Mock image compressed by 37.543%.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -197,12 +260,18 @@ public class ImageViewTest {
     mockViewGUI.simulateActionLevelsAdjust("LEVELS_ADJUST", 20, 155, 250);
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
             + "levelsAdjust called with imageName: mockImage and newImageName: "
-            + "mockImage_levelsAdjust with black: 20, mid: 155, white: 250\n"
-            + "getImage called with imageName: mockImage_levelsAdjust\n";
+            + "mockImage_levelsAdjust with black: 20, mid: 155, white: 250\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_levelsAdjust\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_levelsAdjust\n" +
+            "Mock image levels adjusted by b = 20 m = 155 w = 250.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
 
   @Test
@@ -213,10 +282,322 @@ public class ImageViewTest {
     mockViewGUI.simulateAction("COLOR_CORRECT");
 
     String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
-            + "getImage called with imageName: mockImage\n"
-            + "colorCorrect called with imageName: mockImage and newImageName: mockImage_colorCorrect\n"
-            + "getImage called with imageName: mockImage_colorCorrect\n";
+            + "colorCorrect called with imageName: mockImage and newImageName:"
+            + " mockImage_colorCorrect\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_colorCorrect\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_colorCorrect\n" +
+            "Mock image color corrected.\n";
 
     assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
   }
+
+  @Test
+  public void testHandleSplitWithBlur() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.simulateSplitOperations("BLUR", 45.54);
+
+    String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
+            + "blurSplitOperation called with imageName: mockImage and newImageName: "
+            + "mockImage_split_blur with percent: 45.54\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_split_blur\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_blur\n" +
+            "Mock image split operation for blur by 45.54%.\n";
+
+    assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSplitWithSharpen() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.simulateSplitOperations("SHARPEN", 45.54);
+
+    String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
+            + "sharpenSplitOperation called with imageName: mockImage and newImageName: "
+            + "mockImage_split_sharpen with percent: 45.54\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_split_sharpen\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_sharpen\n" +
+            "Mock image split operation for sharpen by 45.54%.\n";
+
+    assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSplitWithSepia() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.simulateSplitOperations("SEPIA", 45.54);
+
+    String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
+            + "sepiaSplitOperation called with imageName: mockImage and newImageName: "
+            + "mockImage_split_sepia with percent: 45.54\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_split_sepia\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_sepia\n" +
+            "Mock image split operation for sepia by 45.54%.\n";
+
+    assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSplitWithGreyscale() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.simulateSplitOperations("GREYSCALE", 45.54);
+
+    String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
+            + "greyscaleSplitOperation called with imageName: mockImage and newImageName: "
+            + "mockImage_split_greyscale with percent: 45.54\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_split_greyscale\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_greyscale\n" +
+            "Mock image split operation for greyscale by 45.54%.\n";
+
+    assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSplitWithColorCorrect() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.simulateSplitOperations("COLOR_CORRECT", 45.54);
+
+    String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
+            + "colorCorrectionSplitOperation called with imageName: mockImage and newImageName: "
+            + "mockImage_split_colorCorrect with percent: 45.54\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_split_colorCorrect\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_colorCorrect\n" +
+            "Mock image split operation for color correct by 45.54%.\n";
+
+    assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSplitWithLevelsAdjust() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.simulateOperationSplitLevelsAdjust("LEVELS_ADJUST", 5, 15, 255,
+            45.54);
+
+    String expected = "load called with imageName: mockImage for the path: mock/path/to/image.jpg\n"
+            + "levelsAdjustmentSplitOperation called with imageName: mockImage and newImageName: "
+            + "mockImage_split_levelsAdjust with black: 5.0, mid: 15.0, white: 255.0 with "
+            + "percent: 45.54\n";
+
+    String expectedView = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n" +
+            "MockGUIBasedView: Image refreshed for mockImage_split_levelsAdjust\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_levelsAdjust\n" +
+            "Mock image levels adjusted by b = 5 m = 15 w = 255.\n";
+
+    assertEquals(expected, mockFeatures.getLog());
+    assertEquals(expectedView, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSaveSplitWithBlur() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.setSaveSplitOperation("BLUR", 55.55);
+    mockViewGUI.simulateAction("APPLY_SAVE_SPLIT");
+
+    String expected ="Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n"+
+            "MockGUIBasedView: Image refreshed for mockImage_split_blur\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_blur\n" +
+            "Mock image split operation for blur by 55.55%.\n" +
+            "Image operation saved.\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSaveSplitWithSharpen() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.setSaveSplitOperation("SHARPEN", 55.55);
+    mockViewGUI.simulateAction("APPLY_SAVE_SPLIT");
+
+    String expected = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n"+
+            "MockGUIBasedView: Image refreshed for mockImage_split_sharpen\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_sharpen\n" +
+            "Mock image split operation for sharpen by 55.55%.\n" +
+            "Image operation saved.\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSaveSplitWithSepia() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.setSaveSplitOperation("SEPIA", 55.55);
+    mockViewGUI.simulateAction("APPLY_SAVE_SPLIT");
+
+    String expected = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n"+
+            "MockGUIBasedView: Image refreshed for mockImage_split_sepia\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_sepia\n" +
+            "Mock image split operation for sepia by 55.55%.\n" +
+            "Image operation saved.\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSaveSplitWithGreyscale() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.setSaveSplitOperation("GREYSCALE", 55.55);
+    mockViewGUI.simulateAction("APPLY_SAVE_SPLIT");
+
+    String expected = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n"+
+            "MockGUIBasedView: Image refreshed for mockImage_split_greyscale\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_greyscale\n" +
+            "Mock image split operation for greyscale by 55.55%.\n" +
+            "Image operation saved.\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSaveSplitWithColorCorrect() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.setSaveSplitOperation("COLOR_CORRECT", 55.55);
+    mockViewGUI.simulateAction("APPLY_SAVE_SPLIT");
+
+    String expected = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n"+
+            "MockGUIBasedView: Image refreshed for mockImage_split_colorCorrect\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_colorCorrect\n" +
+            "Mock image split operation for color correct by 55.55%.\n" +
+            "Image operation saved.\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSaveSplitWithLevelsAdjust() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("LOAD_IMAGE");
+    mockViewGUI.simulateOperationSplitLevelsAdjust("LEVELS_ADJUST", 5,15,155,
+            55.55);
+    mockViewGUI.simulateAction("APPLY_SAVE_SPLIT");
+
+    String expected = "Mock image loaded successfully.\n" +
+            "MockGUIBasedView: Image refreshed for mockImage\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage\n"+
+            "MockGUIBasedView: Image refreshed for mockImage_split_levelsAdjust\n" +
+            "MockGUIBasedView: Histogram refreshed for mockImage_split_levelsAdjust\n" +
+            "Mock image levels adjusted by b = 5 m = 15 w = 155.\n" +
+            "Mock image split operation failed.\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSaveSplitWithNoOperationSelected() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("APPLY_SAVE_SPLIT");
+
+    String expected = "No image loaded or features not set.\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleSaveSplitWithNoImageLoaded() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("SAVE_SPLIT");
+
+    String expected = "Unknown command: SAVE_SPLIT\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleCloseSplitSuccess() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("APPLY_CLOSE_SPLIT");
+
+    String expected = "No image loaded or features not set.\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testHandleCloseSplitWithNoImageLoaded() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("APPLY_CLOSE_SPLIT");
+
+    String expected = "No image loaded or features not set.\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
+  @Test
+  public void testWrongCommand() {
+    mockViewGUI.setFeatures(mockFeatures);
+
+    mockViewGUI.simulateAction("APPLY_SAVE");
+
+    String expected = "Unknown command: APPLY_SAVE\n";
+
+    assertEquals(expected, mockViewGUI.getOperationLog());
+  }
+
 }

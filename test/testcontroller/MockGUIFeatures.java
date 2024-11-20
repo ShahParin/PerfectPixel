@@ -115,35 +115,55 @@ public class MockGUIFeatures implements GUIFeatures {
   }
 
   @Override
-  public void blurSplitOperation(String imageName, String newImageName, double percent) throws IOException {
-
+  public void blurSplitOperation(String imageName, String newImageName, double percent)
+          throws IOException {
+    log.append("blurSplitOperation called with imageName: ").append(imageName)
+            .append(" and newImageName: ").append(newImageName)
+            .append(" with percent: ").append(percent).append("\n");
   }
 
   @Override
-  public void levelsAdjustmentSplitOperation(String currentImageName, String outputImageName, double black, double mid, double white, double percent) throws IOException {
-
+  public void levelsAdjustmentSplitOperation(String currentImageName, String outputImageName,
+                                             double black, double mid, double white, double percent)
+          throws IOException {
+    log.append("levelsAdjustmentSplitOperation called with imageName: ").append(currentImageName)
+            .append(" and newImageName: ").append(outputImageName)
+            .append(" with black: ").append(black).append(", mid: ").append(mid)
+            .append(", white: ").append(white)
+            .append(" with percent: ").append(percent).append("\n");
   }
 
   @Override
-  public void sharpenSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
-
+  public void sharpenSplitOperation(String currentImageName, String outputImageName,
+                                    double inputValue) throws IOException {
+    log.append("sharpenSplitOperation called with imageName: ").append(currentImageName)
+            .append(" and newImageName: ").append(outputImageName)
+            .append(" with percent: ").append(inputValue).append("\n");
   }
 
   @Override
-  public void sepiaSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
-
+  public void sepiaSplitOperation(String currentImageName, String outputImageName,
+                                  double inputValue) throws IOException {
+    log.append("sepiaSplitOperation called with imageName: ").append(currentImageName)
+            .append(" and newImageName: ").append(outputImageName)
+            .append(" with percent: ").append(inputValue).append("\n");
   }
 
   @Override
-  public void greyscaleSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
-
+  public void greyscaleSplitOperation(String currentImageName, String outputImageName,
+                                      double inputValue) throws IOException {
+    log.append("greyscaleSplitOperation called with imageName: ").append(currentImageName)
+            .append(" and newImageName: ").append(outputImageName)
+            .append(" with percent: ").append(inputValue).append("\n");
   }
 
   @Override
-  public void colorCorrectionSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException {
-
+  public void colorCorrectionSplitOperation(String currentImageName, String outputImageName,
+                                            double inputValue) throws IOException {
+    log.append("colorCorrectionSplitOperation called with imageName: ").append(currentImageName)
+            .append(" and newImageName: ").append(outputImageName)
+            .append(" with percent: ").append(inputValue).append("\n");
   }
-
 
   public String getLog() {
     return log.toString();

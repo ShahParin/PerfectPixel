@@ -45,11 +45,9 @@ public class ImageModelImplV2Test extends ImageModelImplTest {
     imageModel.applyCompression("sample", "sample-compress-hundred", 100);
     Image actualImage = imageModel.getImage("sample-compress-hundred");
 
-
     int[][] expectedRedChannel = {{129, 129}, {129, 129}};
     int[][] expectedGreenChannel = {{156, 156}, {156, 156}};
     int[][] expectedBlueChannel = {{84, 84}, {84, 84}};
-
 
     assertEquals(expectedRedChannel, actualImage.getRedChannel());
     assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
@@ -63,7 +61,6 @@ public class ImageModelImplV2Test extends ImageModelImplTest {
     imageService.loadImage("inputImages/test.ppm", "sample");
     imageModel.applyCompression("sample", "sample-compress-seventy-five", 99);
     Image actualImage = imageModel.getImage("sample-compress-seventy-five");
-
 
     int[][] expectedRedChannel = {{126, 8}, {249, 131}};
     int[][] expectedGreenChannel = {{45, 198}, {253, 126}};

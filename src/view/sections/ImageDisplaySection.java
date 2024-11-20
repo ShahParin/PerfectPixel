@@ -4,6 +4,8 @@ import view.components.ImageDisplay;
 import view.components.GenericPanel;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
 import java.awt.*;
 
 public class ImageDisplaySection extends GenericPanel {
@@ -26,7 +28,19 @@ public class ImageDisplaySection extends GenericPanel {
     add(scrollPane, BorderLayout.CENTER);
   }
 
-  public void updateImageDisplay(ImageIcon imageIcon) {
+  public void updateImageDisplay(ImageIcon imageIcon, String newTitle) {
     imageDisplay.updateImage(imageIcon);
+    setBorderTitle(newTitle);
+  }
+
+  private void setBorderTitle(String title) {
+    TitledBorder border = (TitledBorder) getBorder();
+    if (border != null) {
+      border.setTitle("Image Display" + title);
+      repaint(); // Ensure the UI updates to reflect the new border title
+    } else {
+      // If no border exists, create a new one
+      setBorder(BorderFactory.createTitledBorder(title));
+    }
   }
 }

@@ -3,18 +3,16 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.GUIFeatures;
 import model.Image;
-import view.components.GenericLabel;
 import view.components.GenericPanel;
 import view.sections.ColorChannelsSection;
 import view.sections.ColorCorrectionSection;
@@ -32,15 +30,13 @@ import view.sections.TransformationsSection;
 
 import static model.ImageUtil.getDimensions;
 
-public class GUIBasedView extends JFrame implements ImageView, ActionListener, ItemListener {
-
-  private GenericLabel fileOpenDisplay;
-  private GenericLabel fileSaveDisplay;
+public class GUIBasedView extends JFrame implements ImageView, ActionListener {
   private JScrollPane mainScrollPane;
   private GUIFeatures features;
   private String currentImageName;
   private String tempImageName;
-  private boolean levelAdjustParam = false;
+  private boolean levelAdjustParam;
+  private ArrayList<String> savedImageNames;
 
   private FileIOSection fileIOSection;
   private FiltersSection filtersSection;
@@ -52,16 +48,18 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   private ColorCorrectionSection colorCorrectionSection;
   private OperationLogSection operationLogSection;
   private HistogramSection histogramSection;
-  private ImageDisplaySection imageDisplaySection;  // New section
+  private ImageDisplaySection imageDisplaySection;
   private SplitOperationSection splitOperationSection;
-  private ImageDialogSection imageDialogSection;
 
   public GUIBasedView() {
     super("PerfectPixel");
+
+    levelAdjustParam = false;
+    savedImageNames = new ArrayList<>();
+
     setSize(1300, 800);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    // Initialize components and layout
     initializeComponents();
     setupLayout();
 
@@ -69,7 +67,6 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   }
 
   private void initializeComponents() {
-    // Initialize sections
     fileIOSection = new FileIOSection(this);
     filtersSection = new FiltersSection(this);
     flippingSection = new FlippingSection(this);
@@ -81,12 +78,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     operationLogSection = new OperationLogSection();
     histogramSection = new HistogramSection();
     splitOperationSection = new SplitOperationSection(this);
-    imageDisplaySection = new ImageDisplaySection();  // Initialize ImageDisplaySection
-    imageDialogSection = new ImageDialogSection(this, this);
-
-    // Other components
-//    fileOpenDisplay = new GenericLabel("File path will appear here");
-//    fileSaveDisplay = new GenericLabel("File path will appear here");
+    imageDisplaySection = new ImageDisplaySection();
   }
 
   private void setupLayout() {
@@ -94,8 +86,8 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
     // Left panel (commands and operations)
     JPanel leftPanel = new JPanel();
-    leftPanel.setLayout(new GridLayout(8, 1)); // 8 rows, 1 column for even distribution
-    leftPanel.setPreferredSize(new Dimension(350, 800));  // 40% width
+    leftPanel.setLayout(new GridLayout(8, 1));
+    leftPanel.setPreferredSize(new Dimension(350, 800));
     leftPanel.add(fileIOSection);
     leftPanel.add(filtersSection);
     leftPanel.add(flippingSection);
@@ -107,7 +99,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
     // Right panel (image display and additional info)
     GenericPanel rightPanel = new GenericPanel(new BorderLayout());
-    rightPanel.setPreferredSize(new Dimension(750, 800));  // 60% width
+    rightPanel.setPreferredSize(new Dimension(750, 800));
 
     // Top section (operation log and histogram)
     GenericPanel topPanel = new GenericPanel(new BorderLayout());
@@ -117,7 +109,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
     rightPanel.add(topPanel, BorderLayout.NORTH);
 
     // Bottom section (image display)
-    rightPanel.add(imageDisplaySection, BorderLayout.CENTER);  // Add ImageDisplaySection here
+    rightPanel.add(imageDisplaySection, BorderLayout.CENTER);
     // Main scroll pane
     mainScrollPane = new JScrollPane(rightPanel);
 
@@ -156,15 +148,18 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
   public void refreshImagePlaceholder() {
     Image image = features.getImage(currentImageName);
-    imageDisplaySection.updateImageDisplay(new ImageIcon(imageToBufferedImage(image)));
+    String savedCheck;
+
+    if(savedImageNames.contains(currentImageName)) {
+      savedCheck = " -saved";
+    }
+    else{
+      savedCheck = " -not saved";
+    }
+
+    imageDisplaySection.updateImageDisplay(new ImageIcon(imageToBufferedImage(image)), savedCheck);
     refreshHistogram();
   }
-
-//  public void refreshImageDialogPlaceholder() {
-//    System.out.println("jss");
-//    Image image = features.getImage(tempImageName);
-//    imageDialogSection.updateImageDisplay(new ImageIcon(imageToBufferedImage(image)));
-//  }
 
   public void refreshHistogram() {
     Image histogramImage = features.getHistogram(currentImageName);
@@ -239,31 +234,31 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
           printStatements("No operation selected.");
           return;
         }
-        System.out.println("Selected operation: " + selectedOption);
+        printStatements("Selected operation: " + selectedOption);
         if (selectedOption.equals("blur")) {
           handleBlurImage();
-          System.out.println("Blur operation performing after split");
+          printStatements("Blur operation performing after split");
         }
         if (selectedOption.equals("sharpen")) {
           handleSharpenImage();
-          System.out.println("Sharpen operation performing after split");
+          printStatements("Sharpen operation performing after split");
         }
         if (selectedOption.equals("sepia")) {
           handleSepia();
-          System.out.println("Sepia operation performing after split");
+          printStatements("Sepia operation performing after split");
         }
         if (selectedOption.equals("greyscale")) {
           handleGreyscale();
-          System.out.println("Greyscale operation performing after split");
+          printStatements("Greyscale operation performing after split");
         }
         if (selectedOption.equals("color correction")) {
           handleColorCorrect();
-          System.out.println("Color correction operation performing after split");
+          printStatements("Color correction operation performing after split");
         }
         if (selectedOption.equals("levels adjustment")) {
-          levelAdjustParam=true;
+          levelAdjustParam = true;
           handleLevelsAdjust();
-          System.out.println("Levels adjustment operation performing after split");
+          printStatements("Levels adjustment operation performing after split");
         }
         printStatements("Image Updated successfully.");
       } catch (Exception ex) {
@@ -279,7 +274,6 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   private void handleCloseSplit() {
     if (currentImageName != null && tempImageName != null) {
       try {
-//        handleBlurImage();
         printStatements("Split Operation Preview Closed.");
       } catch (Exception ex) {
         printStatements("Error during close split operation: " + ex.getMessage());
@@ -293,7 +287,6 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
   private void handleSplitOperation() {
     try {
-      // Fetch the selected operation and input value from SplitOperationSection
       String selectedOption = splitOperationSection.getSelectedOperation();
       if (selectedOption == null) {
         printStatements("No operation selected.");
@@ -313,11 +306,9 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
           tempImageName = outputImageName;
 
-          // Fetch the updated image as an ImageIcon
           Image updatedImage = features.getImage(tempImageName);
 
           if (updatedImage != null) {
-            // Display the updated image in the dialog
             ImageDialogSection.showImageDialog(this, new ImageIcon(imageToBufferedImage(updatedImage)), this);
           } else {
             printStatements("Unable to fetch updated image: " + outputImageName);
@@ -328,7 +319,6 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
           printStatements("No image loaded or features not set.");
         }
       } else {
-        // Handle other operations
         if (features != null && currentImageName != null) {
           String outputImageName = currentImageName + "_split";
 
@@ -340,10 +330,10 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
               features.sharpenSplitOperation(currentImageName, outputImageName, inputValue);
               break;
             case "sepia":
-              features.sepiaSplitOperation(currentImageName, outputImageName,inputValue);
+              features.sepiaSplitOperation(currentImageName, outputImageName, inputValue);
               break;
             case "greyscale":
-              features.greyscaleSplitOperation(currentImageName, outputImageName,inputValue);
+              features.greyscaleSplitOperation(currentImageName, outputImageName, inputValue);
               break;
             case "color correction":
               features.colorCorrectionSplitOperation(currentImageName, outputImageName, inputValue);
@@ -379,18 +369,18 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
   private void handleLoadImage() {
     JFileChooser fileChooser = new JFileChooser(".");
-    FileNameExtensionFilter filter = new FileNameExtensionFilter("Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
     fileChooser.setFileFilter(filter);
 
     int returnValue = fileChooser.showOpenDialog(this);
     if (returnValue == JFileChooser.APPROVE_OPTION) {
       File file = fileChooser.getSelectedFile();
-      System.out.println("file" + file);
-//      fileOpenDisplay.setText("Loading: " + file.getAbsolutePath());
       currentImageName = file.getName().replace(".", "_");
-      System.out.println("hhh" + currentImageName);
 
-      if (features != null) {
+      printStatements("Loaded from: " + file.getAbsolutePath());
+
+      if (features != null && currentImageName != null) {
         try {
           features.load(file.getAbsolutePath(), currentImageName);
         } catch (IOException ex) {
@@ -406,17 +396,20 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
 
   private void handleSaveImage() {
     JFileChooser fileChooser = new JFileChooser(".");
-    FileNameExtensionFilter filter = new FileNameExtensionFilter("Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "Images (*.jpeg, *.jpg, *.png, *.ppm)", "jpeg", "jpg", "png", "ppm");
     fileChooser.setFileFilter(filter);
 
     int returnValue = fileChooser.showSaveDialog(this);
     if (returnValue == JFileChooser.APPROVE_OPTION) {
       File file = fileChooser.getSelectedFile();
-//      fileSaveDisplay.setText("Saving to: " + file.getAbsolutePath());
+      printStatements("Saving to: " + file.getAbsolutePath());
 
       if (features != null && currentImageName != null) {
         try {
           features.save(file.getAbsolutePath(), currentImageName);
+          savedImageNames.add(currentImageName);
+          refreshImagePlaceholder();
         } catch (IOException ex) {
           printStatements("Error: " + ex.getMessage());
         }
@@ -596,7 +589,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   private void handleLevelsAdjust() {
     if (features != null && currentImageName != null) {
       try {
-        if (levelAdjustParam){
+        if (levelAdjustParam) {
           int[] levelsValues = splitOperationSection.getLevelsAdjustmentValues();
           int black = levelsValues[0];
           int mid = levelsValues[1];
@@ -606,8 +599,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
           features.levelsAdjust(currentImageName, adjustedImageName, black, mid, white);
 
           currentImageName = adjustedImageName;
-        }
-        else {
+        } else {
           int black = levelsAdjustmentSection.getBlack();
           int midTones = levelsAdjustmentSection.getMidTone();
           int white = levelsAdjustmentSection.getWhite();
@@ -648,18 +640,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener, I
   }
 
   @Override
-  public void itemStateChanged(ItemEvent e) {
-    // Handle item state changes if needed
-  }
-
-  @Override
   public void printStatements(String message) {
-//    JOptionPane.showMessageDialog(this, message);
     operationLogSection.appendLog(message);
-  }
-
-  //  @Override
-  public void updateOperationLog(String message) {
-    System.out.println(message);  // Replace with log updating code if needed
   }
 }
