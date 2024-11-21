@@ -7,7 +7,9 @@ import java.io.IOException;
 
 import controller.ImageService;
 import controller.TextBasedController;
+import controller.TextBasedControllerV3;
 import testmodel.MockImageModelV2;
+import testmodel.MockImageModelV3;
 import testview.MockImageView;
 
 import static org.junit.Assert.assertEquals;
@@ -17,15 +19,17 @@ import static org.junit.Assert.assertEquals;
  */
 public class TextBasedControllerTest {
   private MockImageView mockView;
+  private MockImageModelV3 mockModelV3;
   private MockImageModelV2 mockModel;
-  private TextBasedController controller;
+  private TextBasedControllerV3 controller;
 
   @Before
   public void setUp() {
     mockView = new MockImageView();
+    mockModelV3 = new MockImageModelV3();
     mockModel = new MockImageModelV2();
     ImageService imageService = new ImageService(mockModel);
-    controller = new TextBasedController(mockModel, mockView, imageService);
+    controller = new TextBasedControllerV3(mockModelV3,mockModel, mockView, imageService);
   }
 
   @Test
@@ -397,6 +401,5 @@ public class TextBasedControllerTest {
     assertEquals(expectedModelLog, mockModel.getLog());
   }
 
-  public static class DummyGUIFeatures {
-  }
+
 }

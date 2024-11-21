@@ -310,6 +310,13 @@ public class ImageModelImplV2Test extends ImageModelImplTest {
             "sample", "sample-level-same");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testLevelsAdjustRandom3() throws IOException {
+    imageService.loadImage("inputImages/test.ppm", "sample");
+    imageModel.applyLevelsAdjustment(500, 300, 2550,
+            "sample", "sample-level-same");
+  }
+
   @Test
   public void testLevelsAdjust1() throws IOException {
     imageService.loadImage("inputImages/test.ppm", "sample");
@@ -410,5 +417,23 @@ public class ImageModelImplV2Test extends ImageModelImplTest {
     assertEquals(expectedGreenChannel, actualImage.getGreenChannel());
     assertEquals(expectedBlueChannel, actualImage.getBlueChannel());
   }
+
+  @Test
+  public void testHistogram() throws IOException {
+    imageService.loadImage("inputImages/histogram-test.ppm", "sample");
+    imageModel.applyHistogramVisualization("sample", "sample-histogram");
+    Image actualImage = imageModel.getImage("sample-histogram");
+
+    //pre-calculated histogram
+    imageService.loadImage("inputImages/histogram-test-2.ppm", "sample-histogram-2");
+    Image expectedImage= imageModel.getImage("sample-histogram-2");
+
+    assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
+    assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
+    assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
+
+
+  }
+
 
 }
