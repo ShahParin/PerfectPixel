@@ -42,20 +42,24 @@ If you need to pass command line arguments,
 
 ## 3. GUI Previews
 
+Below is how the application looks when an image is loaded.\
 ![Application Preview](res/application_preview.png)
+
+Below is an example of the split operation.\
+![Split Operation Preview](res/split_operation_preview.png)
 
 ## Appendix: GUI Usage Guide
 ### **1. File Operations**
 
 #### Load an Image
-1. Click on the **File Operations** section in the left panel.
+1. Go to the **File IO** section in the left panel.
 2. Select the **Load Image** button.
 3. Choose your image file (supported formats: `.jpeg`, `.jpg`, `.png`, `.ppm`).
 
 #### Save an Image
-1. Click on the **File Operations** section.
+1. Go to the **File IO** section.
 2. Select the **Save Image** button.
-3. Specify the file name and location for saving your image.
+3. Specify the file name and location for saving your image (supported formats: `.jpeg`, `.jpg`, `.png`, `.ppm`).
 
 ### **2. Filters**
 
@@ -67,24 +71,24 @@ If you need to pass command line arguments,
 1. Navigate to the **Filters** section.
 2. Click the **Sharpen** button to enhance the details of your image.
 
-### **3. Flipping**
+### **3. Flip Operations**
 
 #### Horizontal Flip
-1. Go to the **Flipping** section.
+1. Go to the **Flip Operations** section.
 2. Select **Horizontal Flip** to mirror the image horizontally.
 
 #### Vertical Flip
-1. Go to the **Flipping** section.
+1. Go to the **Flip Operations** section.
 2. Select **Vertical Flip** to mirror the image vertically.
 
 ### **4. Transformations**
 
 #### Grayscale
-1. Open the **Transformations** section.
+1. Navigate to the **Transformations** section.
 2. Click **Grayscale** to convert the image to grayscale.
 
 #### Sepia
-1. Open the **Transformations** section.
+1. Navigate to the **Transformations** section.
 2. Click **Sepia** to apply a sepia-tone filter.
 
 ### **5. Color Channels**
@@ -107,36 +111,35 @@ If you need to pass command line arguments,
 3. Click **Compress** to reduce the file size.
 
 ### **7. Levels Adjustment**
-1. Open the **Levels Adjustment** section.
+1. Go to the **Levels Adjustment** section.
 2. Specify values for **Black**, **Midtones**, and **White** levels.
 3. Click **Apply** to adjust the image levels.
 
 ### **8. Color Correction**
-1. Open the **Color Correction** section.
-2. Click **Correct Colors** to enhance color balance.
+1. Navigate to the **Color Correction** section.
+2. Click **Color Correct** to enhance color balance.
 
 ### **9. Split Operations**
-1. Navigate to the **Split Operations** section.
+1. Navigate to the **Split Operation** section.
 2. Choose an operation (e.g., **Blur**, **Sharpen**, **Greyscale**, etc.).
-3. Adjust the input value as needed.
-4. Click **Apply Split** to preview the operation.
-5. Use **Save Split** to confirm or **Close Split** to discard.
+3. Adjust the input percent as needed (some operations like levels adjust will require more inputs).
+4. Click **Apply** to preview the operation.
+5. In the dialog box that appears, click **Save** to apply the transformation or click on the **X** to revert it back.
+6. The split percentage can be updated while the dialog box is open. Just enter the new value and click on **Apply** again.
 
 ### **10. Histogram**
-1. The histogram is automatically displayed in the **Histogram** section (right panel).
+1. The histogram is automatically displayed in the **Histogram** section (top-right panel).
 2. It updates whenever an operation is applied to the image.
 
 ### **11. Logs and Feedback**
-1. Check the **Operation Log** section for a summary of performed operations.
-2. This section is located on the right panel.
+1. Check the **Operation Log** section for a summary of performed operations or any error messages.
+2. This section is located at the top, towards the center of the screen.
 
 
 ## Appendix: Script Commands
-As all input images are inside /inputImages, user needs to give "inputImages/fileName" to load images.
+The user can utilize the existing images present in `./inputImages` folder for their operations or enter a file location of their choosing.
 
-As all output images are inside /res/outputImages, user needs to give "res/outputImages/fileName" to save image.
-
-This is the done to improvise clarity while loading, manipulation, enhancement and saving of multiple images, avoid confusion and keep images segregated.
+The user can save the output images to the `./outputImages` folder or enter a file location of their choosing.
 
 Below are some sample examples on how commands should be written in script file to get desired output:
 - Load an image and name it\
@@ -211,5 +214,5 @@ Below are some sample examples on how commands should be written in script file 
 - Generate a split view, applying transformations to a specified portion of the image.\
   `operation image-name dest-image split p` (operation can be blur, sharpen, sepia, greyscale, color-correct or levels-adjust)<br/><br/>
 
-- Manipulate just a part of the image using a mask, in the form of an image.\
+- Manipulate just a part of the image using a mask, in the form of an image. (**Note:** `mask-image` should be loaded prior to using this operation)\
   `operation source-image mask-image dest-image` (operation can be blur, sharpen, sepia, greyscale, red-component, blue-component, green-component)<br/><br/>

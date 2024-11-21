@@ -155,8 +155,16 @@ public class ImageFileUtils {
       }
     }
 
-    String ext = filename.contains(".") ? filename.substring(filename
-            .lastIndexOf('.') + 1) : "png";
+    // Adding default extension as png, if not provided
+    String ext;
+    int dotIndex = filename.lastIndexOf('.');
+    if (dotIndex > 0 && dotIndex < filename.length() - 1) {
+      ext = filename.substring(dotIndex + 1).toLowerCase();
+    } else {
+      ext = "png";
+      filename += ".png";
+    }
+
     File outputFile = new File(filename);
     ImageIO.write(outputImage, ext, outputFile);
   }

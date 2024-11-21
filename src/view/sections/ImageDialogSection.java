@@ -84,7 +84,7 @@ public class ImageDialogSection extends JDialog {
   private void confirmAndClose() {
     // Show a confirmation dialog
     int choice = JOptionPane.showConfirmDialog(this,
-            "ARE YOU SURE YOU DO NOT WANT TO APPLY THE SELECTED OPERATION?",
+            "Are you sure you don't want to apply the selected operation?",
             "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
     // If the user clicks "Yes"
