@@ -1,7 +1,6 @@
 package testview;
 
 import controller.GUIFeatures;
-import model.Image;
 import view.ImageView;
 
 /**

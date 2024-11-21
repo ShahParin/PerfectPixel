@@ -42,11 +42,10 @@ public class TextBasedControllerV3 extends TextBasedController {
     super(imageModelV2, view, imageService);
     this.imageModelV3 = imageModelV3;
     this.initializeCommands();
-
   }
 
+  @Override
   void initializeCommands() {
-    System.out.println("init t3");
     super.initializeCommands();
     commandMap.put("blur", args -> {
       if (args.length == 3) {

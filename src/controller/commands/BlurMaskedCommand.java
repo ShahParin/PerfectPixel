@@ -36,7 +36,6 @@ public class BlurMaskedCommand implements Command {
 
   @Override
   public void execute() throws FileNotFoundException {
-    System.out.println("hello from blur masked");
     imageModel.applyPartialImageManipulation(operationName, imageName,
             newImageName, maskedImageName);
   }

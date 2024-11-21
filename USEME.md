@@ -31,7 +31,7 @@ If you want to use interactive mode, execute the command:
   java -jar res/PerfectPixel.jar -text
   ```
 
-**Option 3: With Command Line Arguments**
+**Option 3: Script Execution Mode**
 
 If you need to pass command line arguments,
 - Place the file of your choice in the root directory of the project or utilize `res/AllCommandsScript.txt`.
@@ -39,6 +39,11 @@ If you need to pass command line arguments,
   ```
   java -jar res/PerfectPixel.jar -file filename
   ```
+
+## 3. GUI Previews
+
+![Application Preview](res/application_preview.png)
+
 
 ## Appendix: Script Commands
 As all input images are inside /inputImages, user needs to give "inputImages/fileName" to load images.
@@ -120,5 +125,5 @@ Below are some sample examples on how commands should be written in script file 
 - Generate a split view, applying transformations to a specified portion of the image.\
   `operation image-name dest-image split p` (operation can be blur, sharpen, sepia, greyscale, color-correct or levels-adjust)<br/><br/>
 
-- Manipulate just a part of the image using a mask, in the form of an image. 
+- Manipulate just a part of the image using a mask, in the form of an image.\
   `operation source-image mask-image dest-image` (operation can be blur, sharpen, sepia, greyscale, red-component, blue-component, green-component)<br/><br/>

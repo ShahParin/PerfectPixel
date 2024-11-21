@@ -35,7 +35,6 @@ public class GreenComponentMaskedCommand implements Command {
 
   @Override
   public void execute() throws FileNotFoundException {
-    System.out.println("hello from green component masked");
     imageModel.applyPartialImageManipulation(operationName, imageName,
             newImageName, maskedImageName);
   }

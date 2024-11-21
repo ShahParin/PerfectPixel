@@ -34,7 +34,6 @@ public class SepiaMaskedCommand implements Command {
 
   @Override
   public void execute() throws FileNotFoundException {
-    System.out.println("hello from sepia masked");
     imageModel.applyPartialImageManipulation(operationName, imageName, newImageName,
             maskedImageName);
   }

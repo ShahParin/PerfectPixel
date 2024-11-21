@@ -39,8 +39,8 @@ public class TextBasedControllerV3Test {
     String expectedViewLog = "Successfully executed command: " + command + "\n\n";
     assertEquals(expectedViewLog, mockView.getLog());
 
-    String expectedModelLog = "applyPartialImageManipulation called with operation: blur, " +
-            "imageName: originalImage, maskImageName: maskImage, newImageName: resultImage\n";
+    String expectedModelLog = "applyPartialImageManipulation called with operation: blur, "
+            + "imageName: originalImage, maskImageName: maskImage, newImageName: resultImage\n";
     assertEquals(expectedModelLog, mockModelV3.getLog());
 
   }

@@ -243,9 +243,9 @@ public class MockGUIBasedView implements ImageView {
    * Simulates a levels adjustment action for the current image.
    *
    * @param command the action to simulate
-   * @param b the brightness value
-   * @param m the midpoint value
-   * @param w the white value
+   * @param b       the brightness value
+   * @param m       the midpoint value
+   * @param w       the white value
    */
   public void simulateActionLevelsAdjust(String command, int b, int m, int w) {
     try {
@@ -323,9 +323,9 @@ public class MockGUIBasedView implements ImageView {
    * Simulates an image level adjustment operation with a split operation and logs the operation.
    *
    * @param command The name of the image operation to perform. Only "LEVELS_ADJUST" is supported.
-   * @param b The black point adjustment value.
-   * @param m The midtone adjustment value.
-   * @param w The white point adjustment value.
+   * @param b       The black point adjustment value.
+   * @param m       The midtone adjustment value.
+   * @param w       The white point adjustment value.
    * @param percent The percentage by which the operation is applied (e.g., 50 for 50% adjustment).
    * @throws IOException If there is an error performing the operation.
    */

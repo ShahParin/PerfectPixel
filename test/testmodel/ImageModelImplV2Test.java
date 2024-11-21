@@ -431,9 +431,5 @@ public class ImageModelImplV2Test extends ImageModelImplTest {
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
     assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());
     assertEquals(expectedImage.getBlueChannel(), actualImage.getBlueChannel());
-
-
   }
-
-
 }

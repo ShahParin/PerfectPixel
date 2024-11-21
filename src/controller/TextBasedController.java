@@ -55,7 +55,6 @@ public class TextBasedController implements ImageController {
     this.view = view;
     this.imageService = imageService;
     this.commandMap = new HashMap<>();
-//    initializeCommands();
   }
 
   /**
@@ -64,7 +63,6 @@ public class TextBasedController implements ImageController {
    * the command instance with the provided arguments.
    */
   void initializeCommands() {
-    System.out.println("init t1");
     commandMap.put("load", args -> new LoadCommand(imageService, args[1], args[2]));
 
     commandMap.put("save", args -> new SaveCommand(imageService, args[1], args[2]));

@@ -34,7 +34,6 @@ public class LumaMaskedCommand implements Command {
 
   @Override
   public void execute() throws FileNotFoundException {
-    System.out.println("hello from luma masked");
     imageModel.applyPartialImageManipulation(operationName, imageName, newImageName,
             maskedImageName);
   }

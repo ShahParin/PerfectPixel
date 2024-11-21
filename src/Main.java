@@ -70,9 +70,6 @@ public class Main {
     ImageModelV2 model1 = new ImageModelImplV2();
     ImageService imageService = new ImageService(model);
 
-    System.out.println("Interactive mode initialized.");
-    view.printStatements("Welcome to the interactive mode.");
-
     ImageController controller = new TextBasedControllerV3(model, model1, view, imageService);
     controller.runScript(null);
   }
@@ -87,6 +84,5 @@ public class Main {
     ViewController controller = new ViewController(model, view, imageService);
 
     view.setFeatures(controller);
-    System.out.println("GUI mode initialized.");
   }
 }

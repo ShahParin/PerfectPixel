@@ -35,7 +35,6 @@ public class IntensityMaskedCommand implements Command {
 
   @Override
   public void execute() throws FileNotFoundException {
-    System.out.println("hello from intensity masked");
     imageModel.applyPartialImageManipulation(operationName, imageName, newImageName,
             maskedImageName);
   }
