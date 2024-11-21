@@ -1,6 +1,6 @@
 package view.components;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 /**
  * A custom JLabel class for displaying text in the user interface.

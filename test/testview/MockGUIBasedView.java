@@ -313,6 +313,8 @@ public class MockGUIBasedView implements ImageView {
           operationLog.append("Mock image split operation for color correct by ").append(percent)
                   .append("%.").append("\n");
           break;
+        default:
+          operationLog.append("Unknown command: ").append(command).append("\n");
       }
     } catch (IOException e) {
       operationLog.append("Error simulating action: ").append(e.getMessage()).append("\n");

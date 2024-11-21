@@ -1,8 +1,10 @@
 package view.sections;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JScrollPane;
+import javax.swing.ImageIcon;
 import javax.swing.border.TitledBorder;
 
 import view.components.GenericPanel;

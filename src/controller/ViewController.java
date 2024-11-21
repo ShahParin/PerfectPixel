@@ -301,7 +301,8 @@ public class ViewController implements GUIFeatures {
    */
   @Override
   public void levelsAdjustmentSplitOperation(String currentImageName, String outputImageName,
-                                             double black, double mid, double white, double percent) throws IOException {
+                                             double black, double mid, double white,
+                                             double percent) throws IOException {
     Command levelsAdjustCommand = new LevelsAdjustCommand(imageModel, (int) black, (int) mid,
             (int) white, currentImageName, outputImageName, percent);
     levelsAdjustCommand.execute();
@@ -327,7 +328,8 @@ public class ViewController implements GUIFeatures {
   }
 
   /**
-   * Applies a split operation sepia tone filter to the specified image and saves the result with a new name.
+   * Applies a split operation sepia tone filter to the specified image and saves the result with
+   * a new name.
    *
    * @param currentImageName the name of the image to apply the sepia tone filter to.
    * @param outputImageName  the name of the new image after the sepia tone filter.

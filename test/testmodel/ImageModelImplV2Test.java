@@ -4,7 +4,6 @@ package testmodel;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import controller.ImageService;
 import model.Image;
@@ -426,7 +425,7 @@ public class ImageModelImplV2Test extends ImageModelImplTest {
 
     //pre-calculated histogram
     imageService.loadImage("inputImages/histogram-test-2.ppm", "sample-histogram-2");
-    Image expectedImage= imageModel.getImage("sample-histogram-2");
+    Image expectedImage = imageModel.getImage("sample-histogram-2");
 
     assertEquals(expectedImage.getRedChannel(), actualImage.getRedChannel());
     assertEquals(expectedImage.getGreenChannel(), actualImage.getGreenChannel());

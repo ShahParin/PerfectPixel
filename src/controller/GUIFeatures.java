@@ -128,7 +128,8 @@ public interface GUIFeatures {
    * @param white        the new white point.
    * @throws IOException if there is an error processing the image.
    */
-  void levelsAdjust(String imageName, String newImageName, int black, int mid, int white) throws IOException;
+  void levelsAdjust(String imageName, String newImageName, int black, int mid, int white)
+          throws IOException;
 
   /**
    * Applies color correction to the specified image and saves it with a new name.
@@ -156,7 +157,8 @@ public interface GUIFeatures {
   Image getHistogram(String imageName);
 
   /**
-   * Applies a blur effect with split operations to the specified image and saves it with a new name.
+   * Applies a blur effect with split operations to the specified image and saves it with a new
+   * name.
    *
    * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image after the blur effect with split operations.
@@ -166,7 +168,8 @@ public interface GUIFeatures {
   void blurSplitOperation(String imageName, String newImageName, double percent) throws IOException;
 
   /**
-   * Applies a levels adjustment with split operations to the specified image and saves it with a new name.
+   * Applies a levels adjustment with split operations to the specified image and saves it with a
+   * new name.
    *
    * @param currentImageName the name of the current image.
    * @param outputImageName  the name of the new image after the levels adjustment.
@@ -176,45 +179,54 @@ public interface GUIFeatures {
    * @param percent          the percentage to apply the levels adjustment.
    * @throws IOException if there is an error processing the image.
    */
-  void levelsAdjustmentSplitOperation(String currentImageName, String outputImageName, double black, double mid, double white, double percent) throws IOException;
+  void levelsAdjustmentSplitOperation(String currentImageName, String outputImageName, double black,
+                                      double mid, double white, double percent) throws IOException;
 
   /**
-   * Applies a sharpen effect with split operations to the specified image and saves it with a new name.
+   * Applies a sharpen effect with split operations to the specified image and saves it with
+   * a new name.
    *
    * @param currentImageName the name of the current image.
    * @param outputImageName  the name of the new image after the sharpen effect.
    * @param inputValue       the input value for the sharpen operation.
    * @throws IOException if there is an error processing the image.
    */
-  void sharpenSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;
+  void sharpenSplitOperation(String currentImageName, String outputImageName, double inputValue)
+          throws IOException;
 
   /**
-   * Applies a sepia filter with split operations to the specified image and saves it with a new name.
+   * Applies a sepia filter with split operations to the specified image and saves it with
+   * a new name.
    *
    * @param currentImageName the name of the current image.
    * @param outputImageName  the name of the new image after the sepia filter.
    * @param inputValue       the input value for the sepia operation.
    * @throws IOException if there is an error processing the image.
    */
-  void sepiaSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;
+  void sepiaSplitOperation(String currentImageName, String outputImageName, double inputValue)
+          throws IOException;
 
   /**
-   * Converts the specified image to greyscale using LUMA Component with split operations and saves it with a new name.
+   * Converts the specified image to greyscale using LUMA Component with split operations and
+   * saves it with a new name.
    *
    * @param currentImageName the name of the current image.
    * @param outputImageName  the name of the new greyscale image.
    * @param inputValue       the input value for the greyscale operation.
    * @throws IOException if there is an error processing the image.
    */
-  void greyscaleSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;
+  void greyscaleSplitOperation(String currentImageName, String outputImageName, double inputValue)
+          throws IOException;
 
   /**
-   * Applies color correction with split operations to the specified image and saves it with a new name.
+   * Applies color correction with split operations to the specified image and saves it with
+   * a new name.
    *
    * @param currentImageName the name of the current image.
    * @param outputImageName  the name of the new image after the color correction.
    * @param inputValue       the input value for the color correction operation.
    * @throws IOException if there is an error processing the image.
    */
-  void colorCorrectionSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;
+  void colorCorrectionSplitOperation(String currentImageName, String outputImageName,
+                                     double inputValue) throws IOException;
 }

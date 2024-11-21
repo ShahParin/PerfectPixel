@@ -1,9 +1,11 @@
 package view.sections;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import javax.swing.BorderFactory;
 
 import view.components.GenericButton;
 import view.components.GenericInputField;

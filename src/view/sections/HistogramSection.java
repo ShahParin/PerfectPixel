@@ -1,8 +1,10 @@
 package view.sections;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.BorderLayout;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 
 import view.components.GenericPanel;
 import view.components.ImageDisplay;

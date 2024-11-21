@@ -37,8 +37,8 @@ public class ImageService {
       Image image;
       if (path.toLowerCase().endsWith("ppm")) {
         image = readPPM(path);
-      } else if (path.toLowerCase().endsWith("png") || path.toLowerCase().endsWith(("jpeg")) ||
-              path.toLowerCase().endsWith("jpg")) {
+      } else if (path.toLowerCase().endsWith("png") || path.toLowerCase().endsWith(("jpeg"))
+              || path.toLowerCase().endsWith("jpg")) {
         image = readOther(path);
       } else {
         throw new IllegalArgumentException("Unsupported image type: " + path);

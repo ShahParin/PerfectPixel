@@ -28,7 +28,8 @@ public class ImageModelImplV3 extends ImageModelImplV2 implements ImageModelV3 {
    *                                  or if the mask and original image dimensions do not match.
    */
   @Override
-  public void applyPartialImageManipulation(String operationName, String imageName, String maskImageName, String newImageName) {
+  public void applyPartialImageManipulation(String operationName, String imageName,
+                                            String maskImageName, String newImageName) {
     // Retrieve the original image and mask image
     Image original = images.get(imageName);
     Image mask = images.get(maskImageName);
@@ -47,7 +48,8 @@ public class ImageModelImplV3 extends ImageModelImplV2 implements ImageModelV3 {
 
     int[][] maskRed = mask.getRedChannel();
     if (originalRed.length != maskRed.length || originalRed[0].length != maskRed[0].length) {
-      throw new IllegalArgumentException("Mask dimensions do not match the original image dimensions.");
+      throw new IllegalArgumentException("Mask dimensions do not match the original "
+              + "image dimensions.");
     }
 
     // Apply the specified operation to the entire image

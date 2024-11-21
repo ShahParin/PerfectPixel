@@ -1,8 +1,8 @@
 package view.components;
 
-import java.awt.*;
+import java.awt.LayoutManager;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 /**
  * A custom JPanel class that allows for easy creation of panels with specific layouts.

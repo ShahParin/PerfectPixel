@@ -2,7 +2,7 @@ package view.components;
 
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JComboBox;
 
 
 /**

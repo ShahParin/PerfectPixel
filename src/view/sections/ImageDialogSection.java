@@ -1,10 +1,16 @@
 package view.sections;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
 
 import view.components.GenericButton;
 import view.components.ImageDisplay;
@@ -17,9 +23,9 @@ import view.components.ImageDisplay;
  */
 public class ImageDialogSection extends JDialog {
   private final GenericButton saveButton;
-  private final GenericButton closeButton;
   private final ImageDisplay imageDisplay;
   private final ActionListener listener;
+  private static ImageDialogSection currentDialog;
 
   /**
    * Constructs the ImageDialogSection dialog.
@@ -28,15 +34,25 @@ public class ImageDialogSection extends JDialog {
    * @param listener The ActionListener that handles actions for save and close buttons.
    */
   public ImageDialogSection(JFrame parent, ActionListener listener) {
-    super(parent, "Image Viewer", true); // Create a modal dialog
+    super(parent, "Image Viewer", false); // Create a modal dialog
     this.listener = listener;
     this.imageDisplay = new ImageDisplay();
-    this.saveButton = new GenericButton("Save", null, null); // No direct action tied to Save
-    this.closeButton = new GenericButton("Close", null, null); // No direct action tied to Close
+    this.saveButton = new GenericButton("Save", null, null);
 
     setupLayout();
     setSize(600, 400); // Default size
-    setLocationRelativeTo(parent); // Center relative to parent
+    setLocationRelativeTo(parent);// Center relative to parent
+
+    // Set the default close operation to do nothing
+    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+    // Bind confirmAndClose to the default close button
+    addWindowListener(new java.awt.event.WindowAdapter() {
+      @Override
+      public void windowClosing(java.awt.event.WindowEvent e) {
+        confirmAndClose(); // Call your method here
+      }
+    });
   }
 
   private void setupLayout() {
@@ -54,34 +70,28 @@ public class ImageDialogSection extends JDialog {
     // Save button: Trigger APPLY_SAVE_SPLIT and close the dialog
     saveButton.addActionListener(e -> saveAndClose());
 
-    // Close button: Confirm and close
-    closeButton.addActionListener(e -> confirmAndClose());
-
     buttonPanel.add(saveButton);
-    buttonPanel.add(closeButton);
     add(buttonPanel, BorderLayout.SOUTH);
   }
 
   private void saveAndClose() {
     // Trigger the "APPLY_SAVE_SPLIT" action
-    listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "APPLY_SAVE_SPLIT"));
+    listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
+            "APPLY_SAVE_SPLIT"));
     dispose(); // Close the dialog
   }
 
   private void confirmAndClose() {
     // Show a confirmation dialog
-    int choice = JOptionPane.showConfirmDialog(
-            this,
+    int choice = JOptionPane.showConfirmDialog(this,
             "ARE YOU SURE YOU DO NOT WANT TO APPLY THE SELECTED OPERATION?",
-            "Confirmation",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE
-    );
+            "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
     // If the user clicks "Yes"
     if (choice == JOptionPane.YES_OPTION) {
       // Trigger the "APPLY_CLOSE_SPLIT" action
-      listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "APPLY_CLOSE_SPLIT"));
+      listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
+              "APPLY_CLOSE_SPLIT"));
       dispose(); // Close the dialog
     }
   }
@@ -95,9 +105,21 @@ public class ImageDialogSection extends JDialog {
     imageDisplay.updateImage(imageIcon);
   }
 
+  /**
+   * A method to show the image dialog box.
+   * @param parent the parent.
+   * @param imageIcon the image.
+   * @param listener the listener.
+   */
   public static void showImageDialog(JFrame parent, ImageIcon imageIcon, ActionListener listener) {
-    ImageDialogSection dialog = new ImageDialogSection(parent, listener);
-    dialog.updateImageDisplay(imageIcon);
-    dialog.setVisible(true); // Show the dialog
+    // Close the currently open dialog if any
+    if (currentDialog != null && currentDialog.isShowing()) {
+      currentDialog.dispose();
+    }
+
+    // Create and show the new dialog
+    currentDialog = new ImageDialogSection(parent, listener);
+    currentDialog.updateImageDisplay(imageIcon);
+    currentDialog.setVisible(true);
   }
 }

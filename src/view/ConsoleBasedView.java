@@ -13,8 +13,7 @@ public class ConsoleBasedView implements ImageView {
   }
 
   @Override
-  public void setFeatures(GUIFeatures features){
+  public void setFeatures(GUIFeatures features) {
     return;
   }
-
 }

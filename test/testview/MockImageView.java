@@ -16,7 +16,7 @@ public class MockImageView implements ImageView {
 
   @Override
   public void setFeatures(GUIFeatures features) {
-
+    return;
   }
 
   /**

@@ -1,6 +1,8 @@
 package view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -8,7 +10,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.GUIFeatures;
@@ -310,19 +316,22 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener {
 
         if (features != null && currentImageName != null) {
           String outputImageName = currentImageName + "_levels_adjusted";
-          features.levelsAdjustmentSplitOperation(currentImageName, outputImageName, black, mid, white, inputValue);
+          features.levelsAdjustmentSplitOperation(currentImageName, outputImageName, black, mid,
+                  white, inputValue);
 
           tempImageName = outputImageName;
 
           Image updatedImage = features.getImage(tempImageName);
 
           if (updatedImage != null) {
-            ImageDialogSection.showImageDialog(this, new ImageIcon(imageToBufferedImage(updatedImage)), this);
+            ImageDialogSection.showImageDialog(this, new
+                    ImageIcon(imageToBufferedImage(updatedImage)), this);
           } else {
             printStatements("Unable to fetch updated image: " + outputImageName);
           }
 
-          printStatements("Levels adjustment applied: black=" + black + ", mid=" + mid + ", white=" + white);
+          printStatements("Levels adjustment applied: black=" + black + ", mid=" + mid + ", white="
+                  + white);
         } else {
           printStatements("No image loaded or features not set.");
         }
@@ -358,7 +367,8 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener {
 
           if (updatedImage != null) {
             // Display the updated image in the dialog
-            ImageDialogSection.showImageDialog(this, new ImageIcon(imageToBufferedImage(updatedImage)), this);
+            ImageDialogSection.showImageDialog(this, new
+                    ImageIcon(imageToBufferedImage(updatedImage)), this);
           } else {
             printStatements("Unable to fetch updated image: " + outputImageName);
           }

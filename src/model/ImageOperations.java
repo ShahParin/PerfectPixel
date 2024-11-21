@@ -1,6 +1,7 @@
 package model;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class ImageOperations {
    */
   protected static Image sepia(Image image) {
     double[][] sepiaKernel = new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168},
-            {0.272, 0.534, 0.131}};
+        {0.272, 0.534, 0.131}};
     return ImageUtil.transformationHelper(image, sepiaKernel);
   }
 
@@ -122,7 +123,7 @@ public class ImageOperations {
    */
   protected static Image blur(Image image) {
     float[][] kernel = {{1 / 16f, 1 / 8f, 1 / 16f},
-            {1 / 8f, 1 / 4f, 1 / 8f}, {1 / 16f, 1 / 8f, 1 / 16f}};
+        {1 / 8f, 1 / 4f, 1 / 8f}, {1 / 16f, 1 / 8f, 1 / 16f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
@@ -135,10 +136,10 @@ public class ImageOperations {
    */
   protected static Image sharpen(Image image) {
     float[][] kernel = {{-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f},
-            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
-            {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f},
-            {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
-            {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}};
+        {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
+        {-1 / 8f, 1 / 4f, 1f, 1 / 4f, -1 / 8f},
+        {-1 / 8f, 1 / 4f, 1 / 4f, 1 / 4f, -1 / 8f},
+        {-1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f, -1 / 8f}};
 
     return ImageUtil.filterHelper(image, kernel);
   }
@@ -758,7 +759,6 @@ public class ImageOperations {
     int[][] adjustedGreen = adjustChannel(greenChannel, ansA, bCoeff, ansC, b, w);
     int[][] adjustedBlue = adjustChannel(blueChannel, ansA, bCoeff, ansC, b, w);
 
-//    return histogramVisualization(new Image(adjustedRed, adjustedGreen, adjustedBlue));
     return new Image(adjustedRed, adjustedGreen, adjustedBlue);
 
   }

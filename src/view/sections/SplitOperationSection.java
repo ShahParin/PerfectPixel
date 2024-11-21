@@ -1,13 +1,16 @@
 package view.sections;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.*;
-
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import view.components.GenericButton;
 import view.components.GenericDropdown;
 import view.components.GenericInputField;
@@ -20,7 +23,7 @@ import view.components.GenericPanel;
  * The section also supports levels adjustment (black, mid, white) for certain operations.
  */
 public class SplitOperationSection extends GenericPanel {
-  private final GenericInputField inputField;
+  final GenericInputField inputField;
   private final GenericDropdown dropdown;
   private final GenericButton applyButton;
   private GenericInputField blackField;
@@ -47,11 +50,8 @@ public class SplitOperationSection extends GenericPanel {
     inputField = new GenericInputField("Enter a double value...");
     setInputFieldToDoubleOnly(inputField);
 
-    dropdown = new GenericDropdown(
-            new String[]{"Select a split operation...", "blur", "sharpen", "sepia", "greyscale",
-                    "color correction", "levels adjustment"},
-            this::onDropdownSelection
-    );
+    dropdown = new GenericDropdown(new String[]{"Select a split operation...", "blur", "sharpen",
+        "sepia", "greyscale", "color correction", "levels adjustment"}, this::onDropdownSelection);
 
     applyButton = new GenericButton("Apply", "APPLY_SPLIT", listener);
     applyButton.setEnabled(false);
@@ -203,5 +203,4 @@ public class SplitOperationSection extends GenericPanel {
               + "integer values.");
     }
   }
-
 }

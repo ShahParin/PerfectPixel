@@ -2,7 +2,7 @@ package view.components;
 
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
 
 /**
  * A custom button class that extends JButton to provide a generic button with an
