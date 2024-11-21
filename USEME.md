@@ -44,6 +44,92 @@ If you need to pass command line arguments,
 
 ![Application Preview](res/application_preview.png)
 
+## Appendix: GUI Usage Guide
+### **1. File Operations**
+
+#### Load an Image
+1. Click on the **File Operations** section in the left panel.
+2. Select the **Load Image** button.
+3. Choose your image file (supported formats: `.jpeg`, `.jpg`, `.png`, `.ppm`).
+
+#### Save an Image
+1. Click on the **File Operations** section.
+2. Select the **Save Image** button.
+3. Specify the file name and location for saving your image.
+
+### **2. Filters**
+
+#### Blur Image
+1. Navigate to the **Filters** section.
+2. Click the **Blur** button to apply a blur filter to your image.
+
+#### Sharpen Image
+1. Navigate to the **Filters** section.
+2. Click the **Sharpen** button to enhance the details of your image.
+
+### **3. Flipping**
+
+#### Horizontal Flip
+1. Go to the **Flipping** section.
+2. Select **Horizontal Flip** to mirror the image horizontally.
+
+#### Vertical Flip
+1. Go to the **Flipping** section.
+2. Select **Vertical Flip** to mirror the image vertically.
+
+### **4. Transformations**
+
+#### Grayscale
+1. Open the **Transformations** section.
+2. Click **Grayscale** to convert the image to grayscale.
+
+#### Sepia
+1. Open the **Transformations** section.
+2. Click **Sepia** to apply a sepia-tone filter.
+
+### **5. Color Channels**
+
+#### Extract Red Component
+1. Navigate to the **Color Channels** section.
+2. Click **Extract Red** to isolate the red channel.
+
+#### Extract Green Component
+1. Navigate to the **Color Channels** section.
+2. Click **Extract Green** to isolate the green channel.
+
+#### Extract Blue Component
+1. Navigate to the **Color Channels** section.
+2. Click **Extract Blue** to isolate the blue channel.
+
+### **6. Compression**
+1. Go to the **Compression** section.
+2. Enter the desired compression percentage.
+3. Click **Compress** to reduce the file size.
+
+### **7. Levels Adjustment**
+1. Open the **Levels Adjustment** section.
+2. Specify values for **Black**, **Midtones**, and **White** levels.
+3. Click **Apply** to adjust the image levels.
+
+### **8. Color Correction**
+1. Open the **Color Correction** section.
+2. Click **Correct Colors** to enhance color balance.
+
+### **9. Split Operations**
+1. Navigate to the **Split Operations** section.
+2. Choose an operation (e.g., **Blur**, **Sharpen**, **Greyscale**, etc.).
+3. Adjust the input value as needed.
+4. Click **Apply Split** to preview the operation.
+5. Use **Save Split** to confirm or **Close Split** to discard.
+
+### **10. Histogram**
+1. The histogram is automatically displayed in the **Histogram** section (right panel).
+2. It updates whenever an operation is applied to the image.
+
+### **11. Logs and Feedback**
+1. Check the **Operation Log** section for a summary of performed operations.
+2. This section is located on the right panel.
+
 
 ## Appendix: Script Commands
 As all input images are inside /inputImages, user needs to give "inputImages/fileName" to load images.

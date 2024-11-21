@@ -38,8 +38,9 @@ public class TextBasedControllerV3 extends TextBasedController {
    * @param imageService the service used to manage image loading and saving operations.
    */
 
-  public TextBasedControllerV3(ImageModelV3 imageModelV3, ImageModelV2 imageModelV2, ImageView view, ImageService imageService) {
-    super(imageModelV2, view, imageService);
+  public TextBasedControllerV3(ImageModelV3 imageModelV3, ImageModelV2 imageModelV2, ImageView view,
+                               ImageService imageService) {
+    super(imageModelV3, view, imageService);
     this.imageModelV3 = imageModelV3;
     this.initializeCommands();
   }

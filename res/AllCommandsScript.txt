@@ -1,154 +1,187 @@
 # Load an image and name it
-load inputImages/khoury.png khoury
-save res/outputImages/khoury.png khoury
+load inputImages/khoury.jpg khoury
+save res/outputImages/khoury.jpg khoury
 
 # Create a new image with just the red component
+load inputImages/khoury.jpg khoury
 red-component khoury khoury-red
-save res/outputImages/khoury-red.png khoury-red
+save res/outputImages/khoury-red.jpg khoury-red
 
 # Create a new image with just the green component
+load inputImages/khoury.jpg khoury
 green-component khoury khoury-green
-save res/outputImages/khoury-green.png khoury-green
+save res/outputImages/khoury-green.jpg khoury-green
 
 # Create a new image with just the blue component
+load inputImages/khoury.jpg khoury
 blue-component khoury khoury-blue
-save res/outputImages/khoury-blue.png khoury-blue
+save res/outputImages/khoury-blue.jpg khoury-blue
 
 # Create a new image using the value component
+load inputImages/khoury.jpg khoury
 value-component khoury khoury-value
-save res/outputImages/khoury-value.png khoury-value
+save res/outputImages/khoury-value.jpg khoury-value
 
 # Create a new image using the intensity component
+load inputImages/khoury.jpg khoury
 intensity-component khoury khoury-intensity
-save res/outputImages/khoury-intensity.png khoury-intensity
+save res/outputImages/khoury-intensity.jpg khoury-intensity
 
 # Create a new image using the luma component
+load inputImages/khoury.jpg khoury
 luma-component khoury khoury-luma
-save res/outputImages/khoury-luma.png khoury-luma
+save res/outputImages/khoury-luma.jpg khoury-luma
 
 # Split the image into RGB components
+load inputImages/khoury.jpg khoury
 rgb-split khoury khoury-red khoury-green khoury-blue
-save res/outputImages/khoury-red.png khoury-red
-save res/outputImages/khoury-green.png khoury-green
-save res/outputImages/khoury-blue.png khoury-blue
+save res/outputImages/khoury-red.jpg khoury-red
+save res/outputImages/khoury-green.jpg khoury-green
+save res/outputImages/khoury-blue.jpg khoury-blue
 
 # Combine RGB components into a single image
 rgb-combine khoury-combine khoury-red khoury-green khoury-blue
 
 # Brighten the image by adding 25
+load inputImages/khoury.jpg khoury
 brighten 25 khoury khoury-brighter
-save res/outputImages/khoury-brighter.png khoury-brighter
+save res/outputImages/khoury-brighter.jpg khoury-brighter
 
 # Darken the image by subtracting 25
+load inputImages/khoury.jpg khoury
 brighten -25 khoury khoury-darker
-save res/outputImages/khoury-darker.png khoury-darker
+save res/outputImages/khoury-darker.jpg khoury-darker
 
 # Flip the image horizontally
+load inputImages/khoury.jpg khoury
 horizontal-flip khoury khoury-horizontal
-save res/outputImages/khoury-horizontal.png khoury-horizontal
+save res/outputImages/khoury-horizontal.jpg khoury-horizontal
 
 # Flip the image vertically
+load inputImages/khoury.jpg khoury
 vertical-flip khoury khoury-vertical
-save res/outputImages/khoury-vertical.png khoury-vertical
+save res/outputImages/khoury-vertical.jpg khoury-vertical
 
 # Blur the image
+load inputImages/khoury.jpg khoury
 blur khoury khoury-blur
-save res/outputImages/khoury-blur.png khoury-blur
+save res/outputImages/khoury-blur.jpg khoury-blur
 
 # Sharpen the image
+load inputImages/khoury.jpg khoury
 sharpen khoury khoury-sharpen
-save res/outputImages/khoury-sharpen.png khoury-sharpen
+save res/outputImages/khoury-sharpen.jpg khoury-sharpen
 
 # Add sepia filter to the image
+load inputImages/khoury.jpg khoury
 sepia khoury khoury-sepia
-save res/outputImages/khoury-sepia.png khoury-sepia
+save res/outputImages/khoury-sepia.jpg khoury-sepia
+
+# Compress an image by 65%
+load inputImages/khoury.jpg khoury
+compress 65 khoury khoury-compress65
+save res/outputImages/khoury-compress65.jpg khoury-compress65
+
+# Create a histogram of the image
+load inputImages/khoury.jpg khoury
+histogram khoury khoury-histogram
+save res/outputImages/khoury-histogram.jpg khoury-histogram
+
+# Correct the color levels of the image
+load inputImages/khoury.jpg khoury
+color-correct khoury khoury-colorCorrect
+save res/outputImages/khoury-colorCorrect.jpg khoury-colorCorrect
+
+# Adjusting the level of RGB peaks
+load inputImages/khoury.jpg khoury
+levels-adjust 20 100 255 khoury khoury-levelAdjust
+save res/outputImages/khoury-levelAdjust.jpg khoury-levelAdjust
+
+# Partially blurring the image (here, 40% from left)
+load inputImages/khoury.jpg khoury
+blur khoury khoury-blurSplit split 40
+save res/outputImages/khoury-blurSplit.jpg khoury-blurSplit
+
+# Partially sharpen the image (here, 40% from left)
+load inputImages/khoury.jpg khoury
+sharpen khoury khoury-sharpenSplit split 40
+save res/outputImages/khoury-sharpenSplit.jpg khoury-sharpenSplit
+
+# Partially apply the sepia to the image (here, 40% from left)
+load inputImages/khoury.jpg khoury
+sepia khoury khoury-sepiaSplit split 40
+save res/outputImages/khoury-sepiaSplit.jpg khoury-sepiaSplit
+
+# Partially apply the intensity to the image (here, 40% from left)
+load inputImages/khoury.jpg khoury
+intensity-component khoury khoury-intensitySplit split 40
+save res/outputImages/khoury-intensitySplit.jpg khoury-intensitySplit
+
+# Partially apply the luma to the image (here, 40% from left)
+load inputImages/khoury.jpg khoury
+luma-component khoury khoury-lumaSplit split 40
+save res/outputImages/khoury-lumaSplit.jpg khoury-lumaSplit
+
+# Partially apply the value to the image (here, 40% from left)
+load inputImages/khoury.jpg khoury
+value-component khoury khoury-valueSplit split 40
+save res/outputImages/khoury-valueSplit.jpg khoury-valueSplit
+
+# Partially correct the color levels the image (here, 40% from left)
+load inputImages/khoury.jpg khoury
+color-correct khoury khoury-colorCorrectSplit split 40
+save res/outputImages/khoury-colorCorrectSplit.jpg khoury-colorCorrectSplit
+
+# Partially adjust the level of RGB peaks the image (here, 40% from left)
+load inputImages/khoury.jpg khoury
+levels-adjust 20 100 255 khoury khoury-levelsAdjustSplit split 40
+save res/outputImages/khoury-levelsAdjustSplit.jpg khoury-levelsAdjustSplit
+
+# Apply blur to a part of an image using masking
+load inputImages/khoury.jpg khoury
+load inputImages/mask_225x300.ppm mask
+blur khoury mask khouryBlurMasked
+save res/outputImages/khoury-blurMasked.jpg khouryBlurMasked
+
+# Apply sharpen to a part of an image using masking
+load inputImages/khoury.jpg khoury
+load inputImages/mask_225x300.ppm mask
+sharpen khoury mask khourySharpenMasked
+save res/outputImages/khoury-sharpenMasked.jpg khourySharpenMasked
+
+# Apply sepia to a part of an image using masking
+load inputImages/khoury.jpg khoury
+load inputImages/mask_225x300.ppm mask
+sepia khoury mask khourySepiaMasked
+save res/outputImages/khoury-sepiaMasked.jpg khourySepiaMasked
+
+# Apply greyscale to a part of an image using masking
+load inputImages/khoury.jpg khoury
+load inputImages/mask_225x300.ppm mask
+luma-component khoury mask khouryGreyscaleMasked
+save res/outputImages/khoury-greyscaleMasked.jpg khouryGreyscaleMasked
+
+# Apply red-component to a part of an image using masking
+load inputImages/khoury.jpg khoury
+load inputImages/mask_225x300.ppm mask
+red-component khoury mask khouryRedComponentMasked
+save res/outputImages/khoury-redComponentMasked.jpg khouryRedComponentMasked
+
+# Apply green-component to a part of an image using masking
+load inputImages/khoury.jpg khoury
+load inputImages/mask_225x300.ppm mask
+green-component khoury mask khouryGreenComponentMasked
+save res/outputImages/khoury-greenComponentMasked.jpg khouryGreenComponentMasked
+
+# Apply blue-component to a part of an image using masking
+load inputImages/khoury.jpg khoury
+load inputImages/mask_225x300.ppm mask
+blue-component khoury mask khouryBlueComponentMasked
+save res/outputImages/khoury-blueComponentMasked.jpg khouryBlueComponentMasked
 
 # Overwrite the image with another file
-load inputImages/other.png khoury
-save res/outputImages/khoury-other.png khoury
+load inputImages/bostonNight.jpg khoury
+save res/outputImages/khoury-bostonNight.jpg khoury
 
 # Run a script file
 run res/OtherScript.txt
-
-# Compress an image by 65%
-compress 65 khoury khoury-compress65
-save res/outputImages/khoury-compress65.png khoury-compress65
-
-# Create a histogram of the image
-histogram khoury khoury-histogram
-save res/outputImages/khoury-histogram.png khoury-histogram
-
-# Correct the color levels of the image
-color-correct khoury khoury-colorCorrect
-save res/outputImages/khoury-colorCorrect.png khoury-colorCorrect
-
-# Adjusting the level of RGB peaks
-levels-adjust 20 100 255 khoury khoury-levelAdjust
-save res/outputImages/khoury-levelAdjust.png khoury-levelAdjust
-
-# Partially blurring the image (here, 40% from left)
-blur khoury khoury-blurSplit split 40
-save res/outputImages/khoury-blurSplit.png khoury-blurSplit
-
-# Partially sharpen the image (here, 40% from left)
-sharpen khoury khoury-sharpenSplit split 40
-save res/outputImages/khoury-sharpenSplit.png khoury-sharpenSplit
-
-# Partially apply the sepia to the image (here, 40% from left)
-sepia khoury khoury-sepiaSplit split 40
-save res/outputImages/khoury-sepiaSplit.png khoury-sepiaSplit
-
-# Partially apply the intensity to the image (here, 40% from left)
-intensity-component khoury khoury-intensitySplit split 40
-save res/outputImages/khoury-intensitySplit.png khoury-intensitySplit
-
-# Partially apply the luma to the image (here, 40% from left)
-luma-component khoury khoury-lumaSplit split 40
-save res/outputImages/khoury-lumaSplit.png khoury-lumaSplit
-
-# Partially apply the value to the image (here, 40% from left)
-value-component khoury khoury-valueSplit split 40
-save res/outputImages/khoury-valueSplit.png khoury-valueSplit
-
-# Partially correct the color levels the image (here, 40% from left)
-color-correct khoury khoury-colorCorrectSplit split 40
-save res/outputImages/khoury-colorCorrectSplit.png khoury-colorCorrectSplit
-
-# Partially adjust the level of RGB peaks the image (here, 40% from left)
-levels-adjust 20 100 255 khoury khoury-levelsAdjustSplit split 40
-save res/outputImages/khoury-levelsAdjustSplit.png khoury-levelsAdjustSplit
-
-# Apply blur to a part of an image using masking
-load inputImages/mask_225x300.png mask
-blur khoury mask khouryBlurMasked
-save res/outputImages/khoury-blurMasked.png khouryBlurMasked
-
-# Apply sharpen to a part of an image using masking
-load inputImages/mask_225x300.png mask
-sharpen khoury mask khourySharpenMasked
-save res/outputImages/khoury-sharpenMasked.png khourySharpenMasked
-
-# Apply sepia to a part of an image using masking
-load inputImages/mask_225x300.png mask
-sepia khoury mask khourySepiaMasked
-save res/outputImages/khoury-sepiaMasked.png khourySepiaMasked
-
-# Apply greyscale to a part of an image using masking
-load inputImages/mask_225x300.png mask
-greyscale khoury mask khouryGreyscaleMasked
-save res/outputImages/khoury-greyscaleMasked.png khouryGreyscaleMasked
-
-# Apply red-component to a part of an image using masking
-load inputImages/mask_225x300.png mask
-red-component khoury mask khouryRedComponentMasked
-save res/outputImages/khoury-redComponentMasked.png khouryRedComponentMasked
-
-# Apply green-component to a part of an image using masking
-load inputImages/mask_225x300.png mask
-green-component khoury mask khouryGreenComponentMasked
-save res/outputImages/khoury-greenComponentMasked.png khouryGreenComponentMasked
-
-# Apply blue-component to a part of an image using masking
-load inputImages/mask_225x300.png mask
-blue-component khoury mask khouryBlueComponentMasked
-save res/outputImages/khoury-blueComponentMasked.png khouryBlueComponentMasked
