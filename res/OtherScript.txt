@@ -1,4 +1,4 @@
 # Load an image and name it
-load inputImages/bostonNight.ppm boston
+load inputImages/bostonNight.jpg boston
 brighten -25 boston boston-darker
-save res/outputImages/boston-darker.ppm boston-darker
+save res/outputImages/boston-darker.jpg boston-darker
