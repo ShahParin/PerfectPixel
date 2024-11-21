@@ -1,4 +1,4 @@
 # Load an image and name it
-load inputImages/other.ppm otherFile
-brighten -25 otherFile otherFile-darker
-save res/outputImages/otherFile-darker.ppm otherFile-darker
+load inputImages/bostonNight.ppm boston
+brighten -25 boston boston-darker
+save res/outputImages/boston-darker.ppm boston-darker
