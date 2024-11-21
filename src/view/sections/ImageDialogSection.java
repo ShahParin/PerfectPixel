@@ -1,12 +1,13 @@
 package view.sections;
 
-import view.components.GenericButton;
-import view.components.ImageDisplay;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import view.components.GenericButton;
+import view.components.ImageDisplay;
 
 /**
  * A modal dialog that displays an image in a scrollable viewer, with options to save or
@@ -23,7 +24,7 @@ public class ImageDialogSection extends JDialog {
   /**
    * Constructs the ImageDialogSection dialog.
    *
-   * @param parent The parent frame that this dialog is centered relative to.
+   * @param parent   The parent frame that this dialog is centered relative to.
    * @param listener The ActionListener that handles actions for save and close buttons.
    */
   public ImageDialogSection(JFrame parent, ActionListener listener) {

@@ -13,7 +13,6 @@ import view.components.GenericPanel;
  * A panel section for handling image compression functionality in the GUI.
  * This section allows the user to specify the compression percentage and apply
  * the compression operation.
- *
  */
 public class CompressionSection extends GenericPanel {
   private final GenericInputField inputField;

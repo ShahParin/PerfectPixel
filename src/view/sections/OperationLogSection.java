@@ -1,8 +1,10 @@
 package view.sections;
 
-import view.components.GenericPanel;
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
+
+import view.components.GenericPanel;
 
 /**
  * A section for displaying an operation log in the user interface.

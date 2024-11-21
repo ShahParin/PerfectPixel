@@ -1,9 +1,10 @@
 package view.components;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+
+import javax.swing.*;
 
 /**
  * A custom JTextField with placeholder text functionality.

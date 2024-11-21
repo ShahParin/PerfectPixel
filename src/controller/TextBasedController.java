@@ -213,11 +213,11 @@ public class TextBasedController implements ImageController {
     commandMap.put("levels-adjust", args -> {
       if (args.length == 6) {
         return new LevelsAdjustCommand(imageModel, Integer.parseInt(args[1]),
-                Integer.parseInt(args[2]),Integer.parseInt(args[3]), args[4], args[5]);
+                Integer.parseInt(args[2]), Integer.parseInt(args[3]), args[4], args[5]);
       } else if (args.length == 8 && args[6].equals("split")) {
         double splitPercentage = Double.parseDouble(args[7]);
         return new LevelsAdjustCommand(imageModel, Integer.parseInt(args[1]),
-                Integer.parseInt(args[2]),Integer.parseInt(args[3]), args[4], args[5],
+                Integer.parseInt(args[2]), Integer.parseInt(args[3]), args[4], args[5],
                 splitPercentage);
       } else {
         throw new IllegalArgumentException("Invalid arguments for blur command.");
@@ -241,6 +241,7 @@ public class TextBasedController implements ImageController {
 
   /**
    * This executes all the commands.
+   *
    * @param command the command line input to execute.
    * @throws IOException for any IO error.
    */

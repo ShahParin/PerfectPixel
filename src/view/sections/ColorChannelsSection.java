@@ -1,11 +1,12 @@
 package view.sections;
 
-import view.components.GenericButton;
-import view.components.GenericPanel;
-import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import view.components.GenericButton;
+import view.components.GenericPanel;
 
 /**
  * A panel section that contains buttons for interacting with color channel operations

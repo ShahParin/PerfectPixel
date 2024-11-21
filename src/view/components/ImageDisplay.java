@@ -1,7 +1,6 @@
 package view.components;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 /**
  * A custom JLabel class that is designed to display images.

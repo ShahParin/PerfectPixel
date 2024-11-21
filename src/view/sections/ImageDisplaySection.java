@@ -1,12 +1,12 @@
 package view.sections;
 
-import view.components.ImageDisplay;
-import view.components.GenericPanel;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import java.awt.*;
+import view.components.GenericPanel;
+import view.components.ImageDisplay;
 
 /**
  * A panel that displays an image in a scrollable area, with the ability to update
@@ -43,7 +43,7 @@ public class ImageDisplaySection extends GenericPanel {
    * Updates the image displayed in the panel and changes the title of the section's border.
    *
    * @param imageIcon The new image to display.
-   * @param newTitle The new title to display in the section's border.
+   * @param newTitle  The new title to display in the section's border.
    */
   public void updateImageDisplay(ImageIcon imageIcon, String newTitle) {
     imageDisplay.updateImage(imageIcon);

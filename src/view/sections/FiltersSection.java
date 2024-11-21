@@ -1,11 +1,12 @@
 package view.sections;
 
-import view.components.GenericButton;
-import view.components.GenericPanel;
-import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import view.components.GenericButton;
+import view.components.GenericPanel;
 
 /**
  * A panel section for applying image filters in the GUI.
@@ -17,7 +18,8 @@ public class FiltersSection extends GenericPanel {
    * Constructs a FiltersSection with buttons for applying "Blur" and "Sharpen" filters.
    * These buttons trigger the respective filter operations when clicked.
    *
-   * @param listener the ActionListener that will handle the button click events for applying filters.
+   * @param listener the ActionListener that will handle the button click events for applying
+   *                 filters.
    */
   public FiltersSection(ActionListener listener) {
     super(null);

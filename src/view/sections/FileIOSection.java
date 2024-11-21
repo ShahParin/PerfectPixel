@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 /**
  * A panel section for handling file input/output operations in the GUI.
  * This section allows the user to load and save images through buttons.
- *
  */
 public class FileIOSection extends GenericPanel {
 
@@ -18,7 +17,8 @@ public class FileIOSection extends GenericPanel {
    * Constructs a FileIOSection with buttons for loading and saving images.
    * The buttons trigger the respective load and save operations when clicked.
    *
-   * @param listener the ActionListener that will handle the button click events for load and save operations.
+   * @param listener the ActionListener that will handle the button click events for load and save
+   *                 operations.
    */
   public FileIOSection(ActionListener listener) {
     super(null);

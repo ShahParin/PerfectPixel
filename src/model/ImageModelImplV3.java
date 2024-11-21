@@ -21,9 +21,9 @@ public class ImageModelImplV3 extends ImageModelImplV2 implements ImageModelV3 {
    * The result is saved as a new image with the provided name.
    *
    * @param operationName the name of the operation to apply (e.g., "blur", "sharpen", "sepia").
-   * @param imageName the name of the original image to apply the operation to.
+   * @param imageName     the name of the original image to apply the operation to.
    * @param maskImageName the name of the mask image that determines which pixels to manipulate.
-   * @param newImageName the name to save the new manipulated image as.
+   * @param newImageName  the name to save the new manipulated image as.
    * @throws IllegalArgumentException if the image or mask cannot be found,
    *                                  or if the mask and original image dimensions do not match.
    */
@@ -42,6 +42,9 @@ public class ImageModelImplV3 extends ImageModelImplV2 implements ImageModelV3 {
 
     // Validate that the mask and image dimensions match
     int[][] originalRed = original.getRedChannel();
+    int[][] originalGreen = original.getGreenChannel();
+    int[][] originalBlue = original.getBlueChannel();
+
     int[][] maskRed = mask.getRedChannel();
     if (originalRed.length != maskRed.length || originalRed[0].length != maskRed[0].length) {
       throw new IllegalArgumentException("Mask dimensions do not match the original image dimensions.");
@@ -63,7 +66,7 @@ public class ImageModelImplV3 extends ImageModelImplV2 implements ImageModelV3 {
         manipulatedImage = ImageOperations.pixelLuma(original);
         break;
       case "intensity-component":
-        manipulatedImage= ImageOperations.pixelIntensity(original);
+        manipulatedImage = ImageOperations.pixelIntensity(original);
         break;
       case "value-component":
         manipulatedImage = ImageOperations.pixelValue(original);
@@ -81,6 +84,11 @@ public class ImageModelImplV3 extends ImageModelImplV2 implements ImageModelV3 {
         throw new IllegalArgumentException("Unsupported operation: " + operationName);
     }
 
+    // Create channels for the manipulated image
+    int[][] manipulatedRed = manipulatedImage.getRedChannel();
+    int[][] manipulatedGreen = manipulatedImage.getGreenChannel();
+    int[][] manipulatedBlue = manipulatedImage.getBlueChannel();
+
     // Create new channels for the result
     int[][] resultRed = new int[originalRed.length][originalRed[0].length];
     int[][] resultGreen = new int[originalRed.length][originalRed[0].length];
@@ -91,13 +99,13 @@ public class ImageModelImplV3 extends ImageModelImplV2 implements ImageModelV3 {
       for (int j = 0; j < originalRed[i].length; j++) {
         // If the mask pixel is black (0), apply manipulation; otherwise, retain the original pixel
         if (maskRed[i][j] == 0) {
-          resultRed[i][j] = manipulatedImage.getRedChannel()[i][j];
-          resultGreen[i][j] = manipulatedImage.getGreenChannel()[i][j];
-          resultBlue[i][j] = manipulatedImage.getBlueChannel()[i][j];
+          resultRed[i][j] = manipulatedRed[i][j];
+          resultGreen[i][j] = manipulatedGreen[i][j];
+          resultBlue[i][j] = manipulatedBlue[i][j];
         } else {
           resultRed[i][j] = originalRed[i][j];
-          resultGreen[i][j] = original.getGreenChannel()[i][j];
-          resultBlue[i][j] = original.getBlueChannel()[i][j];
+          resultGreen[i][j] = originalGreen[i][j];
+          resultBlue[i][j] = originalBlue[i][j];
         }
       }
     }
@@ -109,5 +117,4 @@ public class ImageModelImplV3 extends ImageModelImplV2 implements ImageModelV3 {
     // Save the result image in the image map
     images.put(newImageName, resultImage);
   }
-
 }

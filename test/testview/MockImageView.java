@@ -1,5 +1,6 @@
 package testview;
 
+import controller.GUIFeatures;
 import model.Image;
 import view.ImageView;
 
@@ -12,6 +13,11 @@ public class MockImageView implements ImageView {
   @Override
   public void printStatements(String message) {
     log.append(message).append("\n");
+  }
+
+  @Override
+  public void setFeatures(GUIFeatures features) {
+
   }
 
   /**

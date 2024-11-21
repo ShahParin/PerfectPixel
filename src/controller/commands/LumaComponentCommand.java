@@ -36,7 +36,7 @@ public class LumaComponentCommand implements Command {
    * @param splitPercentage the percent of split.
    */
   public LumaComponentCommand(ImageModelV2 imageModel, String imageName, String newImageName,
-                               double splitPercentage) {
+                              double splitPercentage) {
     this.imageModel = imageModel;
     this.imageName = imageName;
     this.newImageName = newImageName;

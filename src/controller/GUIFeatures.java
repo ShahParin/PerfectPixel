@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+
 import model.Image;
 
 /**
@@ -11,7 +12,7 @@ public interface GUIFeatures {
   /**
    * Loads an image from the specified file path.
    *
-   * @param path the path to the image file.
+   * @param path      the path to the image file.
    * @param imageName the name to assign to the loaded image.
    * @throws IOException if there is an error loading the image.
    */
@@ -20,7 +21,7 @@ public interface GUIFeatures {
   /**
    * Saves the specified image to the given file path.
    *
-   * @param path the path where the image will be saved.
+   * @param path      the path where the image will be saved.
    * @param imageName the name of the image to save.
    * @throws IOException if there is an error saving the image.
    */
@@ -29,7 +30,7 @@ public interface GUIFeatures {
   /**
    * Applies a blur effect to the specified image and saves it with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image after the blur effect.
    * @throws IOException if there is an error processing the image.
    */
@@ -38,7 +39,7 @@ public interface GUIFeatures {
   /**
    * Applies a sharpen effect to the specified image and saves it with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image after the sharpen effect.
    * @throws IOException if there is an error processing the image.
    */
@@ -47,7 +48,7 @@ public interface GUIFeatures {
   /**
    * Flips the specified image horizontally and saves it with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image after the horizontal flip.
    * @throws IOException if there is an error processing the image.
    */
@@ -56,7 +57,7 @@ public interface GUIFeatures {
   /**
    * Flips the specified image vertically and saves it with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image after the vertical flip.
    * @throws IOException if there is an error processing the image.
    */
@@ -65,7 +66,7 @@ public interface GUIFeatures {
   /**
    * Converts the specified image to greyscale and saves it with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new greyscale image.
    * @throws IOException if there is an error processing the image.
    */
@@ -74,7 +75,7 @@ public interface GUIFeatures {
   /**
    * Applies a sepia filter to the specified image and saves it with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image after applying the sepia filter.
    * @throws IOException if there is an error processing the image.
    */
@@ -83,7 +84,7 @@ public interface GUIFeatures {
   /**
    * Extracts and saves the red component of the specified image with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image with the red component.
    * @throws IOException if there is an error processing the image.
    */
@@ -92,7 +93,7 @@ public interface GUIFeatures {
   /**
    * Extracts and saves the green component of the specified image with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image with the green component.
    * @throws IOException if there is an error processing the image.
    */
@@ -101,7 +102,7 @@ public interface GUIFeatures {
   /**
    * Extracts and saves the blue component of the specified image with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image with the blue component.
    * @throws IOException if there is an error processing the image.
    */
@@ -110,9 +111,9 @@ public interface GUIFeatures {
   /**
    * Compresses the specified image by a percentage and saves it with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new compressed image.
-   * @param percent the percentage to compress the image by.
+   * @param percent      the percentage to compress the image by.
    * @throws IOException if there is an error processing the image.
    */
   void compress(String imageName, String newImageName, double percent) throws IOException;
@@ -120,11 +121,11 @@ public interface GUIFeatures {
   /**
    * Adjusts the levels (black, mid, and white) of the specified image and saves it with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image after the levels adjustment.
-   * @param black the new black point.
-   * @param mid the new mid point.
-   * @param white the new white point.
+   * @param black        the new black point.
+   * @param mid          the new mid point.
+   * @param white        the new white point.
    * @throws IOException if there is an error processing the image.
    */
   void levelsAdjust(String imageName, String newImageName, int black, int mid, int white) throws IOException;
@@ -132,7 +133,7 @@ public interface GUIFeatures {
   /**
    * Applies color correction to the specified image and saves it with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new color-corrected image.
    * @throws IOException if there is an error processing the image.
    */
@@ -157,9 +158,9 @@ public interface GUIFeatures {
   /**
    * Applies a blur effect with split operations to the specified image and saves it with a new name.
    *
-   * @param imageName the name of the image to process.
+   * @param imageName    the name of the image to process.
    * @param newImageName the name of the new image after the blur effect with split operations.
-   * @param percent the percentage to apply the blur effect.
+   * @param percent      the percentage to apply the blur effect.
    * @throws IOException if there is an error processing the image.
    */
   void blurSplitOperation(String imageName, String newImageName, double percent) throws IOException;
@@ -168,11 +169,11 @@ public interface GUIFeatures {
    * Applies a levels adjustment with split operations to the specified image and saves it with a new name.
    *
    * @param currentImageName the name of the current image.
-   * @param outputImageName the name of the new image after the levels adjustment.
-   * @param black the new black point.
-   * @param mid the new mid point.
-   * @param white the new white point.
-   * @param percent the percentage to apply the levels adjustment.
+   * @param outputImageName  the name of the new image after the levels adjustment.
+   * @param black            the new black point.
+   * @param mid              the new mid point.
+   * @param white            the new white point.
+   * @param percent          the percentage to apply the levels adjustment.
    * @throws IOException if there is an error processing the image.
    */
   void levelsAdjustmentSplitOperation(String currentImageName, String outputImageName, double black, double mid, double white, double percent) throws IOException;
@@ -181,8 +182,8 @@ public interface GUIFeatures {
    * Applies a sharpen effect with split operations to the specified image and saves it with a new name.
    *
    * @param currentImageName the name of the current image.
-   * @param outputImageName the name of the new image after the sharpen effect.
-   * @param inputValue the input value for the sharpen operation.
+   * @param outputImageName  the name of the new image after the sharpen effect.
+   * @param inputValue       the input value for the sharpen operation.
    * @throws IOException if there is an error processing the image.
    */
   void sharpenSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;
@@ -191,8 +192,8 @@ public interface GUIFeatures {
    * Applies a sepia filter with split operations to the specified image and saves it with a new name.
    *
    * @param currentImageName the name of the current image.
-   * @param outputImageName the name of the new image after the sepia filter.
-   * @param inputValue the input value for the sepia operation.
+   * @param outputImageName  the name of the new image after the sepia filter.
+   * @param inputValue       the input value for the sepia operation.
    * @throws IOException if there is an error processing the image.
    */
   void sepiaSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;
@@ -201,8 +202,8 @@ public interface GUIFeatures {
    * Converts the specified image to greyscale using LUMA Component with split operations and saves it with a new name.
    *
    * @param currentImageName the name of the current image.
-   * @param outputImageName the name of the new greyscale image.
-   * @param inputValue the input value for the greyscale operation.
+   * @param outputImageName  the name of the new greyscale image.
+   * @param inputValue       the input value for the greyscale operation.
    * @throws IOException if there is an error processing the image.
    */
   void greyscaleSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;
@@ -211,8 +212,8 @@ public interface GUIFeatures {
    * Applies color correction with split operations to the specified image and saves it with a new name.
    *
    * @param currentImageName the name of the current image.
-   * @param outputImageName the name of the new image after the color correction.
-   * @param inputValue the input value for the color correction operation.
+   * @param outputImageName  the name of the new image after the color correction.
+   * @param inputValue       the input value for the color correction operation.
    * @throws IOException if there is an error processing the image.
    */
   void colorCorrectionSplitOperation(String currentImageName, String outputImageName, double inputValue) throws IOException;

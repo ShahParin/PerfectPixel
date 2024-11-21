@@ -1,7 +1,8 @@
 package view.components;
 
-import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 
 /**
@@ -13,7 +14,7 @@ public class GenericDropdown extends JComboBox<String> {
   /**
    * Constructs a GenericDropdown with the specified items and an action listener.
    *
-   * @param items the list of items to be displayed in the dropdown menu.
+   * @param items    the list of items to be displayed in the dropdown menu.
    * @param listener the ActionListener to be added to handle selection events.
    */
   public GenericDropdown(String[] items, ActionListener listener) {

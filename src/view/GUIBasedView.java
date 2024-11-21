@@ -126,11 +126,7 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener {
     add(mainScrollPane, BorderLayout.CENTER);
   }
 
-  /**
-   * Sets the controller for managing the image features.
-   *
-   * @param features The GUIFeatures controller to manage image operations.
-   */
+  @Override
   public void setFeatures(GUIFeatures features) {
     this.features = features;
   }
@@ -163,10 +159,9 @@ public class GUIBasedView extends JFrame implements ImageView, ActionListener {
     Image image = features.getImage(currentImageName);
     String savedCheck;
 
-    if(savedImageNames.contains(currentImageName)) {
+    if (savedImageNames.contains(currentImageName)) {
       savedCheck = " -saved";
-    }
-    else{
+    } else {
       savedCheck = " -not saved";
     }
 

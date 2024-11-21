@@ -49,7 +49,7 @@ public class Main {
 
     ImageModelV2 model1 = new ImageModelImplV2();
     ImageService imageService = new ImageService(model);
-    ImageController controller = new TextBasedControllerV3(model,model1, view, imageService);
+    ImageController controller = new TextBasedControllerV3(model, model1, view, imageService);
 
     String scriptPath = System.getProperty("user.dir") + File.separator + scriptFilePath;
     File scriptFile = new File(scriptPath);

@@ -1,12 +1,18 @@
 package view.sections;
 
-import view.components.*;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import javax.swing.*;
+
+import view.components.GenericButton;
+import view.components.GenericDropdown;
+import view.components.GenericInputField;
+import view.components.GenericLabel;
+import view.components.GenericPanel;
 
 /**
  * A section for handling and displaying split operations, including an input field,
@@ -20,7 +26,7 @@ public class SplitOperationSection extends GenericPanel {
   private GenericInputField blackField;
   private GenericInputField midField;
   private GenericInputField whiteField;
-  private final GenericPanel levelsPanel; // To manage levels adjustment fields
+  private final GenericPanel levelsPanel;
 
   /**
    * Constructs the SplitOperationSection.
@@ -97,7 +103,7 @@ public class SplitOperationSection extends GenericPanel {
    * Handler for dropdown selection.
    */
   private void onDropdownSelection(ActionEvent e) {
-    String selectedOption = (String) dropdown.getSelectedItem();
+    String selectedOption = dropdown.getSelectedItem();
     applyButton.setEnabled(!selectedOption.equals("Select a split operation..."));
     if (selectedOption.equals("levels adjustment")) {
       showLevelsAdjustmentFields();
@@ -154,7 +160,7 @@ public class SplitOperationSection extends GenericPanel {
    * @return The selected operation name, or null if no valid operation is selected.
    */
   public String getSelectedOperation() {
-    String selected = (String) dropdown.getSelectedItem();
+    String selected = dropdown.getSelectedItem();
     return "Select a split operation...".equals(selected) ? null : selected;
   }
 
@@ -194,7 +200,7 @@ public class SplitOperationSection extends GenericPanel {
       return new int[]{black, mid, white};
     } catch (NumberFormatException ex) {
       throw new IllegalArgumentException("Invalid input in levels adjustment fields. Enter valid "
-              +               "integer values.");
+              + "integer values.");
     }
   }
 

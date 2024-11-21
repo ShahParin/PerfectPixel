@@ -2,7 +2,21 @@ package controller;
 
 import java.io.IOException;
 
-import controller.commands.*;
+import controller.commands.BlueComponentCommand;
+import controller.commands.BlurCommand;
+import controller.commands.ColorCorrectCommand;
+import controller.commands.Command;
+import controller.commands.CompressCommand;
+import controller.commands.GreenComponentCommand;
+import controller.commands.HorizontalFlipCommand;
+import controller.commands.LevelsAdjustCommand;
+import controller.commands.LoadCommand;
+import controller.commands.LumaComponentCommand;
+import controller.commands.RedComponentCommand;
+import controller.commands.SaveCommand;
+import controller.commands.SepiaCommand;
+import controller.commands.SharpenCommand;
+import controller.commands.VerticalFlipCommand;
 import model.Image;
 import model.ImageModelV2;
 import view.ImageView;
@@ -19,8 +33,8 @@ public class ViewController implements GUIFeatures {
   /**
    * Constructs a ViewController with the specified model, view, and image service.
    *
-   * @param imageModel the image model that stores and manipulates the image data.
-   * @param view the view that displays the image data and messages.
+   * @param imageModel   the image model that stores and manipulates the image data.
+   * @param view         the view that displays the image data and messages.
    * @param imageService the image service responsible for loading and saving images.
    */
   public ViewController(ImageModelV2 imageModel, ImageView view, ImageService imageService) {
@@ -32,7 +46,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Loads an image from the specified file path and adds it to the model.
    *
-   * @param filePath the path to the image file.
+   * @param filePath  the path to the image file.
    * @param imageName the name to assign to the loaded image.
    * @throws IOException if an error occurs during the loading process.
    */
@@ -46,7 +60,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Saves the image to the specified path.
    *
-   * @param path the path to save the image to.
+   * @param path      the path to save the image to.
    * @param imageName the name of the image to save.
    * @throws IOException if an error occurs during the saving process.
    */
@@ -60,7 +74,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Applies a blur effect to the specified image and saves the result with a new name.
    *
-   * @param imageName the name of the image to apply the blur effect to.
+   * @param imageName    the name of the image to apply the blur effect to.
    * @param newImageName the name of the new image after the blur effect.
    * @throws IOException if an error occurs during the blurring process.
    */
@@ -74,7 +88,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Applies a sharpen effect to the specified image and saves the result with a new name.
    *
-   * @param imageName the name of the image to apply the sharpen effect to.
+   * @param imageName    the name of the image to apply the sharpen effect to.
    * @param newImageName the name of the new image after the sharpen effect.
    * @throws IOException if an error occurs during the sharpening process.
    */
@@ -88,7 +102,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Flips the specified image horizontally and saves the result with a new name.
    *
-   * @param imageName the name of the image to flip horizontally.
+   * @param imageName    the name of the image to flip horizontally.
    * @param newImageName the name of the new image after the horizontal flip.
    * @throws IOException if an error occurs during the horizontal flip process.
    */
@@ -102,7 +116,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Flips the specified image vertically and saves the result with a new name.
    *
-   * @param imageName the name of the image to flip vertically.
+   * @param imageName    the name of the image to flip vertically.
    * @param newImageName the name of the new image after the vertical flip.
    * @throws IOException if an error occurs during the vertical flip process.
    */
@@ -116,7 +130,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Converts the specified image to greyscale and saves the result with a new name.
    *
-   * @param imageName the name of the image to convert to greyscale.
+   * @param imageName    the name of the image to convert to greyscale.
    * @param newImageName the name of the new greyscale image.
    * @throws IOException if an error occurs during the greyscale conversion process.
    */
@@ -130,7 +144,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Applies a sepia tone filter to the specified image and saves the result with a new name.
    *
-   * @param imageName the name of the image to apply the sepia tone filter to.
+   * @param imageName    the name of the image to apply the sepia tone filter to.
    * @param newImageName the name of the new image after the sepia tone filter.
    * @throws IOException if an error occurs during the sepia conversion process.
    */
@@ -144,7 +158,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Extracts the red component from the specified image and saves it with a new name.
    *
-   * @param imageName the name of the image to extract the red component from.
+   * @param imageName    the name of the image to extract the red component from.
    * @param newImageName the name of the new image containing the red component.
    * @throws IOException if an error occurs during the extraction process.
    */
@@ -158,7 +172,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Extracts the green component from the specified image and saves it with a new name.
    *
-   * @param imageName the name of the image to extract the green component from.
+   * @param imageName    the name of the image to extract the green component from.
    * @param newImageName the name of the new image containing the green component.
    * @throws IOException if an error occurs during the extraction process.
    */
@@ -172,7 +186,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Extracts the blue component from the specified image and saves it with a new name.
    *
-   * @param imageName the name of the image to extract the blue component from.
+   * @param imageName    the name of the image to extract the blue component from.
    * @param newImageName the name of the new image containing the blue component.
    * @throws IOException if an error occurs during the extraction process.
    */
@@ -186,9 +200,9 @@ public class ViewController implements GUIFeatures {
   /**
    * Compresses the specified image by a given percentage and saves the result with a new name.
    *
-   * @param imageName the name of the image to compress.
+   * @param imageName    the name of the image to compress.
    * @param newImageName the name of the new compressed image.
-   * @param percent the percentage to compress the image by.
+   * @param percent      the percentage to compress the image by.
    * @throws IOException if an error occurs during the compression process.
    */
   @Override
@@ -202,11 +216,11 @@ public class ViewController implements GUIFeatures {
    * Adjusts the black, mid, and white points of the specified image and saves the
    * result with a new name.
    *
-   * @param imageName the name of the image to adjust.
+   * @param imageName    the name of the image to adjust.
    * @param newImageName the name of the new image after the adjustment.
-   * @param black the new black point.
-   * @param mid the new mid point.
-   * @param white the new white point.
+   * @param black        the new black point.
+   * @param mid          the new mid point.
+   * @param white        the new white point.
    * @throws IOException if an error occurs during the levels adjustment process.
    */
   @Override
@@ -221,7 +235,7 @@ public class ViewController implements GUIFeatures {
   /**
    * Applies color correction to the specified image and saves the result with a new name.
    *
-   * @param imageName the name of the image to apply color correction to.
+   * @param imageName    the name of the image to apply color correction to.
    * @param newImageName the name of the new image after the color correction.
    * @throws IOException if an error occurs during the color correction process.
    */
@@ -260,9 +274,9 @@ public class ViewController implements GUIFeatures {
    * Applies a split operation blur effect to the specified image and saves the result
    * with a new name.
    *
-   * @param imageName the name of the image to apply the blur effect to.
+   * @param imageName    the name of the image to apply the blur effect to.
    * @param newImageName the name of the new image after the blur effect.
-   * @param percent the percentage of the blur effect to apply.
+   * @param percent      the percentage of the blur effect to apply.
    * @throws IOException if an error occurs during the blurring process.
    */
   @Override
@@ -278,11 +292,11 @@ public class ViewController implements GUIFeatures {
    * with a new name.
    *
    * @param currentImageName the name of the image to apply the levels adjustment to.
-   * @param outputImageName the name of the new image after the levels adjustment.
-   * @param black the new black point.
-   * @param mid the new mid point.
-   * @param white the new white point.
-   * @param percent the percentage of the adjustment to apply.
+   * @param outputImageName  the name of the new image after the levels adjustment.
+   * @param black            the new black point.
+   * @param mid              the new mid point.
+   * @param white            the new white point.
+   * @param percent          the percentage of the adjustment to apply.
    * @throws IOException if an error occurs during the levels adjustment process.
    */
   @Override
@@ -299,8 +313,8 @@ public class ViewController implements GUIFeatures {
    * with a new name.
    *
    * @param currentImageName the name of the image to apply the sharpen effect to.
-   * @param outputImageName the name of the new image after the sharpen effect.
-   * @param inputValue the value to apply for sharpening.
+   * @param outputImageName  the name of the new image after the sharpen effect.
+   * @param inputValue       the value to apply for sharpening.
    * @throws IOException if an error occurs during the sharpening process.
    */
   @Override
@@ -316,8 +330,8 @@ public class ViewController implements GUIFeatures {
    * Applies a split operation sepia tone filter to the specified image and saves the result with a new name.
    *
    * @param currentImageName the name of the image to apply the sepia tone filter to.
-   * @param outputImageName the name of the new image after the sepia tone filter.
-   * @param inputValue the value to apply for the sepia tone.
+   * @param outputImageName  the name of the new image after the sepia tone filter.
+   * @param inputValue       the value to apply for the sepia tone.
    * @throws IOException if an error occurs during the sepia conversion process.
    */
   @Override
@@ -334,8 +348,8 @@ public class ViewController implements GUIFeatures {
    * with a new name.
    *
    * @param currentImageName the name of the image to apply the greyscale conversion to.
-   * @param outputImageName the name of the new image after the greyscale conversion.
-   * @param inputValue the value to apply for the greyscale conversion.
+   * @param outputImageName  the name of the new image after the greyscale conversion.
+   * @param inputValue       the value to apply for the greyscale conversion.
    * @throws IOException if an error occurs during the greyscale conversion process.
    */
   @Override
@@ -352,8 +366,8 @@ public class ViewController implements GUIFeatures {
    * with a new name.
    *
    * @param currentImageName the name of the image to apply color correction to.
-   * @param outputImageName the name of the new image after the color correction.
-   * @param inputValue the value to apply for the color correction.
+   * @param outputImageName  the name of the new image after the color correction.
+   * @param inputValue       the value to apply for the color correction.
    * @throws IOException if an error occurs during the color correction process.
    */
   @Override
