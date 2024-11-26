@@ -40,7 +40,7 @@ public class TextBasedControllerV3 extends TextBasedController {
 
   public TextBasedControllerV3(ImageModelV3 imageModelV3, ImageModelV2 imageModelV2, ImageView view,
                                ImageService imageService) {
-    super(imageModelV3, view, imageService);
+    super(imageModelV2, view, imageService);
     this.imageModelV3 = imageModelV3;
     this.initializeCommands();
   }
